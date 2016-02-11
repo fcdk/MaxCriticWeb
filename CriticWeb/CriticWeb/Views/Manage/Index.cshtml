@@ -1,13 +1,14 @@
-﻿@model CriticWeb.Models.IndexViewModel
+﻿@using CriticWeb.DataLayer
+@model CriticWeb.Models.IndexViewModel
 @{
-    ViewBag.Title = "Управление";
+    ViewBag.Title = "Управління обліковим записом";
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
-    <h4>Изменение параметров учетной записи</h4>
+    <h4>Зміна параметрів облікового запису</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>Пароль:</dt>
@@ -15,19 +16,20 @@
             [
             @if (Model.HasPassword)
             {
-                @Html.ActionLink("Смена пароля", "ChangePassword")
+                @Html.ActionLink("Зміна пароля", "ChangePassword")
             }
             else
             {
-                @Html.ActionLink("Создать", "SetPassword")
+                @Html.ActionLink("Створити", "SetPassword")
             }
             ]
         </dd>
-        <dt>Внешние имена входа:</dt>
+       
+        @*<dt>Внешние имена входа:</dt>
         <dd>
             @Model.Logins.Count [
             @Html.ActionLink("Управление", "ManageLogins") ]
-        </dd>
+        </dd>*@
         @*
             Номера телефонов можно использовать в качестве второго проверочного фактора для системы двухфакторной проверки подлинности.
              
@@ -53,12 +55,12 @@
                 ]
             </dd>
         *@
-        <dt>Двухфакторная проверка подлинности:</dt>
+        @*<dt>Двухфакторная проверка подлинности:</dt>
         <dd>
             <p>
                 Поставщики двухфакторной проверки подлинности не настроены. В <a href="http://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
                 вы можете узнать, как настроить двухфакторную проверку подлинности в этом приложении ASP.NET.
-            </p>
+            </p>*@
             @*@if (Model.TwoFactor)
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -79,6 +81,85 @@
                         </text>
                     }
                 }*@
-        </dd>
+        @*</dd>*@
     </dl>
+
 </div>
+
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        </div>
+    </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.DateOfBirth, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.RadioButtonFor(model => model.Gender, UserCritic.GenderType.Male, new { id = "GenterType_male" })
+            <label for="GenterType_male">Чоловік</label>
+            <br />
+            @Html.RadioButtonFor(model => model.Gender, UserCritic.GenderType.Female, new { id = "GenterType_female" })
+            <label for="GenterType_female">Жінка</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublicationCompany, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublicationCompany, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Image, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <div class="row">
+                
+                    @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
+                    {
+                        <div class="col-md-1">
+                            <img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" />
+                        </div>
+                    }
+                <div class="col-md-11">
+                    <input type="file" name="uploadImage" />
+                </div>               
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Зберегти зміни" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

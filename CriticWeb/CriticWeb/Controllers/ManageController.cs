@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CriticWeb.Models;
+using CriticWeb.DataLayer;
+using System.IO;
 
 namespace CriticWeb.Controllers
 {
@@ -55,12 +57,12 @@ namespace CriticWeb.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
-                : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Настроен поставщик двухфакторной проверки подлинности."
-                : message == ManageMessageId.Error ? "Произошла ошибка."
-                : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
+                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль змінений."
+                : message == ManageMessageId.SetPasswordSuccess ? "Пароль заданий."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Налаштований постачальник двухфакторной перевірки автентичності."
+                : message == ManageMessageId.Error ? "Відбулась помилка."
+                : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона доданий."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона видалений."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -72,6 +74,58 @@ namespace CriticWeb.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            model.Username = ProfileCritic.Instance.CurrentUserCritic.Username;
+            model.Name = ProfileCritic.Instance.CurrentUserCritic.Name;
+            model.Surname = ProfileCritic.Instance.CurrentUserCritic.Surname;
+            model.DateOfBirth = ProfileCritic.Instance.CurrentUserCritic.DateOfBirth;
+            model.Gender = ProfileCritic.Instance.CurrentUserCritic.Gender;
+            model.Country = ProfileCritic.Instance.CurrentUserCritic.Country;
+            model.PublicationCompany = ProfileCritic.Instance.CurrentUserCritic.PublicationCompany;
+            //model.Email = ProfileCritic.Instance.CurrentUserCritic.Email;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Manage/Index
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(IndexViewModel model, HttpPostedFileBase uploadImage)
+        {
+            if (ModelState.IsValid)
+            {
+                //var user = UserManager.FindByEmail(ProfileCritic.Instance.CurrentUserCritic.Email);
+                //user.Email = model.Email;
+                //user.UserName = model.Email;
+                //var result = await UserManager.UpdateAsync(user);
+
+                if (true) //result.Succeeded)
+                {
+                    byte[] imageData = null;
+                    if (uploadImage != null)
+                        using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                        {
+                            imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                        }
+
+                    ProfileCritic.Instance.CurrentUserCritic.Username = model.Username;
+                    ProfileCritic.Instance.CurrentUserCritic.Name = model.Name;
+                    ProfileCritic.Instance.CurrentUserCritic.Surname = model.Surname;
+                    ProfileCritic.Instance.CurrentUserCritic.DateOfBirth = model.DateOfBirth;
+                    ProfileCritic.Instance.CurrentUserCritic.Gender = model.Gender;
+                    ProfileCritic.Instance.CurrentUserCritic.Country = model.Country;
+                    ProfileCritic.Instance.CurrentUserCritic.PublicationCompany = model.PublicationCompany;
+                    //ProfileCritic.Instance.CurrentUserCritic.Email = model.Email;
+                    ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
+                    ProfileCritic.Instance.CurrentUserCritic.Save();
+
+                    return RedirectToAction("Index", "Manage");
+                }
+                //AddErrors(result);
+            }
+
+            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View(model);
         }
 
@@ -123,7 +177,7 @@ namespace CriticWeb.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Ваш код безопасности: " + code
+                    Body = "Ваш код безпеки: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -190,7 +244,7 @@ namespace CriticWeb.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // Это сообщение означает наличие ошибки; повторное отображение формы
-            ModelState.AddModelError("", "Не удалось проверить телефон");
+            ModelState.AddModelError("", "Не вдалось перевірити телефон");
             return View(model);
         }
 
@@ -279,8 +333,8 @@ namespace CriticWeb.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "Внешнее имя входа удалено."
-                : message == ManageMessageId.Error ? "Произошла ошибка."
+                message == ManageMessageId.RemoveLoginSuccess ? "Зовнішнє ім'я входу видалено."
+                : message == ManageMessageId.Error ? "Сталася помилка."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

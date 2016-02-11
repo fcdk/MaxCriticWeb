@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CriticWeb.Models.ContentCriticViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace CriticWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            MainPageViewModel mainPage = new MainPageViewModel();            
+            return View(mainPage);
         }
 
         public ActionResult About()
@@ -26,5 +28,16 @@ namespace CriticWeb.Controllers
 
             return View();
         }
+
+        public PartialViewResult _EntertainmentMiniPartialView()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult _ActorMiniPartialView()
+        {
+            return PartialView();
+        }
+
     }
 }

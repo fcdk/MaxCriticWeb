@@ -1,15 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
+﻿/* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
@@ -17,8 +6,99 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
+}*/
+
+.sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: 300vh;
+        border-radius: 8px;
+}
+
+footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+        border-radius: 4px;
+}
+
+body {
+        background-color: #FAFAFA;
+}
+
+.point-entertainment-green {
+    background-color: green;
+    border-radius: 10px;
+    width: 40px;
+    color: white;
+    text-align: center;
+}
+
+.point-entertainment-yellow {
+    background-color: #FFC400;
+    border-radius: 10px;
+    width: 40px;
+    color: white;
+    text-align: center;
+}
+
+.point-entertainment-red {
+    background-color: red;
+    border-radius: 10px;
+    width: 40px;
+    color: white;
+    text-align: center;
+}
+
+.point-actor-green {
+    color: green;
+}
+
+.point-actor-yellow {
+    color: #FFC400;
+}
+
+.point-actor-red {
+    color: red;
+}
+
+.entertainment-mini-img-on-main-page {
+    border-radius: 4px;
+    height: 230px;
+} 
+
+.name-entertainment-on-main-page{
+    height:70px;
+}
+
+a .thumbnail:hover {
+    background-color: #f1f1f1;
+}
+
+.name-actor-on-main-page{
+    height:30px;
+}
+
+.actor-on-main-page{
+    height: 250px;
+}
+
+.actor-on-main-page img{
+    max-width: 200px;
+}
+
+.thumbnail img {
+    border-radius: 4px;
+    height: 230px;
+} 
+
+.avatar
+{
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
 }

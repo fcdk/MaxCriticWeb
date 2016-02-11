@@ -1,0 +1,26 @@
+﻿@model CriticWeb.Models.Data.EntertainmentVM
+
+@{ 
+    int? avgPoint = Model.EntertainmentDL.AverageCriticPoint();
+}
+
+<a href="#"> <!-- потом тут будет ссылка на детали -->
+    <div class="thumbnail">
+        <img class="entertainment-mini-img-on-main-page" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.EntertainmentDL.Poster))" />
+        @if (avgPoint <= 35)
+        {
+            <h4 class="point-entertainment-red">@Model.EntertainmentDL.AverageCriticPoint()</h4>
+        }
+        @if (avgPoint > 35 && avgPoint < 70)
+        {
+            <h4 class="point-entertainment-yellow">@Model.EntertainmentDL.AverageCriticPoint()</h4>
+        }
+        @if (avgPoint >= 70)
+        {
+            <h4 class="point-entertainment-green">@Model.EntertainmentDL.AverageCriticPoint()</h4>
+        }
+        <hr />
+        <h4 class="name-entertainment-on-main-page">@Model.ToString()</h4>
+    </div>
+</a>
+
