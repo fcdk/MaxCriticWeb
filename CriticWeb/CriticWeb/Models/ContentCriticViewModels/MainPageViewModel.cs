@@ -22,7 +22,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             List<EntertainmentVM> result = new List<EntertainmentVM>();
             foreach (Entertainment entertainment in Entertainment.GetLastBestEntertainmentByType(Entertainment.Type.Movie))
                 result.Add(new EntertainmentVM(entertainment));
-            return result.OrderBy(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            return result.OrderByDescending(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
         }
 
 
@@ -35,7 +35,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             List<EntertainmentVM> result = new List<EntertainmentVM>();
             foreach (Entertainment entertainment in Entertainment.GetLastBestEntertainmentByType(Entertainment.Type.Game))
                 result.Add(new EntertainmentVM(entertainment));
-            return result.OrderBy(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            return result.OrderByDescending(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
         }
 
         public EntertainmentVM[] LastBestTVSeries
@@ -47,7 +47,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             List<EntertainmentVM> result = new List<EntertainmentVM>();
             foreach (Entertainment entertainment in Entertainment.GetLastBestEntertainmentByType(Entertainment.Type.TVSeries))
                 result.Add(new EntertainmentVM(entertainment));
-            return result.OrderBy(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            return result.OrderByDescending(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
         }
 
         public EntertainmentVM[] LastBestAlbums
@@ -59,7 +59,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             List<EntertainmentVM> result = new List<EntertainmentVM>();
             foreach (Entertainment entertainment in Entertainment.GetLastBestEntertainmentByType(Entertainment.Type.Album))
                 result.Add(new EntertainmentVM(entertainment));
-            return result.OrderBy(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            return result.OrderByDescending(ent => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
         }
 
         public PerformerVM[] LastTwoActors
@@ -70,9 +70,15 @@ namespace CriticWeb.Models.ContentCriticViewModels
         {
             List<Performer> allActors = new List<Performer>();
             foreach (var entertainment in _lastBestMovies)
-                allActors.AddRange(Performer.GetActorByEntertainment(entertainment.EntertainmentDL));
+            {
+                Performer[] allEntertainmentsActors = Performer.GetActorByEntertainment(entertainment.EntertainmentDL);
+                if (allEntertainmentsActors != null)
+                {
+                    allActors.AddRange(allEntertainmentsActors);
+                }              
+            }
 
-            Performer[] twoPerformers = allActors.OrderBy(actor => Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByActor(actor))).Take(2).ToArray();
+            Performer[] twoPerformers = allActors.OrderByDescending(actor => Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByActor(actor))).Take(2).ToArray();
 
             List<PerformerVM> result = new List<PerformerVM>();
             foreach (var performer in twoPerformers)
@@ -84,7 +90,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public MainPageViewModel()
         {
             _lastBestMovies = GetLastBestMovies();
-            //_lastBestGames = GetLastBestGames();
+            _lastBestGames = GetLastBestGames();
             //_lastBestTVSeries = GetLastBestTVSeries();
             //_lastBestAlbums = GetLastBestAlbums();
             _lastTwoActors = GetLastTwoActors();

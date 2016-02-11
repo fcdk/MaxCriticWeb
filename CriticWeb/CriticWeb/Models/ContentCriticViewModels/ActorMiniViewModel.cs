@@ -1,6 +1,7 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {

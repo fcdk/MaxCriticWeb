@@ -268,7 +268,7 @@ namespace CriticWeb.DataLayer
 
         public static Entertainment[] GetLastBestEntertainmentByType(Entertainment.Type type)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(4) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=2 ORDER BY Entertainment.ReleaseDate";
+            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(4) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=2 ORDER BY Entertainment.ReleaseDate DESC";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
@@ -282,7 +282,9 @@ namespace CriticWeb.DataLayer
             foreach(DataRow dataRow in dataTable.Rows)
                 ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Entertainment.GetByIds(ids.ToArray());
+            List<Entertainment> result = new List<Entertainment>();
+            result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
         }
 
         public int? AverageCriticPointForOneEntertainment()
@@ -302,7 +304,7 @@ namespace CriticWeb.DataLayer
 
         public static Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast') ORDER BY Entertainment.ReleaseDate";
+            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast') ORDER BY Entertainment.ReleaseDate DESC";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
@@ -316,7 +318,9 @@ namespace CriticWeb.DataLayer
             foreach (DataRow dataRow in dataTable.Rows)
                 ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Entertainment.GetByIds(ids.ToArray());
+            List<Entertainment> result = new List<Entertainment>();
+            result.AddRange(Entertainment.GetByIds(ids.ToArray()));           
+            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
         }
 
         public static Entertainment[] GetEntertainmentByActor(Performer performer)
@@ -341,7 +345,7 @@ namespace CriticWeb.DataLayer
         public static int? AverageCriticPointForEntertainments(Entertainment[] entertainments)
         {
             double? average = (from entertainment in entertainments
-                                     select entertainment.AverageCriticPointForOneEntertainment()).Average();
+                              select entertainment.AverageCriticPointForOneEntertainment()).Average();
             if (average == null)
                 return null;
             return (int)average;
