@@ -83,11 +83,11 @@ namespace CriticWeb.Models.ContentCriticViewModels
 
         public MainPageViewModel()
         {
-            //_lastBestMovies = GetLastBestMovies();
+            _lastBestMovies = GetLastBestMovies();
             //_lastBestGames = GetLastBestGames();
             //_lastBestTVSeries = GetLastBestTVSeries();
             //_lastBestAlbums = GetLastBestAlbums();
-            //_lastTwoActors = GetLastTwoActors();
+            _lastTwoActors = GetLastTwoActors();
         }
 
     }

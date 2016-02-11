@@ -196,7 +196,7 @@ namespace CriticWeb.DataLayer
 
         public static Performer[] GetActorByEntertainment(Entertainment entertainment)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment, Entertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast')";
+            _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));

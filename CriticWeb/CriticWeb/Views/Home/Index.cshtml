@@ -1,5 +1,6 @@
 ﻿@model CriticWeb.Models.ContentCriticViewModels.MainPageViewModel
 @using CriticWeb.Models.Data
+@using CriticWeb.Models.ContentCriticViewModels
 @{
     ViewBag.Title = "MaxCritic - Home";
 }
@@ -29,12 +30,12 @@
             <div id="movies" class="tab-pane fade in active">
                 <div class="container-fluid">
                     <div class="row">
-                        @*@foreach (EntertainmentVM entertainment in Model.LastBestMovies)
+                        @foreach (EntertainmentVM entertainment in Model.LastBestMovies)
                         {
                             <div class="col-md-3 text-center">
                                 @Html.Partial("_EntertainmentMiniPartialView", entertainment)
                             </div>
-                        }*@
+                        }
                     </div>
                 </div>
             </div>
@@ -101,12 +102,12 @@
             <div id="actors" class="tab-pane fade in active">
                 <div class="container-fluid">
                     <div class="row">
-                        @*@foreach (var actor in Model.LastTwoActors)
+                        @foreach (var actor in Model.LastTwoActors)
                         {
                             <div class="col-md-6 text-center">
-                                @Html.Partial("_ActorMiniPartialView", actor)
+                                @Html.Partial("_ActorMiniPartialView", new ActorMiniViewModel(actor))
                             </div>
-                        }*@
+                        }
                     </div>
                 </div>
             </div>

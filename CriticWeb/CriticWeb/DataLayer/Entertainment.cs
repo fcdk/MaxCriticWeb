@@ -302,7 +302,7 @@ namespace CriticWeb.DataLayer
 
         public static Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment, Performer WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast') ORDER BY Entertainment.ReleaseDate";
+            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast') ORDER BY Entertainment.ReleaseDate";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
@@ -321,7 +321,7 @@ namespace CriticWeb.DataLayer
 
         public static Entertainment[] GetEntertainmentByActor(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment, Performer WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast')";
+            _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));

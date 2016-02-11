@@ -7,7 +7,10 @@ namespace CriticWeb.Models.ContentCriticViewModels
     public class ActorMiniViewModel
     {
         private PerformerVM _performer;
-        public PerformerVM Performer { get; }
+        public PerformerVM Performer
+        {
+            get{ return _performer; }
+        }
 
         public int? AvarageActorPoint { get; }
 
