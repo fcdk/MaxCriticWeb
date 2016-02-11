@@ -266,9 +266,9 @@ namespace CriticWeb.DataLayer
             return null;
         }
 
-        public static Entertainment[] GetLastBestEntertainmentByType(Entertainment.Type type)
+        public static Entertainment[] GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type type, uint N, uint reviewCount)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(4) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=2 ORDER BY Entertainment.ReleaseDate DESC";
+            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(" + N + ") Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=" + reviewCount + " ORDER BY Entertainment.ReleaseDate DESC";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));

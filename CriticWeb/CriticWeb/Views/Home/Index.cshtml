@@ -128,3 +128,132 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Фільми</h4></div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var movie in Model.LastMovies)
+                        {
+                            <tr>
+                                <td><h4><a href="#">@movie</a></h4></td>
+                                @{ int? avgPoint = movie.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                @if (avgPoint <= 35)
+                                {
+                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint > 35 && avgPoint < 70)
+                                {
+                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint >= 70)
+                                {
+                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                }
+                            </tr>
+                        }                        
+                    </tbody>
+                </table>
+                <a href="#"><h5>Показати всі нові фільми >></h5></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Ігри</h4></div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var game in Model.LastGames)
+                        {
+                            <tr>
+                                <td><h4><a href="#">@game</a></h4></td>
+                                @{ int? avgPoint = game.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                @if (avgPoint <= 35)
+                                {
+                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint > 35 && avgPoint < 70)
+                                {
+                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint >= 70)
+                                {
+                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                }
+                            </tr>
+                        } 
+                    </tbody>
+                </table>
+                <a href="#"><h5>Показати всі нові ігри >></h5></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Серіали</h4></div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var tVSeries in Model.LastTVSeries)
+                        {
+                            <tr>
+                                <td><h4><a href="#">@tVSeries</a></h4></td>
+                                @{ int? avgPoint = tVSeries.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                @if (avgPoint <= 35)
+                                {
+                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint > 35 && avgPoint < 70)
+                                {
+                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint >= 70)
+                                {
+                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a href="#"><h5>Показати всі нові серіали >></h5></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Музика</h4></div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var album in Model.LastAlbums)
+                        {
+                            <tr>
+                                <td><h4><a href="#">@album</a></h4></td>
+                                @{ int? avgPoint = album.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                @if (avgPoint <= 35)
+                                {
+                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint > 35 && avgPoint < 70)
+                                {
+                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                }
+                                @if (avgPoint >= 70)
+                                {
+                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a href="#"><h5>Показати всі нові альбоми >></h5></a>
+            </div>
+        </div>
+    </div>
+</div>
