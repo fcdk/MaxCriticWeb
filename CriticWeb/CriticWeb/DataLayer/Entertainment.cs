@@ -285,7 +285,7 @@ namespace CriticWeb.DataLayer
             return Entertainment.GetByIds(ids.ToArray());
         }
 
-        public int? AverageCriticPoint()
+        public int? AverageCriticPointForOneEntertainment()
         {
             _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NOT NULL GROUP BY Review.EntertainmentId";
 
@@ -300,7 +300,7 @@ namespace CriticWeb.DataLayer
             return null;          
         }
 
-        public Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
+        public static Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
         {
             _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment, Performer WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast') ORDER BY Entertainment.ReleaseDate";
 
@@ -319,7 +319,7 @@ namespace CriticWeb.DataLayer
             return Entertainment.GetByIds(ids.ToArray());
         }
 
-        public Entertainment[] GetEntertainmentByActor(Performer performer)
+        public static Entertainment[] GetEntertainmentByActor(Performer performer)
         {
             _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment, Performer WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast')";
 
@@ -336,6 +336,15 @@ namespace CriticWeb.DataLayer
                 ids.Add((Guid)dataRow[_idColumnName]);
 
             return Entertainment.GetByIds(ids.ToArray());
+        }
+
+        public static int? AverageCriticPointForEntertainments(Entertainment[] entertainments)
+        {
+            double? average = (from entertainment in entertainments
+                                     select entertainment.AverageCriticPointForOneEntertainment()).Average();
+            if (average == null)
+                return null;
+            return (int)average;
         }
 
         public enum Type { Movie, Game, TVSeries, Album }

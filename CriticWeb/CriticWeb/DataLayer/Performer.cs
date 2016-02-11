@@ -193,7 +193,26 @@ namespace CriticWeb.DataLayer
 
             return Performer.GetByIds(ids.ToArray());
         }
-                
+
+        public static Performer[] GetActorByEntertainment(Entertainment entertainment)
+        {
+            _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment, Entertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND (PerformerInEntertainment.Role='MoviePrincipalCast' OR PerformerInEntertainment.Role='MovieCast' OR PerformerInEntertainment.Role='GameCast' OR PerformerInEntertainment.Role='TVCast')";
+
+            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
+            else
+                _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
+
+            DataTable dataTable = new DataTable();
+            if (_dataAdapter.Fill(dataTable) == 0)
+                return null;
+            List<Guid> ids = new List<Guid>();
+            foreach (DataRow dataRow in dataTable.Rows)
+                ids.Add((Guid)dataRow[_idColumnName]);
+
+            return Performer.GetByIds(ids.ToArray());
+        }
+
         public enum Type { Person, GameDeveloperCompany, GamePlatform, MovieProduction, TVNetwork, RecordLabel, Band }
     }
 }

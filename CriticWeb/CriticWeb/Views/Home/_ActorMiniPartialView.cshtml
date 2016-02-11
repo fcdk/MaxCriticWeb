@@ -1,41 +1,58 @@
-﻿@model CriticWeb.Models.Data.PerformerVM
+﻿@model CriticWeb.Models.ContentCriticViewModels.ActorMiniViewModel
 
 <div class="thumbnail">
-    <a href="#"><h4 class="name-actor-on-main-page">Леонардо ДіКапріо</h4></a>
+    <a href="#"><h4 class="name-actor-on-main-page">@Model.Performer</h4></a>
     <hr />
     <div class="row">
         <div class="actor-on-main-page">
             <div class="col-md-6">
-                <img src="http://s.pikabu.ru/post_img/2013/08/25/8/1377431558_1153601876.jpg" />
+                @if (Model.Performer.PerformerDL.Image != null)
+                {
+                    <img class="entertainment-mini-img-on-main-page" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.Performer.PerformerDL.Image))" />
+                }
+                else
+                {
+                     <img src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                }
             </div>
             <div class="col-md-6">
                 <h5>Середня оцінка:</h5>
-                <h4 class="point-actor-green">63</h4>
+                @if (Model.AvarageActorPoint <= 35)
+                {
+                    <h4 class="point-actor-red">@Model.AvarageActorPoint</h4>
+                }
+                @if (Model.AvarageActorPoint > 35 && Model.AvarageActorPoint < 70)
+                {
+                    <h4 class="point-actor-yellow">@Model.AvarageActorPoint</h4>
+                }
+                @if (Model.AvarageActorPoint >= 70)
+                {
+                    <h4 class="point-actor-green">@Model.AvarageActorPoint</h4>
+                }
                 <h5> Останні три фільми:</h5>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h5 class="point-entertainment-green">76</h5>
+                @foreach (var entertainment in Model.LastThreeActorsEntertainments)
+                {
+                    <div class="row">
+                        <div class="col-md-3">
+                            @{ int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                            @if (avgPoint <= 35)
+                            {
+                                <h4 class="point-entertainment-red">@avgPoint</h4>
+                            }
+                            @if (avgPoint > 35 && avgPoint < 70)
+                            {
+                                <h4 class="point-entertainment-yellow">@avgPoint</h4>
+                            }
+                            @if (avgPoint >= 70)
+                            {
+                                <h4 class="point-entertainment-green">@avgPoint</h4>
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <a href="#"><h5>@entertainment</h5></a>
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <a href="#"><h5>Легенда Г'ю Гласса</h5></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h5 class="point-entertainment-green">95</h5>
-                    </div>
-                    <div class="col-md-9">
-                        <a href="#"><h5>Virunga</h5></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h5 class="point-entertainment-green">75</h5>
-                    </div>
-                    <div class="col-md-9">
-                        <a href="#"><h5>Вовк з Уолл-стріт</h5></a>
-                    </div>
-                </div>
+                }                
             </div>
         </div>
     </div>
