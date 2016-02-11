@@ -323,9 +323,49 @@ namespace CriticWeb.DataLayer
             return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
         }
 
+        public static Entertainment[] GetLastThreeEntertainmentBySinger(Performer performer)
+        {
+            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger' ORDER BY Entertainment.ReleaseDate DESC";
+
+            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+            else
+                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+
+            DataTable dataTable = new DataTable();
+            if (_dataAdapter.Fill(dataTable) == 0)
+                return null;
+            List<Guid> ids = new List<Guid>();
+            foreach (DataRow dataRow in dataTable.Rows)
+                ids.Add((Guid)dataRow[_idColumnName]);
+
+            List<Entertainment> result = new List<Entertainment>();
+            result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+        }
+
         public static Entertainment[] GetEntertainmentByActor(Performer performer)
         {
             _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
+
+            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+            else
+                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+
+            DataTable dataTable = new DataTable();
+            if (_dataAdapter.Fill(dataTable) == 0)
+                return null;
+            List<Guid> ids = new List<Guid>();
+            foreach (DataRow dataRow in dataTable.Rows)
+                ids.Add((Guid)dataRow[_idColumnName]);
+
+            return Entertainment.GetByIds(ids.ToArray());
+        }
+
+        public static Entertainment[] GetEntertainmentBySinger(Performer performer)
+        {
+            _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger'";
 
             if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                 _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));

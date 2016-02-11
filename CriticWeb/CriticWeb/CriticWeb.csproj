@@ -193,7 +193,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ContentCriticViewModels\ActorMiniViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
     <Compile Include="Models\Data\EntertainmentVM.cs" />
@@ -266,7 +266,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\_EntertainmentMiniPartialView.cshtml" />
-    <Content Include="Views\Home\_ActorMiniPartialView.cshtml" />
+    <Content Include="Views\Home\_PerformerMiniPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -34,7 +34,7 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
-        public PartialViewResult _ActorMiniPartialView()
+        public PartialViewResult _PerformerMiniPartialView()
         {
             return PartialView();
         }

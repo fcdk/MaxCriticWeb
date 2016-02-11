@@ -1,4 +1,4 @@
-﻿@model CriticWeb.Models.ContentCriticViewModels.ActorMiniViewModel
+﻿@model CriticWeb.Models.ContentCriticViewModels.PerformerMiniViewModel
 
 <div class="thumbnail">
     <a href="#"><h4 class="name-actor-on-main-page">@Model.Performer</h4></a>
@@ -17,20 +17,20 @@
             </div>
             <div class="col-md-6">
                 <h5>Середня оцінка:</h5>
-                @if (Model.AvarageActorPoint <= 35)
+                @if (Model.AvaragePerformerPoint <= 35)
                 {
-                    <h4 class="point-actor-red">@Model.AvarageActorPoint</h4>
+                    <h4 class="point-actor-red">@Model.AvaragePerformerPoint</h4>
                 }
-                @if (Model.AvarageActorPoint > 35 && Model.AvarageActorPoint < 70)
+                @if (Model.AvaragePerformerPoint > 35 && Model.AvaragePerformerPoint < 70)
                 {
-                    <h4 class="point-actor-yellow">@Model.AvarageActorPoint</h4>
+                    <h4 class="point-actor-yellow">@Model.AvaragePerformerPoint</h4>
                 }
-                @if (Model.AvarageActorPoint >= 70)
+                @if (Model.AvaragePerformerPoint >= 70)
                 {
-                    <h4 class="point-actor-green">@Model.AvarageActorPoint</h4>
+                    <h4 class="point-actor-green">@Model.AvaragePerformerPoint</h4>
                 }
                 <h5> Останні три фільми:</h5>
-                @foreach (var entertainment in Model.LastThreeActorsEntertainments)
+                @foreach (var entertainment in Model.LastThreePerformersEntertainments)
                 {
                     <div class="row">
                         <div class="col-md-3">
