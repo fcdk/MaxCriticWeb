@@ -137,7 +137,89 @@
             </div>
 
             <div id="details" class="tab-pane">
-                <h3>...</h3>
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="col-md-4 text-center">
+                            <img class="poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.EntertainmentDetails.Poster))" />
+                        </div>
+                        <div class="col-md-8 text-cente">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Контент:</b></td>
+                                        <td>@Model.EntertainmentDetails.EntertainmentTypeUkr</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Назва:</b></td>
+                                        <td>@Model.EntertainmentDetails.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Дата релізу:</b></td>
+                                        <td>@Model.EntertainmentDetails.ReleaseDate.ToShortDateString()</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Правовласник:</b></td>
+                                        <td>@Model.EntertainmentDetails.Company</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Основна мова:</b></td>
+                                        <td>@Model.EntertainmentDetails.MainLanguage</td>
+                                    </tr>
+                                    @if (Model.EntertainmentDetails.Rating != null && Model.EntertainmentDetails.Rating != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Вікове обмеження:</b></td>
+                                            <td>@Model.EntertainmentDetails.Rating</td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.RatingComment != null && Model.EntertainmentDetails.RatingComment != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Коментар до вікового обмеження:</b></td>
+                                            <td>@Model.EntertainmentDetails.RatingComment</td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.MovieRuntimeMinute != null)
+                                    {
+                                        <tr>
+                                            <td><b>Тривалість (хв):</b></td>
+                                            <td>@Model.EntertainmentDetails.MovieRuntimeMinute</td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.OfficialSite != null && Model.EntertainmentDetails.OfficialSite != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Офіційний сайт:</b></td>
+                                            <td><a href='@Model.EntertainmentDetails.OfficialSite' target="_blank">@Model.EntertainmentDetails.OfficialSite</a></td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.MovieCountries != null && Model.EntertainmentDetails.MovieCountries != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Країни:</b></td>
+                                            <td>@Model.EntertainmentDetails.MovieCountries</td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.TVSeason != null)
+                                    {
+                                        <tr>
+                                            <td><b>Сезон:</b></td>
+                                            <td>@Model.EntertainmentDetails.TVSeason</td>
+                                        </tr>
+                                    }
+                                    @if (Model.EntertainmentDetails.Budget != null)
+                                    {
+                                        int budget = (int)Model.EntertainmentDetails.Budget;
+                                        <tr>
+                                            <td><b>Бюджет:</b></td>
+                                            <td>@budget</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>              
             </div>
 
         </div>

@@ -77,6 +77,18 @@ body {
 
 a .thumbnail:hover {
     background-color: #f1f1f1;
+    
+}
+
+a:hover {
+    text-decoration:none;
+    color: #000247;
+    text-shadow:initial;
+}
+
+a:visited {
+    text-decoration:none;
+    color: none;
 }
 
 .name-actor-on-main-page{
