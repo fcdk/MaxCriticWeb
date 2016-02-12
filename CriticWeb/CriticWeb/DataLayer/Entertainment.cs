@@ -167,228 +167,258 @@ namespace CriticWeb.DataLayer
 
         public static Entertainment[] GetRandomFirstTen(Entertainment.Type? type = null)
         {
-            if (type == null)
-                return Entity<Entertainment>.GetRandomFirstTen();
-
-            ////Logger.Info("Entertainment.GetRandomFirstTen", "Спроба взяти з БД перші 10 записів Entertainment за типом.");
-
-            List<Entertainment> result = new List<Entertainment>();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE EntertainmentType=@type;";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
-                                where (Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["EntertainmentType"].ToString()) == type
-                                select row).Take(10);
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Entertainment(dr));
+                if (type == null)
+                    return Entity<Entertainment>.GetRandomFirstTen();
+
+                ////Logger.Info("Entertainment.GetRandomFirstTen", "Спроба взяти з БД перші 10 записів Entertainment за типом.");
+
+                List<Entertainment> result = new List<Entertainment>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE EntertainmentType=@type;";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
+                                    where (Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["EntertainmentType"].ToString()) == type
+                                    select row).Take(10);
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Entertainment(dr));
+                }
+
+                ////Logger.Info("Entertainment.GetRandomFirstTen", "Зчитано з БД перші 10 записів Entertainment за типом.");
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-
-            ////Logger.Info("Entertainment.GetRandomFirstTen", "Зчитано з БД перші 10 записів Entertainment за типом.");
-
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         // по дефолту, если type=null, то запускаем поиск по всем типам
         public static Entertainment[] GetByName(string partOfName, Entertainment.Type? type = null)
         {
-            if (type == null)
-                return Entity<Entertainment>.GetByName(partOfName);
-
-            ////Logger.Info("Entertainment.GetByName", "Спроба взяти з БД Entertainment за ім'ям та типом.");
-
-            partOfName = partOfName.ToLower();
-
-            List<Entertainment> result = new List<Entertainment>();
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND EntertainmentType=@type";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                               where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["EntertainmentType"].ToString()) == type)
-                               && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
-                               select row;
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Entertainment(dr));
+                if (type == null)
+                    return Entity<Entertainment>.GetByName(partOfName);
+
+                ////Logger.Info("Entertainment.GetByName", "Спроба взяти з БД Entertainment за ім'ям та типом.");
+
+                partOfName = partOfName.ToLower();
+
+                List<Entertainment> result = new List<Entertainment>();
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND EntertainmentType=@type";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["EntertainmentType"].ToString()) == type)
+                                   && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Entertainment(dr));
+                }
+
+                ////Logger.Info("Entertainment.GetByName", "Зчитано з БД Entertainment за ім'ям та типом.");
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-
-            ////Logger.Info("Entertainment.GetByName", "Зчитано з БД Entertainment за ім'ям та типом.");
-
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Entertainment[] GetForAutoCompleteBox(string partOfName)
         {
-            ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Спроба взяти з БД Entertainment для AutoCompleteBox.");
-
-            List<Entertainment> result = new List<Entertainment>();
-            partOfName = partOfName.ToLower();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ' (' + FORMAT(ReleaseDate, 'yyyy') + ')' LIKE '%' + @partOfName + '%'";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows1 = from row in _dataTable.AsEnumerable().AsParallel()
-                                where (row["Name"].ToString().ToLower() + " (" + ((DateTime)row["ReleaseDate"]).ToString("yyyy") + ")").Contains(partOfName)
-                                select row;
-            foreach (DataRow dr in selectedRows1)
+            lock (_locker)
             {
-                result.Add(new Entertainment(dr));
+                ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Спроба взяти з БД Entertainment для AutoCompleteBox.");
+
+                List<Entertainment> result = new List<Entertainment>();
+                partOfName = partOfName.ToLower();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ' (' + FORMAT(ReleaseDate, 'yyyy') + ')' LIKE '%' + @partOfName + '%'";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows1 = from row in _dataTable.AsEnumerable().AsParallel()
+                                    where (row["Name"].ToString().ToLower() + " (" + ((DateTime)row["ReleaseDate"]).ToString("yyyy") + ")").Contains(partOfName)
+                                    select row;
+                foreach (DataRow dr in selectedRows1)
+                {
+                    result.Add(new Entertainment(dr));
+                }
+
+                ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Зчитано з БД Entertainment для AutoCompleteBox.");
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-
-            ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Зчитано з БД Entertainment для AutoCompleteBox.");
-
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Entertainment[] GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type type, uint N, uint reviewCount)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(" + N + ") Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=" + reviewCount + " ORDER BY Entertainment.ReleaseDate DESC";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(" + N + ") Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=" + reviewCount + " ORDER BY Entertainment.ReleaseDate DESC";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach(DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            List<Entertainment> result = new List<Entertainment>();
-            result.AddRange(Entertainment.GetByIds(ids.ToArray()));
-            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+                List<Entertainment> result = new List<Entertainment>();
+                result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+                return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+            }
         }
 
         public int? AverageCriticPointForOneEntertainment()
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NOT NULL GROUP BY Review.EntertainmentId";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NOT NULL GROUP BY Review.EntertainmentId";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", this.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = this.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", this.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = this.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 1)
-                return (int)dataTable.Rows[0][0];
-            return null;          
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 1)
+                    return (int)dataTable.Rows[0][0];
+                return null;
+            }       
         }
 
         public static Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast') ORDER BY Entertainment.ReleaseDate DESC";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast') ORDER BY Entertainment.ReleaseDate DESC";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            List<Entertainment> result = new List<Entertainment>();
-            result.AddRange(Entertainment.GetByIds(ids.ToArray()));           
-            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+                List<Entertainment> result = new List<Entertainment>();
+                result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+                return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+            }
         }
 
         public static Entertainment[] GetLastThreeEntertainmentBySinger(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger' ORDER BY Entertainment.ReleaseDate DESC";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger' ORDER BY Entertainment.ReleaseDate DESC";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            List<Entertainment> result = new List<Entertainment>();
-            result.AddRange(Entertainment.GetByIds(ids.ToArray()));
-            return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+                List<Entertainment> result = new List<Entertainment>();
+                result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+                return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+            }
         }
 
         public static Entertainment[] GetEntertainmentByActor(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Entertainment.GetByIds(ids.ToArray());
+                return Entertainment.GetByIds(ids.ToArray());
+            }
         }
 
         public static Entertainment[] GetEntertainmentBySinger(Performer performer)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger'";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger'";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Entertainment.GetByIds(ids.ToArray());
+                return Entertainment.GetByIds(ids.ToArray());
+            }
         }
 
         public static int? AverageCriticPointForEntertainments(Entertainment[] entertainments)
         {
-            double? average = (from entertainment in entertainments
-                              select entertainment.AverageCriticPointForOneEntertainment()).Average();
-            if (average == null)
-                return null;
-            return (int)average;
+            lock (_locker)
+            {
+                double? average = (from entertainment in entertainments
+                                   select entertainment.AverageCriticPointForOneEntertainment()).Average();
+                if (average == null)
+                    return null;
+                return (int)average;
+            }
         }
 
         public enum Type { Movie, Game, TVSeries, Album }

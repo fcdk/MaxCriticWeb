@@ -120,33 +120,36 @@ namespace CriticWeb.DataLayer
 
         public static UserCritic GetByEmail(string email)
         {
-            email = email.ToLower();
-
-            var query = from row in _dataTable.AsEnumerable().AsParallel()
-                        where row["Email"].ToString().ToLower() == email
-                        select row;
-            DataRow[] result = query.ToArray();
-            if (result.Length == 1)
+            lock (_locker)
             {
-                return new UserCritic(result[0]);
-            }
-            else
-            {
-                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Email)=@email";
+                email = email.ToLower();
 
-                if (!_dataAdapter.SelectCommand.Parameters.Contains("@email"))
-                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@email", email));
-                else
-                    _dataAdapter.SelectCommand.Parameters["@email"].Value = email;
-
-                if (_dataAdapter.Fill(_dataTable) == 1)
+                var query = from row in _dataTable.AsEnumerable().AsParallel()
+                            where row["Email"].ToString().ToLower() == email
+                            select row;
+                DataRow[] result = query.ToArray();
+                if (result.Length == 1)
                 {
-                    var selectedRow = from row in _dataTable.AsEnumerable().AsParallel()
-                                       where row["Email"].ToString().ToLower() == email
-                                       select row;
-                    return new UserCritic(selectedRow.ToArray()[0]);
+                    return new UserCritic(result[0]);
                 }
-                return null;
+                else
+                {
+                    _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Email)=@email";
+
+                    if (!_dataAdapter.SelectCommand.Parameters.Contains("@email"))
+                        _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@email", email));
+                    else
+                        _dataAdapter.SelectCommand.Parameters["@email"].Value = email;
+
+                    if (_dataAdapter.Fill(_dataTable) == 1)
+                    {
+                        var selectedRow = from row in _dataTable.AsEnumerable().AsParallel()
+                                          where row["Email"].ToString().ToLower() == email
+                                          select row;
+                        return new UserCritic(selectedRow.ToArray()[0]);
+                    }
+                    return null;
+                }
             }
         }
 

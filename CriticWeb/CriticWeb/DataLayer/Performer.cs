@@ -76,12 +76,68 @@ namespace CriticWeb.DataLayer
 
         public static Performer[] GetByName(string partOfName, Performer.Type? type = null)
         {
-            List<Performer> result = new List<Performer>();
-            partOfName = partOfName.ToLower();
-
-            if (type == null)
+            lock (_locker)
             {
-                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ' ' + LOWER(ISNULL(Surname,'')) LIKE '%' + @partOfName + '%'";
+                List<Performer> result = new List<Performer>();
+                partOfName = partOfName.ToLower();
+
+                if (type == null)
+                {
+                    _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ' ' + LOWER(ISNULL(Surname,'')) LIKE '%' + @partOfName + '%'";
+
+                    if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                        _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                    else
+                        _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+
+                    _dataAdapter.Fill(_dataTable);
+                    var selectedRows1 = from row in _dataTable.AsEnumerable().AsParallel()
+                                        where (row["Name"].ToString().ToLower() + " " + row["Surname"].ToString().ToLower()).Contains(partOfName)
+                                        select row;
+                    foreach (DataRow dr in selectedRows1)
+                    {
+                        result.Add(new Performer(dr));
+                    }
+                    if (result.Count != 0)
+                        return result.ToArray();
+                    return null;
+                }
+
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE (LOWER(Name) LIKE '%' + @partOfName + '%' OR LOWER(Surname) LIKE '%' + @partOfName + '%') AND PerformerType=@type";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where ((Performer.Type)Enum.Parse(typeof(Performer.Type), row["PerformerType"].ToString()) == type)
+                                   && (row["Name"].ToString().ToLower().Contains(partOfName) || row["Surname"].ToString().ToLower().Contains(partOfName))
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Performer(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
+            }
+        }
+
+        public static Performer[] GetForAutoCompleteBox(string partOfName)
+        {
+            lock (_locker)
+            {
+                List<Performer> result = new List<Performer>();
+                partOfName = partOfName.ToLower();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ISNULL(' ' + LOWER(Surname), '') + ISNULL(' (' + FORMAT(DateOfBirth, 'dd.MM.yyyy') + ')','') LIKE '%' + @partOfName + '%'";
 
                 if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
                     _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
@@ -90,7 +146,8 @@ namespace CriticWeb.DataLayer
 
                 _dataAdapter.Fill(_dataTable);
                 var selectedRows1 = from row in _dataTable.AsEnumerable().AsParallel()
-                                    where (row["Name"].ToString().ToLower() + " " + row["Surname"].ToString().ToLower()).Contains(partOfName)
+                                    where (row["Name"].ToString().ToLower() + (row["Surname"] == DBNull.Value ? "" : " " + row["Surname"].ToString().ToLower()) +
+                                    (row["DateOfBirth"] == DBNull.Value ? "" : " (" + ((DateTime)row["DateOfBirth"]).ToString("dd/MM/yyyy")) + ")").Contains(partOfName)
                                     select row;
                 foreach (DataRow dr in selectedRows1)
                 {
@@ -100,136 +157,98 @@ namespace CriticWeb.DataLayer
                     return result.ToArray();
                 return null;
             }
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE (LOWER(Name) LIKE '%' + @partOfName + '%' OR LOWER(Surname) LIKE '%' + @partOfName + '%') AND PerformerType=@type";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                               where ((Performer.Type)Enum.Parse(typeof(Performer.Type), row["PerformerType"].ToString()) == type)
-                               && (row["Name"].ToString().ToLower().Contains(partOfName) || row["Surname"].ToString().ToLower().Contains(partOfName))
-                               select row;
-            foreach (DataRow dr in selectedRows)
-            {
-                result.Add(new Performer(dr));
-            }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
-        }
-
-        public static Performer[] GetForAutoCompleteBox(string partOfName)
-        {
-            List<Performer> result = new List<Performer>();
-            partOfName = partOfName.ToLower();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(Name) + ISNULL(' ' + LOWER(Surname), '') + ISNULL(' (' + FORMAT(DateOfBirth, 'dd.MM.yyyy') + ')','') LIKE '%' + @partOfName + '%'";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows1 = from row in _dataTable.AsEnumerable().AsParallel()
-                                where (row["Name"].ToString().ToLower() + (row["Surname"] == DBNull.Value ? "" : " " + row["Surname"].ToString().ToLower()) +
-                                (row["DateOfBirth"] == DBNull.Value ? "" : " (" + ((DateTime)row["DateOfBirth"]).ToString("dd/MM/yyyy")) + ")").Contains(partOfName)
-                                select row;
-            foreach (DataRow dr in selectedRows1)
-            {
-                result.Add(new Performer(dr));
-            }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Performer[] GetRandomFirstTen(Performer.Type? type = null)
         {
-            if (type == null)
-                return Entity<Performer>.GetRandomFirstTen();
-
-            List<Performer> result = new List<Performer>();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE PerformerType=@type;";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
-                                where (Performer.Type)Enum.Parse(typeof(Performer.Type), row["PerformerType"].ToString()) == type
-                                select row).Take(10);
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Performer(dr));
+                if (type == null)
+                    return Entity<Performer>.GetRandomFirstTen();
+
+                List<Performer> result = new List<Performer>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE PerformerType=@type;";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
+                                    where (Performer.Type)Enum.Parse(typeof(Performer.Type), row["PerformerType"].ToString()) == type
+                                    select row).Take(10);
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Performer(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Performer[] GetAlbumAuthorsByAlbum(Entertainment entertainment)
         {
-            if (entertainment.EntertainmentType != Entertainment.Type.Album)
-                return null;
+            lock (_locker)
+            {
+                if (entertainment.EntertainmentType != Entertainment.Type.Album)
+                    return null;
 
-            PerformerInEntertainment[] performerInEntertainments = PerformerInEntertainment.GetAlbumAuthorsPerformerInEntertainmentsByEntertainment(entertainment);
-            if (performerInEntertainments == null)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (var performerInEntertainment in performerInEntertainments)
-                ids.Add(performerInEntertainment.PerformerId);
+                PerformerInEntertainment[] performerInEntertainments = PerformerInEntertainment.GetAlbumAuthorsPerformerInEntertainmentsByEntertainment(entertainment);
+                if (performerInEntertainments == null)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (var performerInEntertainment in performerInEntertainments)
+                    ids.Add(performerInEntertainment.PerformerId);
 
-            return Performer.GetByIds(ids.ToArray());
+                return Performer.GetByIds(ids.ToArray());
+            }
         }
 
         public static Performer[] GetActorByEntertainment(Entertainment entertainment)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast' OR PerformerInEntertainment.PerformerRole='GameCast' OR PerformerInEntertainment.PerformerRole='TVCast')";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Performer.GetByIds(ids.ToArray());
+                return Performer.GetByIds(ids.ToArray());
+            }
         }
 
         public static Performer[] GetSingerByEntertainment(Entertainment entertainment)
         {
-            _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger'";
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT Performer." + _idColumnName + " FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.EntertainmentId=@id AND PerformerInEntertainment." + _idColumnName + "=Performer." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger'";
 
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
 
-            DataTable dataTable = new DataTable();
-            if (_dataAdapter.Fill(dataTable) == 0)
-                return null;
-            List<Guid> ids = new List<Guid>();
-            foreach (DataRow dataRow in dataTable.Rows)
-                ids.Add((Guid)dataRow[_idColumnName]);
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
 
-            return Performer.GetByIds(ids.ToArray());
+                return Performer.GetByIds(ids.ToArray());
+            }
         }
 
         public enum Type { Person, GameDeveloperCompany, GamePlatform, MovieProduction, TVNetwork, RecordLabel, Band }

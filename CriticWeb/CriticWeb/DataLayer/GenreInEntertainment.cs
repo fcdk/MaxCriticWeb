@@ -22,35 +22,38 @@ namespace CriticWeb.DataLayer
             set { Row["GenreId"] = value; }
         }
 
-        public static GenreInEntertainment[] GetGenreInEntertainmentByEntertainment(Entertainment entertainment)
-        {
-            List<GenreInEntertainment> result = new List<GenreInEntertainment>();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE EntertainmentId=@id";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                               where (Guid)row["EntertainmentId"] == entertainment.Id
-                               select row;
-            foreach (DataRow dr in selectedRows)
-            {
-                result.Add(new GenreInEntertainment(dr));
-            }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
-        }
-
         public GenreInEntertainment(DataRow row) : base(row) { }
         public GenreInEntertainment(Entertainment entertainment, Genre genre) : base()
         {
             EntertainmentId = entertainment.Id;
             GenreId = genre.Id;
+        }
+
+        public static GenreInEntertainment[] GetGenreInEntertainmentByEntertainment(Entertainment entertainment)
+        {
+            lock (_locker)
+            {
+                List<GenreInEntertainment> result = new List<GenreInEntertainment>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE EntertainmentId=@id";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where (Guid)row["EntertainmentId"] == entertainment.Id
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new GenreInEntertainment(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
+            }
         }
 
     }

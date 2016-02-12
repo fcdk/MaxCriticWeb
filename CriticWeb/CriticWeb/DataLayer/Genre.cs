@@ -54,72 +54,77 @@ namespace CriticWeb.DataLayer
         }
 
         public static Genre[] GetByName(string partOfName, Entertainment.Type? type = null)
-        {
+        {            
             if (type == null)
                 return Entity<Genre>.GetByName(partOfName);
-
-            partOfName = partOfName.ToLower();
-
-            List<Genre> result = new List<Genre>();
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND GenreType=@type";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                               where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type)
-                               && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
-                               select row;
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Genre(dr));
+                partOfName = partOfName.ToLower();
+
+                List<Genre> result = new List<Genre>();
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND GenreType=@type";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type)
+                                   && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Genre(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Genre[] GetByNameExceptId(string partOfName, Entertainment.Type type, Guid id)
         {
-            List<Genre> result = new List<Genre>();
-
-            partOfName = partOfName.ToLower();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND GenreType=@type AND " + _idColumnName + "!=@id";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
-            else
-                _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", id));
-            else
-                _dataAdapter.SelectCommand.Parameters["@id"].Value = id;
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                               where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type)
-                               && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
-                               && ((Guid)row[_idColumnName] != id)
-                               select row;
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Genre(dr));
+                List<Genre> result = new List<Genre>();
+
+                partOfName = partOfName.ToLower();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE LOWER(" + _nameColumnName + ") LIKE '%' + @partOfName + '%' AND GenreType=@type AND " + _idColumnName + "!=@id";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@partOfName"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@partOfName", partOfName));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@partOfName"].Value = partOfName;
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = id;
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where ((Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type)
+                                   && (row[_nameColumnName].ToString().ToLower().Contains(partOfName))
+                                   && ((Guid)row[_idColumnName] != id)
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Genre(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public static Genre[] GetRandomFirstTen(Entertainment.Type? type = null)
@@ -127,26 +132,29 @@ namespace CriticWeb.DataLayer
             if (type == null)
                 return Entity<Genre>.GetRandomFirstTen();
 
-            List<Genre> result = new List<Genre>();
-
-            _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE GenreType=@type;";
-
-            if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
-                _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
-            else
-                _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
-
-            _dataAdapter.Fill(_dataTable);
-            var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
-                                where (Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type
-                                select row).Take(10);
-            foreach (DataRow dr in selectedRows)
+            lock (_locker)
             {
-                result.Add(new Genre(dr));
+                List<Genre> result = new List<Genre>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + " WHERE GenreType=@type;";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = (from row in _dataTable.AsEnumerable().AsParallel()
+                                    where (Entertainment.Type)Enum.Parse(typeof(Entertainment.Type), row["GenreType"].ToString()) == type
+                                    select row).Take(10);
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Genre(dr));
+                }
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
             }
-            if (result.Count != 0)
-                return result.ToArray();
-            return null;
         }
 
         public bool CanBeParentGenre(Genre genre)
