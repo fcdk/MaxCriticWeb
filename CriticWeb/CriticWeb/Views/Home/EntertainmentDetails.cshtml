@@ -8,10 +8,10 @@
     <div class="panel-heading text-left">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <h4>@Model.EntertainmentDetails</h4>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-4">
                     <span class="pull-right">
                         <ul class="nav nav-pills">
                             <li class="active"><a data-toggle="pill" href="#summary">Загальне</a></li>
@@ -153,10 +153,59 @@
                                         <td><b>Назва:</b></td>
                                         <td>@Model.EntertainmentDetails.Name</td>
                                     </tr>
+                                    @if (Model.EntertainmentDetails.TVSeason != null)
+                                    {
+                                        <tr>
+                                            <td><b>Сезон:</b></td>
+                                            <td>@Model.EntertainmentDetails.TVSeason</td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <td><b>Дата релізу:</b></td>
                                         <td>@Model.EntertainmentDetails.ReleaseDate.ToShortDateString()</td>
                                     </tr>
+                                    @if (Model.Genres != null && Model.Genres != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Жанри:</b></td>
+                                            <td>@Model.Genres</td>
+                                        </tr>
+                                    }
+                                    @if (Model.MovieProductions != null && Model.MovieProductions != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Продюсерські компанії:</b></td>
+                                            <td>@Model.MovieProductions</td>
+                                        </tr>
+                                    }
+                                    @if (Model.GameDeveloperCompanys != null && Model.GameDeveloperCompanys != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Розробники:</b></td>
+                                            <td>@Model.GameDeveloperCompanys</td>
+                                        </tr>
+                                    }
+                                    @if (Model.GamePlatforms != null && Model.GamePlatforms != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Платформи:</b></td>
+                                            <td>@Model.GamePlatforms</td>
+                                        </tr>
+                                    }
+                                    @if (Model.TVNetwork != null && Model.TVNetwork != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Телевізійні канали:</b></td>
+                                            <td>@Model.TVNetwork</td>
+                                        </tr>
+                                    }
+                                    @if (Model.AlbumRecordLabel != null && Model.AlbumRecordLabel != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Лейбли:</b></td>
+                                            <td>@Model.AlbumRecordLabel</td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <td><b>Правовласник:</b></td>
                                         <td>@Model.EntertainmentDetails.Company</td>
@@ -200,21 +249,14 @@
                                             <td>@Model.EntertainmentDetails.MovieCountries</td>
                                         </tr>
                                     }
-                                    @if (Model.EntertainmentDetails.TVSeason != null)
-                                    {
-                                        <tr>
-                                            <td><b>Сезон:</b></td>
-                                            <td>@Model.EntertainmentDetails.TVSeason</td>
-                                        </tr>
-                                    }
                                     @if (Model.EntertainmentDetails.Budget != null)
                                     {
                                         int budget = (int)Model.EntertainmentDetails.Budget;
                                         <tr>
-                                            <td><b>Бюджет:</b></td>
+                                            <td><b>Бюджет ($):</b></td>
                                             <td>@budget</td>
                                         </tr>
-                                    }
+                                    }                                    
                                 </tbody>
                             </table>
                         </div>

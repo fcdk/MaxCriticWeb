@@ -251,6 +251,17 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static Performer[] GetPerformerByEntertainmentAndRole(Entertainment entertainment, PerformerInEntertainment.Role role)
+        {
+            PerformerInEntertainment[] performerInEntertainments = PerformerInEntertainment.GetPerformerInEntertainmentByEntertainmentAndRole(entertainment, role);
+            if (performerInEntertainments == null)
+                return null;
+            List<Guid> ids = new List<Guid>();
+            foreach (var performerInEntertainment in performerInEntertainments)
+                ids.Add(performerInEntertainment.PerformerId);
+            return Performer.GetByIds(ids.ToArray());
+        }
+
         public enum Type { Person, GameDeveloperCompany, GamePlatform, MovieProduction, TVNetwork, RecordLabel, Band }
     }
 }

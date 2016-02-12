@@ -166,5 +166,16 @@ namespace CriticWeb.DataLayer
             else return this.CanBeParentGenre(Genre.GetById((Guid)genre.ParentGenreId));
         }
 
+        public static Genre[] GetGenreByEntertainment(Entertainment entertainment)
+        {
+            GenreInEntertainment[] genreInEntertainments = GenreInEntertainment.GetGenreInEntertainmentByEntertainment(entertainment);
+            if (genreInEntertainments == null)
+                return null;
+            List<Guid> ids = new List<Guid>();
+            foreach (var genreInEntertainment in genreInEntertainments)
+                ids.Add(genreInEntertainment.GenreId);
+            return Genre.GetByIds(ids.ToArray());
+        }
+
     }
 }
