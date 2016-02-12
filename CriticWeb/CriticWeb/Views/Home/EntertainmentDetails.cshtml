@@ -149,6 +149,13 @@
                                         <td><b>Контент:</b></td>
                                         <td>@Model.EntertainmentDetails.EntertainmentTypeUkr</td>
                                     </tr>
+                                    @if (Model.SingersAndBands != null && Model.SingersAndBands != String.Empty)
+                                    {
+                                        <tr>
+                                            <td><b>Виконавці:</b></td>
+                                            <td>@Model.SingersAndBands</td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <td><b>Назва:</b></td>
                                         <td>@Model.EntertainmentDetails.Name</td>

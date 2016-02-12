@@ -16,6 +16,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private string _tVNetwork;
         private string _albumRecordLabel;
         private string _genres;
+        private string _singersAndBands;
 
         public EntertainmentVM EntertainmentDetails
         {
@@ -35,7 +36,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public string TrailerLinkForFrame
         {
             get { return _trailerLinkForFrame; }
-        } 
+        }
 
         public string MovieProductions
         {
@@ -66,7 +67,12 @@ namespace CriticWeb.Models.ContentCriticViewModels
         {
             get { return _genres; }
         }
-        
+
+        public string SingersAndBands
+        {
+            get { return _singersAndBands; }
+        }
+
         public EntertainmentDetailsViewModel(Guid entertainmentId)
         {
             _entertainment = new EntertainmentVM(Entertainment.GetById(entertainmentId));
@@ -80,6 +86,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _tVNetwork = this.GetPerformersStringByRole(PerformerInEntertainment.Role.TVNetwork);
             _albumRecordLabel = this.GetPerformersStringByRole(PerformerInEntertainment.Role.AlbumRecordLabel);
             _genres = this.GetGenreString();
+            _singersAndBands = _entertainment.AlbumAuthors.Remove(_entertainment.AlbumAuthors.Length - 2, 2);
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)
