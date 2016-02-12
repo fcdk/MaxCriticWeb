@@ -150,7 +150,7 @@ namespace CriticWeb.Models.Data
 
         public override string ToString()
         {
-            return (AlbumAuthors == null ? String.Empty : AlbumAuthors + " ") + Name;
+            return (AlbumAuthors == null ? String.Empty : AlbumAuthors + " ") + Name + (TVSeason == null ? String.Empty : ": сезон " + TVSeason);
         }
 
         public static string EntertainmentTypeToUkrString(Entertainment.Type type)

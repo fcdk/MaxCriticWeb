@@ -138,7 +138,7 @@
                         @foreach (var movie in Model.LastMovies)
                         {
                             <tr>
-                                <td><h4><a href="#">@movie</a></h4></td>
+                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = movie.EntertainmentDL.Id })'>@movie</a></h4></td>
                                 @{ int? avgPoint = movie.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
                                 @if (avgPoint <= 35)
                                 {
@@ -169,7 +169,7 @@
                         @foreach (var game in Model.LastGames)
                         {
                             <tr>
-                                <td><h4><a href="#">@game</a></h4></td>
+                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = game.EntertainmentDL.Id })'>@game</a></h4></td>
                                 @{ int? avgPoint = game.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
                                 @if (avgPoint <= 35)
                                 {
@@ -203,7 +203,7 @@
                         @foreach (var tVSeries in Model.LastTVSeries)
                         {
                             <tr>
-                                <td><h4><a href="#">@tVSeries</a></h4></td>
+                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = tVSeries.EntertainmentDL.Id })'>@tVSeries</a></h4></td>
                                 @{ int? avgPoint = tVSeries.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
                                 @if (avgPoint <= 35)
                                 {
@@ -234,7 +234,7 @@
                         @foreach (var album in Model.LastAlbums)
                         {
                             <tr>
-                                <td><h4><a href="#">@album</a></h4></td>
+                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = album.EntertainmentDL.Id })'>@album</a></h4></td>
                                 @{ int? avgPoint = album.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
                                 @if (avgPoint <= 35)
                                 {

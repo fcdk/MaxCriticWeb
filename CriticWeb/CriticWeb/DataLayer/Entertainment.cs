@@ -317,6 +317,24 @@ namespace CriticWeb.DataLayer
             }       
         }
 
+        public int? AverageUserPointForOneEntertainment()
+        {
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NULL GROUP BY Review.EntertainmentId";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", this.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = this.Id;
+
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 1)
+                    return (int)dataTable.Rows[0][0];
+                return null;
+            }
+        }
+
         public static Entertainment[] GetLastThreeEntertainmentByActor(Performer performer)
         {
             lock (_locker)

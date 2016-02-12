@@ -1,0 +1,163 @@
+﻿@model CriticWeb.Models.ContentCriticViewModels.EntertainmentDetailsViewModel
+
+@{
+    ViewBag.Title = Model.EntertainmentDetails;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading text-left">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>@Model.EntertainmentDetails</h4>
+                </div>
+                <div class="col-md-8">
+                    <span class="pull-right">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a data-toggle="pill" href="#summary">Загальне</a></li>
+                            <li><a data-toggle="pill" href="#details">Деталі</a></li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+
+            <div id="summary" class="tab-pane fade in active">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img class="poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.EntertainmentDetails.Poster))" />
+                        </div>
+                        <div class="col-md-8 text-center">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-8"><h4>Середня оцінка критиків:</h4></div>
+                                                <div class="col-md-4">
+                                                    @if (Model.AvarageCriticPoint != null)
+                                                    {
+                                                        if (Model.AvarageCriticPoint <= 35)
+                                                        {
+                                                            <h2 class="point-entertainment-red">@Model.AvarageCriticPoint</h2>
+                                                        }
+                                                        if (Model.AvarageCriticPoint > 35 && Model.AvarageCriticPoint < 70)
+                                                        {
+                                                            <h2 class="point-entertainment-yellow">@Model.AvarageCriticPoint</h2>
+                                                        }
+                                                        if (Model.AvarageCriticPoint >= 70)
+                                                        {
+                                                            <h2 class="point-entertainment-green">@Model.AvarageCriticPoint</h2>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <h2>N/A</h2>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-8"><h4>Середня оцінка користувачів:</h4></div>
+                                                <div class="col-md-4">
+                                                    @if (Model.AvarageUserPoint != null)
+                                                    {
+                                                        if (Model.AvarageUserPoint <= 35)
+                                                        {
+                                                            <h2 class="point-entertainment-red">@Model.AvarageUserPoint</h2>
+                                                        }
+                                                        if (Model.AvarageUserPoint > 35 && Model.AvarageUserPoint < 70)
+                                                        {
+                                                            <h2 class="point-entertainment-yellow">@Model.AvarageUserPoint</h2>
+                                                        }
+                                                        if (Model.AvarageUserPoint >= 70)
+                                                        {
+                                                            <h2 class="point-entertainment-green">@Model.AvarageUserPoint</h2>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <h2>N/A</h2>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="glyphicon glyphicon-star-empty" />
+                                    </div>
+                                </div>
+                            </div>
+                            <p><b>Короткий опис:</b> @Model.EntertainmentDetails.Summary</p>
+                            @if (Model.EntertainmentDetails.BuyLink != null && Model.EntertainmentDetails.BuyLink != String.Empty)
+                            {
+                                <a href='@Model.EntertainmentDetails.BuyLink' target="_blank"><img src="http://www.niftybuttons.com/amazon/amazon-button2.png" alt="Amazon Button"></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="details" class="tab-pane">
+                <h3>...</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (Model.TrailerLinkForFrame != null && Model.TrailerLinkForFrame != String.Empty)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Трейлер</h4></div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <iframe width="670" height="400" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"
+                                src="@Model.TrailerLinkForFrame"></iframe>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

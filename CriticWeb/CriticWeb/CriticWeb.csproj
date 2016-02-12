@@ -193,6 +193,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ContentCriticViewModels\EntertainmentDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
@@ -242,8 +243,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -267,6 +266,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\_EntertainmentMiniPartialView.cshtml" />
     <Content Include="Views\Home\_PerformerMiniPartialView.cshtml" />
+    <Content Include="Views\Home\EntertainmentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

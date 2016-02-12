@@ -1,10 +1,11 @@
-﻿@model CriticWeb.Models.Data.EntertainmentVM
+﻿@using CriticWeb.Models.ContentCriticViewModels
+@model CriticWeb.Models.Data.EntertainmentVM
 
 @{ 
     int? avgPoint = Model.EntertainmentDL.AverageCriticPointForOneEntertainment();
 }
 
-<a href="#"> <!-- потом тут будет ссылка на детали -->
+<a href='@Url.Action("EntertainmentDetails", "Home", new { id = Model.EntertainmentDL.Id })'>
     <div class="thumbnail">
         <img class="entertainment-mini-img-on-main-page" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.EntertainmentDL.Poster))" />
         @if (avgPoint <= 35)

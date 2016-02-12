@@ -102,3 +102,17 @@ a .thumbnail:hover {
     width: 50px;
     border-radius: 100px;
 }
+
+.poster {
+    max-height: 350px;
+    max-width: 250px;
+    border-radius: 4px;
+}
+
+#summary p {
+    text-align: left;
+}
+
+iframe {
+    border-radius: 8px;
+}

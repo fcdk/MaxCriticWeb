@@ -15,20 +15,6 @@ namespace CriticWeb.Controllers
             return View(mainPage);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public PartialViewResult _EntertainmentMiniPartialView()
         {
             return PartialView();
@@ -37,6 +23,11 @@ namespace CriticWeb.Controllers
         public PartialViewResult _PerformerMiniPartialView()
         {
             return PartialView();
+        }
+
+        public ActionResult EntertainmentDetails(Guid id)
+        {
+            return View(new EntertainmentDetailsViewModel(id));
         }
 
     }
