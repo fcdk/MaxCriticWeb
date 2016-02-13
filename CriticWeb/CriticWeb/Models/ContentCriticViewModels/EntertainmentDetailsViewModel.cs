@@ -19,6 +19,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private string _genres;
         private string _singersAndBands;
         private SongVM[] _songs;
+        private PerformerVM[] _movieDirectors;
 
         public EntertainmentVM EntertainmentDetails
         {
@@ -80,6 +81,11 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _songs; }
         }
 
+        public PerformerVM[] MovieDirectors
+        {
+            get { return _movieDirectors; }
+        }
+
         public EntertainmentDetailsViewModel(Guid entertainmentId)
         {
             _entertainment = new EntertainmentVM(Entertainment.GetById(entertainmentId));
@@ -103,6 +109,8 @@ namespace CriticWeb.Models.ContentCriticViewModels
                     songs.Add(new SongVM(song));
                 _songs = songs.ToArray();
             }
+
+            _movieDirectors = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MovieDirector);
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)
@@ -135,6 +143,20 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 result += ", ";
             }
             return result.Remove(result.Length - 2, 2);
+        }
+
+        private PerformerVM[] GetPerformerVMByEntertainmentVMAndRole(EntertainmentVM entertainment, PerformerInEntertainment.Role role)
+        {
+            Performer[] performers = Performer.GetPerformerByEntertainmentAndRole(entertainment.EntertainmentDL, role);
+            if (performers == null)
+                return null;
+
+            List<PerformerVM> result = new List<PerformerVM>();
+            foreach (var performer in performers)
+            {
+                result.Add(new PerformerVM(performer));
+            }
+            return result.ToArray();
         }
 
     }

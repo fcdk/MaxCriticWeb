@@ -319,3 +319,25 @@
         </div>
     </div>
 }
+
+@if (true)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Учасники</h4></div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td><b>Режисери</b></td>
+                    </tr>
+                    @foreach (var director in Model.MovieDirectors)
+                    {
+                        <tr>
+                            <td>@director</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
