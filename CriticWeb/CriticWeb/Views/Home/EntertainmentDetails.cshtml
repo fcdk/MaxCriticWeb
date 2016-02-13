@@ -274,6 +274,7 @@
         </div>
     </div>
 </div>
+
 @if (Model.TrailerLinkForFrame != null && Model.TrailerLinkForFrame != String.Empty)
 {
     <div class="panel panel-default">
@@ -289,6 +290,32 @@
                     <div class="col-md-1"></div>
                 </div>
             </div>
+        </div>
+    </div>
+}
+
+@if (Model.Songs != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Пісні</h4></div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Назва</th>
+                        <th>Тривалість</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var song in Model.Songs)
+                    {
+                        <tr>
+                            <td>@song.Name</td>
+                            <td>@song.Duration</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 }

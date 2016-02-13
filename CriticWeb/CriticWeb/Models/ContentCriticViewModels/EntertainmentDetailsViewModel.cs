@@ -1,6 +1,7 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
 using System;
+using System.Collections.Generic;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {
@@ -17,6 +18,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private string _albumRecordLabel;
         private string _genres;
         private string _singersAndBands;
+        private SongVM[] _songs;
 
         public EntertainmentVM EntertainmentDetails
         {
@@ -73,6 +75,11 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _singersAndBands; }
         }
 
+        public SongVM[] Songs
+        {
+            get { return _songs; }
+        }
+
         public EntertainmentDetailsViewModel(Guid entertainmentId)
         {
             _entertainment = new EntertainmentVM(Entertainment.GetById(entertainmentId));
@@ -86,7 +93,16 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _tVNetwork = this.GetPerformersStringByRole(PerformerInEntertainment.Role.TVNetwork);
             _albumRecordLabel = this.GetPerformersStringByRole(PerformerInEntertainment.Role.AlbumRecordLabel);
             _genres = this.GetGenreString();
-            _singersAndBands = _entertainment.AlbumAuthors.Remove(_entertainment.AlbumAuthors.Length - 2, 2);
+            _singersAndBands = _entertainment.AlbumAuthors != null ? _entertainment.AlbumAuthors.Remove(_entertainment.AlbumAuthors.Length - 2, 2) : null;
+
+            Song[] songsInAlbum = Song.GetSongsByAlbum(_entertainment.EntertainmentDL);
+            if (songsInAlbum != null)
+            {
+                List<SongVM> songs = new List<SongVM>();
+                foreach (var song in songsInAlbum)
+                    songs.Add(new SongVM(song));
+                _songs = songs.ToArray();
+            }
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)
