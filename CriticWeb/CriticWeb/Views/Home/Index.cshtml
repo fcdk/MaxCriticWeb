@@ -31,11 +31,14 @@
             <div id="movies" class="tab-pane fade in active">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (EntertainmentVM entertainment in Model.LastBestMovies)
+                        @if (Model.LastBestMovies != null)
                         {
-                            <div class="col-md-3 text-center">
-                                @Html.Partial("_EntertainmentMiniPartialView", entertainment)
-                            </div>
+                            foreach (EntertainmentVM entertainment in Model.LastBestMovies)
+                            {
+                                <div class="col-md-3 text-center">
+                                    @Html.Partial("_EntertainmentMiniPartialView", entertainment)
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -43,23 +46,29 @@
             <div id="games" class="tab-pane">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (EntertainmentVM entertainment in Model.LastBestGames)
+                        @if (Model.LastBestGames != null)
                         {
-                            <div class="col-md-3 text-center">
-                                @Html.Partial("_EntertainmentMiniPartialView", entertainment)
-                            </div>
-                        }                       
+                            foreach (EntertainmentVM entertainment in Model.LastBestGames)
+                            {
+                                <div class="col-md-3 text-center">
+                                    @Html.Partial("_EntertainmentMiniPartialView", entertainment)
+                                </div>
+                            }
+                        }                 
                     </div>
                 </div>
             </div>
             <div id="tvseries" class="tab-pane">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (EntertainmentVM entertainment in Model.LastBestTVSeries)
+                        @if (Model.LastBestTVSeries != null)
                         {
-                            <div class="col-md-3 text-center">
-                                @Html.Partial("_EntertainmentMiniPartialView", entertainment)
-                            </div>
+                            foreach (EntertainmentVM entertainment in Model.LastBestTVSeries)
+                            {
+                                <div class="col-md-3 text-center">
+                                    @Html.Partial("_EntertainmentMiniPartialView", entertainment)
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -67,11 +76,14 @@
             <div id="music" class="tab-pane">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (EntertainmentVM entertainment in Model.LastBestAlbums)
+                        @if (Model.LastBestAlbums != null)
                         {
-                            <div class="col-md-3 text-center">
-                                @Html.Partial("_EntertainmentMiniPartialView", entertainment)
-                            </div>
+                            foreach (EntertainmentVM entertainment in Model.LastBestAlbums)
+                            {
+                                <div class="col-md-3 text-center">
+                                    @Html.Partial("_EntertainmentMiniPartialView", entertainment)
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -103,11 +115,14 @@
             <div id="actors" class="tab-pane fade in active">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (var actor in Model.LastTwoActors)
+                        @if (Model.LastTwoActors != null)
                         {
-                            <div class="col-md-6 text-center">
-                                @Html.Partial("_PerformerMiniPartialView", new PerformerMiniViewModel(actor, PerformerInEntertainment.Role.MovieCast))
-                            </div>
+                            foreach (var actor in Model.LastTwoActors)
+                            {
+                                <div class="col-md-6 text-center">
+                                    @Html.Partial("_PerformerMiniPartialView", new PerformerMiniViewModel(actor, PerformerInEntertainment.Role.MovieCast))
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -115,11 +130,14 @@
             <div id="singers" class="tab-pane">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach (var actor in Model.LastTwoSingers)
+                        @if (Model.LastTwoActors != null)
                         {
-                            <div class="col-md-6 text-center">
-                                @Html.Partial("_PerformerMiniPartialView", new PerformerMiniViewModel(actor, PerformerInEntertainment.Role.AlbumSinger))
-                            </div>
+                            foreach (var actor in Model.LastTwoSingers)
+                            {
+                                <div class="col-md-6 text-center">
+                                    @Html.Partial("_PerformerMiniPartialView", new PerformerMiniViewModel(actor, PerformerInEntertainment.Role.AlbumSinger))
+                                </div>
+                            }
                         }
                     </div>
                 </div>
@@ -135,25 +153,28 @@
             <div class="panel-body">
                 <table class="table table-striped">
                     <tbody>
-                        @foreach (var movie in Model.LastMovies)
+                        @if (Model.LastMovies != null)
                         {
-                            <tr>
-                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = movie.EntertainmentDL.Id })'>@movie</a></h4></td>
-                                @{ int? avgPoint = movie.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
-                                @if (avgPoint <= 35)
-                                {
-                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint > 35 && avgPoint < 70)
-                                {
-                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint >= 70)
-                                {
-                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
-                                }
-                            </tr>
-                        }                        
+                            foreach (var movie in Model.LastMovies)
+                            {
+                                <tr>
+                                    <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = movie.EntertainmentDL.Id })'>@movie</a></h4></td>
+                                    @{ int? avgPoint = movie.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                    @if (avgPoint <= 35)
+                                    {
+                                        <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint >= 70)
+                                    {
+                                        <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                    }
+                                </tr>
+                            }
+                        }                                               
                     </tbody>
                 </table>
                 <a href="#"><h5>Показати всі нові фільми >></h5></a>
@@ -166,25 +187,28 @@
             <div class="panel-body">
                 <table class="table table-striped">
                     <tbody>
-                        @foreach (var game in Model.LastGames)
+                        @if (Model.LastGames != null)
                         {
-                            <tr>
-                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = game.EntertainmentDL.Id })'>@game</a></h4></td>
-                                @{ int? avgPoint = game.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
-                                @if (avgPoint <= 35)
-                                {
-                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint > 35 && avgPoint < 70)
-                                {
-                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint >= 70)
-                                {
-                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
-                                }
-                            </tr>
-                        } 
+                            foreach (var game in Model.LastGames)
+                            {
+                                <tr>
+                                    <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = game.EntertainmentDL.Id })'>@game</a></h4></td>
+                                    @{ int? avgPoint = game.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                    @if (avgPoint <= 35)
+                                    {
+                                        <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint >= 70)
+                                    {
+                                        <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                    }
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
                 <a href="#"><h5>Показати всі нові ігри >></h5></a>
@@ -200,24 +224,27 @@
             <div class="panel-body">
                 <table class="table table-striped">
                     <tbody>
-                        @foreach (var tVSeries in Model.LastTVSeries)
+                        @if (Model.LastTVSeries != null)
                         {
-                            <tr>
-                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = tVSeries.EntertainmentDL.Id })'>@tVSeries</a></h4></td>
-                                @{ int? avgPoint = tVSeries.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
-                                @if (avgPoint <= 35)
-                                {
-                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint > 35 && avgPoint < 70)
-                                {
-                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint >= 70)
-                                {
-                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
-                                }
-                            </tr>
+                            foreach (var tVSeries in Model.LastTVSeries)
+                            {
+                                <tr>
+                                    <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = tVSeries.EntertainmentDL.Id })'>@tVSeries</a></h4></td>
+                                    @{ int? avgPoint = tVSeries.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                    @if (avgPoint <= 35)
+                                    {
+                                        <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint >= 70)
+                                    {
+                                        <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                    }
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -231,24 +258,27 @@
             <div class="panel-body">
                 <table class="table table-striped">
                     <tbody>
-                        @foreach (var album in Model.LastAlbums)
+                        @if (Model.LastAlbums != null)
                         {
-                            <tr>
-                                <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = album.EntertainmentDL.Id })'>@album</a></h4></td>
-                                @{ int? avgPoint = album.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
-                                @if (avgPoint <= 35)
-                                {
-                                    <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint > 35 && avgPoint < 70)
-                                {
-                                    <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
-                                }
-                                @if (avgPoint >= 70)
-                                {
-                                    <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
-                                }
-                            </tr>
+                            foreach (var album in Model.LastAlbums)
+                            {
+                                <tr>
+                                    <td><h4><a href='@Url.Action("EntertainmentDetails", "Home", new { id = album.EntertainmentDL.Id })'>@album</a></h4></td>
+                                    @{ int? avgPoint = album.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                    @if (avgPoint <= 35)
+                                    {
+                                        <td><h4 class="point-entertainment-red">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td><h4 class="point-entertainment-yellow">@avgPoint</h4></td>
+                                    }
+                                    @if (avgPoint >= 70)
+                                    {
+                                        <td><h4 class="point-entertainment-green">@avgPoint</h4></td>
+                                    }
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

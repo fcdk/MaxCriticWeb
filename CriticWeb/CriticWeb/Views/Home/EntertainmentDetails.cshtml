@@ -1,4 +1,5 @@
-﻿@model CriticWeb.Models.ContentCriticViewModels.EntertainmentDetailsViewModel
+﻿@using CriticWeb.DataLayer
+@model CriticWeb.Models.ContentCriticViewModels.EntertainmentDetailsViewModel
 
 @{
     ViewBag.Title = Model.EntertainmentDetails;
@@ -320,21 +321,273 @@
     </div>
 }
 
-@if (true)
+@if (Model.MovieDirectors != null || Model.MoviePlotWriters != null || Model.MoviePrincipalCasts != null || Model.MovieCast != null || Model.MovieProducers != null || Model.GameCasts != null || Model.TVCasts != null || Model.AlbumSingers != null || Model.AlbumBands != null)
 {
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Учасники</h4></div>
         <div class="panel-body">
             <table class="table table-striped">
                 <tbody>
-                    <tr>
-                        <td><b>Режисери</b></td>
-                    </tr>
-                    @foreach (var director in Model.MovieDirectors)
+                    @if (Model.MovieDirectors != null)
                     {
                         <tr>
-                            <td>@director</td>
+                            <td><b>Режисери</b></td>
+                            <td><b>Оцінка критиків</b></td>
                         </tr>
+                        foreach (var performer in Model.MovieDirectors)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                    @if (avgPoint != null)
+                                    {
+                                        if (avgPoint <= 35)
+                                        {
+                                            <td class="point-actor-red">@avgPoint</td>
+                                        }
+                                        if (avgPoint > 35 && avgPoint < 70)
+                                        {
+                                            <td class="point-actor-yellow">@avgPoint</td>
+                                        }
+                                        if (avgPoint >= 70)
+                                        {
+                                            <td class="point-actor-green">@avgPoint</td>
+                                        }
+                                    }
+                            </tr>
+                        }
+                    }
+                    @if (Model.MoviePlotWriters != null)
+                    {
+                        <tr>
+                            <td><b>Автори сценарію</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.MoviePlotWriters)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.MoviePrincipalCasts != null)
+                    {
+                        <tr>
+                            <td><b>Головні герої</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.MoviePrincipalCasts)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.MovieCast != null)
+                    {
+                        <tr>
+                            <td><b>Актори</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.MovieCast)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.MovieProducers != null)
+                    {
+                        <tr>
+                            <td><b>Продюсери</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.MovieProducers)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.GameCasts != null)
+                    {
+                        <tr>
+                            <td><b>Актори</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.GameCasts)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.TVCasts != null)
+                    {
+                        <tr>
+                            <td><b>Актори</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.TVCasts)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.AlbumSingers != null)
+                    {
+                        <tr>
+                            <td><b>Співаки</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.AlbumSingers)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                    @if (Model.AlbumBands != null)
+                    {
+                        <tr>
+                            <td><b>Групи</b></td>
+                            <td><b>Оцінка критиків</b></td>
+                        </tr>
+                        foreach (var performer in Model.AlbumBands)
+                        {
+                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            <tr>
+                                <td>@performer</td>
+                                @if (avgPoint != null)
+                                {
+                                    if (avgPoint <= 35)
+                                    {
+                                        <td class="point-actor-red">@avgPoint</td>
+                                    }
+                                    if (avgPoint > 35 && avgPoint < 70)
+                                    {
+                                        <td class="point-actor-yellow">@avgPoint</td>
+                                    }
+                                    if (avgPoint >= 70)
+                                    {
+                                        <td class="point-actor-green">@avgPoint</td>
+                                    }
+                                }
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

@@ -20,6 +20,14 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private string _singersAndBands;
         private SongVM[] _songs;
         private PerformerVM[] _movieDirectors;
+        private PerformerVM[] _moviePlotWriters;
+        private PerformerVM[] _moviePrincipalCasts;
+        private PerformerVM[] _movieCasts;
+        private PerformerVM[] _movieProducers;
+        private PerformerVM[] _gameCasts;
+        private PerformerVM[] _tVCasts;
+        private PerformerVM[] _albumSingers;
+        private PerformerVM[] _albumBands;
 
         public EntertainmentVM EntertainmentDetails
         {
@@ -86,6 +94,46 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _movieDirectors; }
         }
 
+        public PerformerVM[] MoviePlotWriters
+        {
+            get { return _moviePlotWriters; }
+        }
+
+        public PerformerVM[] MoviePrincipalCasts
+        {
+            get { return _moviePrincipalCasts; }
+        }
+
+        public PerformerVM[] MovieCast
+        {
+            get { return _movieCasts; }
+        }
+
+        public PerformerVM[] MovieProducers
+        {
+            get { return _movieProducers; }
+        }
+
+        public PerformerVM[] GameCasts
+        {
+            get { return _gameCasts; }
+        }
+
+        public PerformerVM[] TVCasts
+        {
+            get { return _tVCasts; }
+        }
+
+        public PerformerVM[] AlbumSingers
+        {
+            get { return _albumSingers; }
+        }
+
+        public PerformerVM[] AlbumBands
+        {
+            get { return _albumBands; }
+        }
+
         public EntertainmentDetailsViewModel(Guid entertainmentId)
         {
             _entertainment = new EntertainmentVM(Entertainment.GetById(entertainmentId));
@@ -111,6 +159,14 @@ namespace CriticWeb.Models.ContentCriticViewModels
             }
 
             _movieDirectors = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MovieDirector);
+            _moviePlotWriters = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MoviePlotWriter);
+            _moviePrincipalCasts = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MoviePrincipalCast);
+            _movieCasts = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MovieCast);
+            _movieProducers = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.MovieProducer);
+            _gameCasts = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.GameCast);
+            _tVCasts = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.TVCast);
+            _albumSingers = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumSinger);
+            _albumBands = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumBand);
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)

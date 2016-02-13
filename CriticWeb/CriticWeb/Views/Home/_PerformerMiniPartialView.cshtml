@@ -17,41 +17,47 @@
             </div>
             <div class="col-md-6">
                 <h5>Середня оцінка:</h5>
-                @if (Model.AvaragePerformerPoint <= 35)
+                @if (Model.AvaragePerformerPoint != null)
                 {
-                    <h4 class="point-actor-red">@Model.AvaragePerformerPoint</h4>
-                }
-                @if (Model.AvaragePerformerPoint > 35 && Model.AvaragePerformerPoint < 70)
-                {
-                    <h4 class="point-actor-yellow">@Model.AvaragePerformerPoint</h4>
-                }
-                @if (Model.AvaragePerformerPoint >= 70)
-                {
-                    <h4 class="point-actor-green">@Model.AvaragePerformerPoint</h4>
+                    if (Model.AvaragePerformerPoint <= 35)
+                    {
+                        <h4 class="point-actor-red">@Model.AvaragePerformerPoint</h4>
+                    }
+                    if (Model.AvaragePerformerPoint > 35 && Model.AvaragePerformerPoint < 70)
+                    {
+                        <h4 class="point-actor-yellow">@Model.AvaragePerformerPoint</h4>
+                    }
+                    if (Model.AvaragePerformerPoint >= 70)
+                    {
+                        <h4 class="point-actor-green">@Model.AvaragePerformerPoint</h4>
+                    }
                 }
                 <h5> Останні три фільми:</h5>
-                @foreach (var entertainment in Model.LastThreePerformersEntertainments)
+                @if (Model.LastThreePerformersEntertainments != null)
                 {
-                    <div class="row">
-                        <div class="col-md-3">
-                            @{ int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
-                            @if (avgPoint <= 35)
-                            {
-                                <h4 class="point-entertainment-red">@avgPoint</h4>
-                            }
-                            @if (avgPoint > 35 && avgPoint < 70)
-                            {
-                                <h4 class="point-entertainment-yellow">@avgPoint</h4>
-                            }
-                            @if (avgPoint >= 70)
-                            {
-                                <h4 class="point-entertainment-green">@avgPoint</h4>
-                            }
+                    foreach (var entertainment in Model.LastThreePerformersEntertainments)
+                    {
+                        <div class="row">
+                            <div class="col-md-3">
+                                @{ int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment(); }
+                                @if (avgPoint <= 35)
+                                {
+                                    <h4 class="point-entertainment-red">@avgPoint</h4>
+                                }
+                                @if (avgPoint > 35 && avgPoint < 70)
+                                {
+                                    <h4 class="point-entertainment-yellow">@avgPoint</h4>
+                                }
+                                @if (avgPoint >= 70)
+                                {
+                                    <h4 class="point-entertainment-green">@avgPoint</h4>
+                                }
+                            </div>
+                            <div class="col-md-9">
+                                <a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h5>@entertainment</h5></a>
+                            </div>
                         </div>
-                        <div class="col-md-9">
-                            <a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h5>@entertainment</h5></a>
-                        </div>
-                    </div>
+                    }
                 }                
             </div>
         </div>

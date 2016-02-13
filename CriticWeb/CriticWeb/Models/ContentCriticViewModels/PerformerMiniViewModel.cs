@@ -13,33 +13,39 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get{ return _performer; }
         }
 
-        public int? AvaragePerformerPoint { get; }
+        public int? AvaragePerformerPoint { get; private set; }
 
-        public EntertainmentVM[] LastThreePerformersEntertainments { get; }
+        public EntertainmentVM[] LastThreePerformersEntertainments { get; private set; }
 
         public PerformerMiniViewModel(PerformerVM performer, PerformerInEntertainment.Role role)
         {
             _performer = performer;
 
+            Entertainment[] entertainmentByPerformer = Entertainment.GetEntertainmentByPerformer(performer.PerformerDL);
+            if (entertainmentByPerformer != null)
+                AvaragePerformerPoint = Entertainment.AverageCriticPointForEntertainments(entertainmentByPerformer);
+
             if (role == PerformerInEntertainment.Role.MovieCast)
             {
-                Entertainment[] allActorsEntertainments = Entertainment.GetEntertainmentByActor(performer.PerformerDL);
-                AvaragePerformerPoint = Entertainment.AverageCriticPointForEntertainments(allActorsEntertainments);
                 Entertainment[] lastThreeActorsEntertainments = Entertainment.GetLastThreeEntertainmentByActor(performer.PerformerDL);
-                List<EntertainmentVM> result = new List<EntertainmentVM>();
-                foreach (var entertainment in lastThreeActorsEntertainments)
-                    result.Add(new EntertainmentVM(entertainment));
-                LastThreePerformersEntertainments = result.ToArray();
+                if (lastThreeActorsEntertainments != null)
+                {
+                    List<EntertainmentVM> result = new List<EntertainmentVM>();
+                    foreach (var entertainment in lastThreeActorsEntertainments)
+                        result.Add(new EntertainmentVM(entertainment));
+                    LastThreePerformersEntertainments = result.ToArray();
+                }
             }
             if (role == PerformerInEntertainment.Role.AlbumSinger)
             {
-                Entertainment[] allSingersEntertainments = Entertainment.GetEntertainmentBySinger(performer.PerformerDL);
-                AvaragePerformerPoint = Entertainment.AverageCriticPointForEntertainments(allSingersEntertainments);
                 Entertainment[] lastThreeActorsEntertainments = Entertainment.GetLastThreeEntertainmentBySinger(performer.PerformerDL);
-                List<EntertainmentVM> result = new List<EntertainmentVM>();
-                foreach (var entertainment in lastThreeActorsEntertainments)
-                    result.Add(new EntertainmentVM(entertainment));
-                LastThreePerformersEntertainments = result.ToArray();
+                if (lastThreeActorsEntertainments != null)
+                {
+                    List<EntertainmentVM> result = new List<EntertainmentVM>();
+                    foreach (var entertainment in lastThreeActorsEntertainments)
+                        result.Add(new EntertainmentVM(entertainment));
+                    LastThreePerformersEntertainments = result.ToArray();
+                }
             }
         }
     }
