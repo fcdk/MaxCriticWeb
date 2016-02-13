@@ -56,12 +56,12 @@ namespace CriticWeb.Models.Data
 
         public AwardVM(PerformerVM performer, EntertainmentVM entertainment, string name, string nomination, DateTime date, byte[] image)
         {
-            _award = new Award(performer.PerformerDL, entertainment.EntertainmentDL, name, nomination, date, image);
+            _award = new Award(performer == null ? null : performer.PerformerDL, entertainment == null ? null : entertainment.EntertainmentDL, name, nomination, date, image);
         }
 
         public override string ToString()
         {
-            return Name + (Nomination == null ? String.Empty : ": " + Nomination) + " (" + Date.ToString("dd/MM/yyyy") + ")";
+            return Name + " (" + Date.ToString("dd/MM/yyyy") + ")" + (Nomination == null ? String.Empty : ": " + Nomination);
         }
 
     }

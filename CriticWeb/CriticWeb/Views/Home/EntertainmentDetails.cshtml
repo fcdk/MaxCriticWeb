@@ -128,6 +128,10 @@
                                 </div>
                             </div>
                             <p><b>Короткий опис:</b> @Model.EntertainmentDetails.Summary</p>
+                            @if (Model.AwardString != null && Model.AwardString != String.Empty)
+                            {
+                                <p><b>Нагороди:</b> @Model.AwardString</p>
+                            }
                             @if (Model.EntertainmentDetails.BuyLink != null && Model.EntertainmentDetails.BuyLink != String.Empty)
                             {
                                 <a href='@Model.EntertainmentDetails.BuyLink' target="_blank"><img src="http://www.niftybuttons.com/amazon/amazon-button2.png" alt="Amazon Button"></a>

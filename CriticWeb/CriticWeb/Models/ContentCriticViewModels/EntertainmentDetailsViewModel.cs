@@ -28,6 +28,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private PerformerVM[] _tVCasts;
         private PerformerVM[] _albumSingers;
         private PerformerVM[] _albumBands;
+        private string _awardString;
 
         public EntertainmentVM EntertainmentDetails
         {
@@ -134,6 +135,11 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _albumBands; }
         }
 
+        public string AwardString
+        {
+            get { return _awardString; }
+        }
+
         public EntertainmentDetailsViewModel(Guid entertainmentId)
         {
             _entertainment = new EntertainmentVM(Entertainment.GetById(entertainmentId));
@@ -167,6 +173,8 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _tVCasts = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.TVCast);
             _albumSingers = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumSinger);
             _albumBands = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumBand);
+
+            _awardString = this.GetAwardStringByEntertainment(_entertainment.EntertainmentDL);
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)
@@ -213,6 +221,22 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 result.Add(new PerformerVM(performer));
             }
             return result.ToArray();
+        }
+
+        private string GetAwardStringByEntertainment(Entertainment entertainment)
+        {
+            Award[] awards = Award.GetAwardByEntertainment(entertainment);
+            if (awards == null)
+                return null;
+
+            string result = "";
+            foreach (var award in awards)
+            {
+                AwardVM awardVM = new AwardVM(award);
+                result += awardVM.ToString();
+                result += ", ";
+            }
+            return result.Remove(result.Length - 2, 2);
         }
 
     }
