@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContentCriticViewModels\EntertainmentDetailsViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\PerformerDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
@@ -267,6 +268,8 @@
     <Content Include="Views\Home\_EntertainmentMiniPartialView.cshtml" />
     <Content Include="Views\Home\_PerformerMiniPartialView.cshtml" />
     <Content Include="Views\Home\EntertainmentDetails.cshtml" />
+    <Content Include="Views\Home\_ReviewPartialView.cshtml" />
+    <Content Include="Views\Home\PerformerDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,94 @@
+﻿@using CriticWeb.DataLayer
+@model CriticWeb.Models.ContentCriticViewModels.PerformerDetailsViewModel
+@{
+    ViewBag.Title = Model.PerformerViewModel;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>@Model.PerformerViewModel</h4></div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img class="poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.PerformerViewModel.Image))" />
+                </div>
+                <div class="col-md-8 text-center">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-8"><h4>Середня оцінка критиків:</h4></div>
+                                        <div class="col-md-4">
+                                            @if (Model.AvarageCriticPoint != null)
+                                            {
+                                                if (Model.AvarageCriticPoint <= 35)
+                                                {
+                                                    <h2 class="point-entertainment-red">@Model.AvarageCriticPoint</h2>
+                                                }
+                                                if (Model.AvarageCriticPoint > 35 && Model.AvarageCriticPoint < 70)
+                                                {
+                                                    <h2 class="point-entertainment-yellow">@Model.AvarageCriticPoint</h2>
+                                                }
+                                                if (Model.AvarageCriticPoint >= 70)
+                                                {
+                                                    <h2 class="point-entertainment-green">@Model.AvarageCriticPoint</h2>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h2>N/A</h2>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-8"><h4>Середня оцінка користувачів:</h4></div>
+                                        <div class="col-md-4">
+                                            @if (Model.AvarageUserPoint != null)
+                                            {
+                                                if (Model.AvarageUserPoint <= 35)
+                                                {
+                                                    <h2 class="point-entertainment-red">@Model.AvarageUserPoint</h2>
+                                                }
+                                                if (Model.AvarageUserPoint > 35 && Model.AvarageUserPoint < 70)
+                                                {
+                                                    <h2 class="point-entertainment-yellow">@Model.AvarageUserPoint</h2>
+                                                }
+                                                if (Model.AvarageUserPoint >= 70)
+                                                {
+                                                    <h2 class="point-entertainment-green">@Model.AvarageUserPoint</h2>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h2>N/A</h2>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.PerformerViewModel.DateOfBirth != null)
+                    {
+                        DateTime dateOfBierth = (DateTime)Model.PerformerViewModel.DateOfBirth;
+                        <p>@if (Model.PerformerViewModel.PerformerType == Performer.Type.Person)
+                        {<b>Дата народження:</b>}
+                        else
+                        {<b>Дата заснування:</b>} @dateOfBierth.ToShortDateString()</p>
+                    }
+                    <p>@Model.PerformerViewModel.Summary</p>
+                    @if (Model.AvardsString != null && Model.AvardsString != String.Empty)
+                    {
+                        <p><b>Нагороди:</b> @Model.AvardsString</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

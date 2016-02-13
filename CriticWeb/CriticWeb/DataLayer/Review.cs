@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 namespace CriticWeb.DataLayer
 {
@@ -83,6 +86,34 @@ namespace CriticWeb.DataLayer
             Helpful = helpful;
             Unhelpful = unhelpful;
             CheckedByAdmin = checkedByAdmin;
+        }
+
+        public static Review[] GetReviewByEntertainment(Entertainment entertainment)
+        {
+            lock (_locker)
+            {
+                List<Review> result = new List<Review>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE EntertainmentId=@id";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", entertainment.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = entertainment.Id;
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where (Guid)row["EntertainmentId"] == entertainment.Id
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Review(dr));
+                }
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
+            }
         }
 
     }

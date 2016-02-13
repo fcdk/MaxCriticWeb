@@ -462,6 +462,18 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static int? AverageUserPointForEntertainments(Entertainment[] entertainments)
+        {
+            lock (_locker)
+            {
+                double? average = (from entertainment in entertainments
+                                   select entertainment.AverageUserPointForOneEntertainment()).Average();
+                if (average == null)
+                    return null;
+                return (int)average;
+            }
+        }
+
         public enum Type { Movie, Game, TVSeries, Album }
 
     }

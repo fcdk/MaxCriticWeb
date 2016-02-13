@@ -128,9 +128,9 @@
                                 </div>
                             </div>
                             <p><b>Короткий опис:</b> @Model.EntertainmentDetails.Summary</p>
-                            @if (Model.AwardString != null && Model.AwardString != String.Empty)
+                            @if (Model.AwardsString != null && Model.AwardsString != String.Empty)
                             {
-                                <p><b>Нагороди:</b> @Model.AwardString</p>
+                                <p><b>Нагороди:</b> @Model.AwardsString</p>
                             }
                             @if (Model.EntertainmentDetails.BuyLink != null && Model.EntertainmentDetails.BuyLink != String.Empty)
                             {
@@ -342,7 +342,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                     @if (avgPoint != null)
                                     {
                                         if (avgPoint <= 35)
@@ -371,7 +371,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -400,7 +400,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -429,7 +429,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -458,7 +458,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -487,7 +487,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -516,7 +516,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -545,7 +545,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -574,7 +574,7 @@
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td>@performer</td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
@@ -599,8 +599,6 @@
     </div>
 }
 
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
@@ -613,7 +611,7 @@
                             <h4>Позитивних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-green">29</h4>
+                            <h4 class="point-actor-green">@Model.PositiveCriticReviewCount</h4>
                         </div>
                     </div>
                 </div>
@@ -624,7 +622,7 @@
                             <h4>Нейтральних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-yellow">8</h4>
+                            <h4 class="point-actor-yellow">@Model.NeutralCriticReviewCount</h4>
                         </div>
                     </div>
                 </div>
@@ -635,84 +633,21 @@
                             <h4>Негативних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-red">0</h4>
+                            <h4 class="point-actor-red">@Model.NegativeCriticReviewCount</h4>
                         </div>
                     </div>
                 </div>
 
                 <hr />
-
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <h3 class="point-green">100</h3>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-8">
-                                <a href="#"><h5>Brash Games</h5></a>
-                                <h6>23.11.2015</h6>
-                            </div>
-                            <div class="col-md-1">
-                                <a href="#"><span class="glyphicon glyphicon-new-window"></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <p>The graphics won’t blow you away, the side quests and scale of the game will.</p>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="#"><font size="1">Всі відгуки цього видавництва>></font></a>
-                            </div>
-                            <div class="col-md-1">
-                                <p>|</p>
-                            </div>
-                            <div class="col-md-5">
-                                <a href="#"><font size="1">Читати повний відгук>></font></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <h3 class="point-yellow">60</h3>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-8">
-                                <a href="#"><h5>Quarter to Three</h5></a>
-                                <h6>19.11.2015</h6>
-                            </div>
-                            <div class="col-md-1">
-                                <a href="#"><span class="glyphicon glyphicon-new-window"></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <p>Bethesda has laid solid and at times spectacular groundwork for an awesome game. I look forward to another developer building on it.</p>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="#"><font size="1">Всі відгуки цього видавництва>></font></a>
-                            </div>
-                            <div class="col-md-1">
-                                <p>|</p>
-                            </div>
-                            <div class="col-md-5">
-                                <a href="#"><font size="1">Читати повний відгук>></font></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
+                
+                @if (Model.CriticReviews.Length != 0)
+                {
+                    foreach (var review in Model.CriticReviews)
+                    {
+                        @Html.Partial("_ReviewPartialView", review);
+                    }
+                    <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
+                }                              
 
             </div>
         </div>
@@ -727,7 +662,7 @@
                             <h4>Позитивних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-green">785</h4>
+                            <h4 class="point-actor-green">@Model.PositiveUserReviewCount</h4>
                         </div>
                     </div>
                 </div>
@@ -738,7 +673,7 @@
                             <h4>Нейтральних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-yellow">318</h4>
+                            <h4 class="point-actor-yellow">@Model.NeutralUserReviewCount</h4>
                         </div>
                     </div>
                 </div>
@@ -749,78 +684,21 @@
                             <h4>Негативних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-count-red">1044</h4>
+                            <h4 class="point-actor-red">@Model.NegativeUserReviewCount</h4>
                         </div>
                     </div>
                 </div>
 
                 <hr />
 
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <h3 class="point-green">100</h3>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-9">
-                                <a href="#"><h5>Vordulak06</h5></a>
-                                <h6>10.11.2015</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <p>Fallout 4 ended up being way more polished than I expected, I'm kind of blow away by how detailed some of the graphics are. It looks fantastic.</p>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <p><font size="1">Корисний?</font></p>
-                            </div>
-                            <div class="col-md-10">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-success btn-xs">Так</button>
-                                    <button type="button" class="btn btn-danger btn-xs">Ні</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1">
-                                <h3 class="point-red">10</h3>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-9">
-                                <a href="#"><h5>Discusguy</h5></a>
-                                <h6>12.11.2015</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <p>Bethesda what are you doing? Dialogue wheels do not belong in your games those belong in BioWare's games. Your storytelling has become worse and worse with each game you make. Next time hire Obsidian to write your stories for a Fallout made by them and ES 6 and Fallout 5. This game makes me sad I spent $60 on it, never again until I see Obsidian's writing from here on out.</p>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <p><font size="1">Корисний?</font></p>
-                            </div>
-                            <div class="col-md-10">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-success btn-xs">Так</button>
-                                    <button type="button" class="btn btn-danger btn-xs">Ні</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="#"><h5>Побачити всі відгуки користувачів >></h5></a>
+                @if (Model.UserReviews.Length != 0)
+                {
+                    foreach (var review in Model.UserReviews)
+                    {
+                        @Html.Partial("_ReviewPartialView", review);
+                    }
+                    <a href="#"><h5>Побачити всі відгуки користувачів >></h5></a>
+                }                
 
             </div>
         </div>

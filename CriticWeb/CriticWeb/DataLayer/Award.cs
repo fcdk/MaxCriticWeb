@@ -98,7 +98,7 @@ namespace CriticWeb.DataLayer
 
                 _dataAdapter.Fill(_dataTable);
                 var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
-                                   where (Guid)row["EntertainmentId"] == entertainment.Id
+                                   where row["EntertainmentId"].ToString() == entertainment.Id.ToString()
                                    select row;
                 foreach (DataRow dr in selectedRows)
                 {
@@ -110,6 +110,34 @@ namespace CriticWeb.DataLayer
                 return null;
             }
         }
-        
+
+        public static Award[] GetAwardByPerformer(Performer performer)
+        {
+            lock (_locker)
+            {
+                List<Award> result = new List<Award>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE PerformerId=@id";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@id"].Value = performer.Id;
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where row["PerformerId"].ToString() == performer.Id.ToString()
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Award(dr));
+                }
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
+            }
+        }
+
     }
 }

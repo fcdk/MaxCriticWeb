@@ -1,0 +1,61 @@
+﻿@using CriticWeb.DataLayer
+@model CriticWeb.DataLayer.Review
+
+<div class="thumbnail">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                @if (Model.Point <= 35)
+                {
+                    <h3 class="point-entertainment-red">@Model.Point</h3>
+                }
+                @if (Model.Point > 35 && Model.Point < 70)
+                {
+                    <h3 class="point-entertainment-yellow">@Model.Point</h3>
+                }
+                @if (Model.Point >= 70)
+                {
+                    <h3 class="point-entertainment-green">@Model.Point</h3>
+                }
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+                @if (Model.Publication == null && Model.Publication == String.Empty)
+                {
+                    <a href='#'><h5>@UserCritic.GetById(Model.UserId)</h5></a>
+                }
+                else
+                {
+                    <a href='#'><h5>@Model.Publication</h5></a>
+                }
+                <h6>@Model.Time.ToLocalTime().DateTime</h6>
+            </div>
+            <div class="col-md-1">
+                @if (Model.Link != null && Model.Link != String.Empty)
+                {
+                    <a href='@Model.Link' target="_blank"><span class="glyphicon glyphicon-new-window"></span></a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <p>@Model.Opinion</p>
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <p><font size="1">Корисний?</font></p>
+                </div>
+                <div class="col-md-10">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs">Так</button>
+                        <button type="button" class="btn btn-danger btn-xs">Ні</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
