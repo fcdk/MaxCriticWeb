@@ -1,6 +1,8 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {
@@ -12,6 +14,8 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public int? AvarageUserPoint { get; private set; }
 
         public string AvardsString { get; private set; }
+
+        public EntertainmentVM[] EntertainmentVMByDate { get; private set; }
 
         public PerformerDetailsViewModel(Guid id)
         {
@@ -25,6 +29,8 @@ namespace CriticWeb.Models.ContentCriticViewModels
             }
 
             AvardsString = this.GetAwardStringByPerfomer();
+
+            EntertainmentVMByDate = this.GetEntertainmentVMByPerformer().OrderByDescending( (ent) => ent.ReleaseDate ).ToArray();
         }
 
         private string GetAwardStringByPerfomer()
@@ -41,6 +47,20 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 result += ", ";
             }
             return result.Remove(result.Length - 2, 2);
+        }
+
+        private EntertainmentVM[] GetEntertainmentVMByPerformer()
+        {
+            Entertainment[] entertainments = Entertainment.GetEntertainmentByPerformer(PerformerViewModel.PerformerDL);
+
+            if (entertainments == null)
+                return null;
+
+            List<EntertainmentVM> result = new List<EntertainmentVM>();
+            foreach (var entertainment in entertainments)            
+                result.Add(new EntertainmentVM(entertainment));
+
+            return result.ToArray();
         }
 
     }
