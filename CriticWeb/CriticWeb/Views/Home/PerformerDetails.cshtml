@@ -10,7 +10,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4 text-center">
-                    <img class="poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.PerformerViewModel.Image))" />
+                    @if (Model.PerformerViewModel.Image != null)
+                    {
+                        <img class="poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.PerformerViewModel.Image))" />
+                    }
+                    else
+                    {
+                        <img class="poster" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                    }
                 </div>
                 <div class="col-md-8 text-center">
                     <div class="container-fluid">
@@ -119,6 +126,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>Постер</th>
                             <th>Назва</th>
                             <th>Дата релізу</th>
                             <th>Оцінка критиків</th>
@@ -129,19 +137,20 @@
                         {
                             int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
                             <tr>
-                                <td>@entertainment</td>
-                                <td>@entertainment.ReleaseDate.ToShortDateString()</td>
+                                <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
                                 @if (avgPoint <= 35)
                                 {
-                                    <td class="point-actor-red">@avgPoint</td>
+                                    <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                 }
                                 @if (avgPoint > 35 && avgPoint < 70)
                                 {
-                                    <td class="point-actor-yellow">@avgPoint</td>
+                                    <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                 }
                                 @if (avgPoint >= 70)
                                 {
-                                    <td class="point-actor-green">@avgPoint</td>
+                                    <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                 }                                
                             </tr>
                         }

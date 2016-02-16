@@ -66,6 +66,33 @@ body {
     color: red;
 }
 
+.point-table-green {
+    background-color: green;
+    border-radius: 100px;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+    width: 40px;
+}
+
+.point-table-yellow {
+    background-color: #FFC400;
+    border-radius: 100px;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+    width: 40px;    
+}
+
+.point-table-red {
+    background-color: red;
+    border-radius: 100px;
+    color: white;
+    text-align: center;   
+    font-size: x-large;
+    width: 40px;
+}
+
 .entertainment-mini-img-on-main-page {
     border-radius: 4px;
     height: 230px;
@@ -119,6 +146,20 @@ a:visited {
     max-height: 350px;
     max-width: 250px;
     border-radius: 4px;
+}
+
+.table-poster
+{
+    height: 50px;
+    width: 40px;
+    border-radius: 3px;
+}
+
+.round-photo
+{
+    height: 50px;
+    width: 40px;
+    border-radius: 100px;
 }
 
 #summary p {

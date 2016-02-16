@@ -336,26 +336,37 @@
                     {
                         <tr>
                             <td><b>Режисери</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.MovieDirectors)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                     @if (avgPoint != null)
                                     {
                                         if (avgPoint <= 35)
                                         {
-                                            <td class="point-actor-red">@avgPoint</td>
+                                            <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                         }
                                         if (avgPoint > 35 && avgPoint < 70)
                                         {
-                                            <td class="point-actor-yellow">@avgPoint</td>
+                                            <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                         }
                                         if (avgPoint >= 70)
                                         {
-                                            <td class="point-actor-green">@avgPoint</td>
+                                            <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                         }
                                     }
                             </tr>
@@ -365,26 +376,37 @@
                     {
                         <tr>
                             <td><b>Автори сценарію</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.MoviePlotWriters)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -394,26 +416,37 @@
                     {
                         <tr>
                             <td><b>Головні герої</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.MoviePrincipalCasts)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -423,26 +456,37 @@
                     {
                         <tr>
                             <td><b>Актори</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.MovieCast)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -452,26 +496,37 @@
                     {
                         <tr>
                             <td><b>Продюсери</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.MovieProducers)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -481,26 +536,37 @@
                     {
                         <tr>
                             <td><b>Актори</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.GameCasts)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -510,26 +576,37 @@
                     {
                         <tr>
                             <td><b>Актори</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.TVCasts)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -539,26 +616,37 @@
                     {
                         <tr>
                             <td><b>Співаки</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.AlbumSingers)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td>
+                                    @if (performer.Image != null)
+                                    {
+                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
+                                    }
+                                    else
+                                    {
+                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                                    }
+                                </td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -568,26 +656,28 @@
                     {
                         <tr>
                             <td><b>Групи</b></td>
+                            <td></td>
                             <td><b>Оцінка критиків</b></td>
                         </tr>
                         foreach (var performer in Model.AlbumBands)
                         {
                             int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'>@performer</a></td>
+                                <td></td>
+                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
                                 @if (avgPoint != null)
                                 {
                                     if (avgPoint <= 35)
                                     {
-                                        <td class="point-actor-red">@avgPoint</td>
+                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint > 35 && avgPoint < 70)
                                     {
-                                        <td class="point-actor-yellow">@avgPoint</td>
+                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
                                     }
                                     if (avgPoint >= 70)
                                     {
-                                        <td class="point-actor-green">@avgPoint</td>
+                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
                                     }
                                 }
                             </tr>
@@ -611,7 +701,7 @@
                             <h4>Позитивних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-green">@Model.PositiveCriticReviewCount</h4>
+                            <h4 class="point-actor-green"><b>@Model.PositiveCriticReviewCount</b></h4>
                         </div>
                     </div>
                 </div>
@@ -622,7 +712,7 @@
                             <h4>Нейтральних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-yellow">@Model.NeutralCriticReviewCount</h4>
+                            <h4 class="point-actor-yellow"><b>@Model.NeutralCriticReviewCount</b></h4>
                         </div>
                     </div>
                 </div>
@@ -633,7 +723,7 @@
                             <h4>Негативних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-red">@Model.NegativeCriticReviewCount</h4>
+                            <h4 class="point-actor-red"><b>@Model.NegativeCriticReviewCount</b></h4>
                         </div>
                     </div>
                 </div>
@@ -662,7 +752,7 @@
                             <h4>Позитивних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-green">@Model.PositiveUserReviewCount</h4>
+                            <h4 class="point-actor-green"><b>@Model.PositiveUserReviewCount</b></h4>
                         </div>
                     </div>
                 </div>
@@ -673,7 +763,7 @@
                             <h4>Нейтральних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-yellow">@Model.NeutralUserReviewCount</h4>
+                            <h4 class="point-actor-yellow"><b>@Model.NeutralUserReviewCount</b></h4>
                         </div>
                     </div>
                 </div>
@@ -684,7 +774,7 @@
                             <h4>Негативних:</h4>
                         </div>
                         <div class="col-md-4">
-                            <h4 class="point-actor-red">@Model.NegativeUserReviewCount</h4>
+                            <h4 class="point-actor-red"><b>@Model.NegativeUserReviewCount</b></h4>
                         </div>
                     </div>
                 </div>

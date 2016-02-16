@@ -15,6 +15,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
 
         public string AvardsString { get; private set; }
 
+        public EntertainmentVM[] EntertainmentVMs { get; private set; }
         public EntertainmentVM[] EntertainmentVMByDate { get; private set; }
 
         public PerformerDetailsViewModel(Guid id)
@@ -29,6 +30,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             }
 
             AvardsString = this.GetAwardStringByPerfomer();
+
 
             EntertainmentVMByDate = this.GetEntertainmentVMByPerformer().OrderByDescending( (ent) => ent.ReleaseDate ).ToArray();
         }
