@@ -16,7 +16,18 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public string AvardsString { get; private set; }
 
         public EntertainmentVM[] EntertainmentVMs { get; private set; }
-        public EntertainmentVM[] EntertainmentVMByDate { get; private set; }
+        public EntertainmentVM[] Movies { get; private set; }
+        public EntertainmentVM[] Games { get; private set; }
+        public EntertainmentVM[] TVSeries { get; private set; }
+        public EntertainmentVM[] Albums { get; private set; }
+        public EntertainmentVM[] MoviesByDate { get; private set; }
+        public EntertainmentVM[] GamesByDate { get; private set; }
+        public EntertainmentVM[] TVSeriesByDate { get; private set; }
+        public EntertainmentVM[] AlbumsByDate { get; private set; }
+        public EntertainmentVM[] MoviesByCriticPoint { get; private set; }
+        public EntertainmentVM[] GamesByCriticPoint { get; private set; }
+        public EntertainmentVM[] TVSeriesByCriticPoint { get; private set; }
+        public EntertainmentVM[] AlbumsByCriticPoint { get; private set; }
 
         public PerformerDetailsViewModel(Guid id)
         {
@@ -31,8 +42,21 @@ namespace CriticWeb.Models.ContentCriticViewModels
 
             AvardsString = this.GetAwardStringByPerfomer();
 
+            EntertainmentVMs = this.GetEntertainmentVMByPerformer();
+            Movies = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Movie ).ToArray();
+            Games = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Game).ToArray();
+            TVSeries = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.TVSeries).ToArray();
+            Albums = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Album).ToArray();
 
-            EntertainmentVMByDate = this.GetEntertainmentVMByPerformer().OrderByDescending( (ent) => ent.ReleaseDate ).ToArray();
+            MoviesByDate = Movies.OrderByDescending((ent) => ent.ReleaseDate).ToArray();
+            GamesByDate = Games.OrderByDescending((ent) => ent.ReleaseDate).ToArray();
+            TVSeriesByDate = TVSeries.OrderByDescending((ent) => ent.ReleaseDate).ToArray();
+            AlbumsByDate = Albums.OrderByDescending((ent) => ent.ReleaseDate).ToArray();
+
+            MoviesByCriticPoint = Movies.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            GamesByCriticPoint = Games.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            TVSeriesByCriticPoint = TVSeries.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+            AlbumsByCriticPoint = Albums.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
         }
 
         private string GetAwardStringByPerfomer()

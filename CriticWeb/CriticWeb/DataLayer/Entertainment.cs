@@ -339,7 +339,7 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast') ORDER BY Entertainment.ReleaseDate DESC";
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND (PerformerInEntertainment.PerformerRole='MoviePrincipalCast' OR PerformerInEntertainment.PerformerRole='MovieCast') AND Entertainment.ReleaseDate<SYSDATETIME() ORDER BY Entertainment.ReleaseDate DESC";
 
                 if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                     _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));
@@ -363,7 +363,7 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger' ORDER BY Entertainment.ReleaseDate DESC";
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(3) Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",PerformerInEntertainment WHERE PerformerInEntertainment.PerformerId=@id AND PerformerInEntertainment." + _idColumnName + "=Entertainment." + _idColumnName + " AND PerformerInEntertainment.PerformerRole='AlbumSinger' AND Entertainment.ReleaseDate<SYSDATETIME() ORDER BY Entertainment.ReleaseDate DESC";
 
                 if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                     _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", performer.Id));

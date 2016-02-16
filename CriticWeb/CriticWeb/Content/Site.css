@@ -93,6 +93,10 @@ body {
     width: 40px;
 }
 
+.point-table-not-available {
+    font-size: x-large;
+}
+
 .entertainment-mini-img-on-main-page {
     border-radius: 4px;
     height: 230px;

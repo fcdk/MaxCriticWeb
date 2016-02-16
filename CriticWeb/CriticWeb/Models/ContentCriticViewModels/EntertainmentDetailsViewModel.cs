@@ -150,6 +150,11 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _awardsString; }
         }
 
+        public Review[] Reviews
+        {
+            get { return _reviews; }
+        }
+
         public int PositiveCriticReviewCount
         {
             get { return _positiveCriticReviewCount; }
@@ -225,32 +230,36 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _albumBands = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumBand);
 
             _awardsString = this.GetAwardStringByEntertainment(_entertainment.EntertainmentDL);
-
+            
             _reviews = Review.GetReviewByEntertainment(_entertainment.EntertainmentDL);
-            _positiveCriticReviewCount = (from review in _reviews.AsParallel()
-                                          where review.Point >= 70 && review.Publication != null && review.Publication != String.Empty
-                                          select review).Count();
-            _neutralCriticReviewCount = (from review in _reviews.AsParallel()
-                                          where review.Point > 35 && review.Point < 70 && review.Publication != null && review.Publication != String.Empty
-                                          select review).Count();
-            _negativeCriticReviewCount = (from review in _reviews.AsParallel()
-                                         where review.Point <= 35 && review.Publication != null && review.Publication != String.Empty
-                                         select review).Count();
-            _positiveUserReviewCount = (from review in _reviews.AsParallel()
-                                        where review.Point >= 70 && (review.Publication == null || review.Publication == String.Empty)
-                                        select review).Count();
-            _neutralUserReviewCount = (from review in _reviews.AsParallel()
-                                         where review.Point > 35 && review.Point < 70 && (review.Publication == null || review.Publication == String.Empty)
-                                         select review).Count();
-            _negativeUserReviewCount = (from review in _reviews.AsParallel()
-                                        where review.Point <= 35 && (review.Publication == null || review.Publication == String.Empty)
-                                        select review).Count();
-            _criticReviews = (from review in _reviews.AsParallel()
-                              where review.Publication != null && review.Publication != String.Empty
-                              select review).OrderByDescending( (rev) => rev.Time ).Take(5).ToArray();
-            _userReviews = (from review in _reviews.AsParallel()
-                            where review.Publication == null || review.Publication == String.Empty
-                            select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
+
+            if (_reviews != null)
+            {
+                _positiveCriticReviewCount = (from review in _reviews.AsParallel()
+                                              where review.Point >= 70 && review.Publication != null && review.Publication != String.Empty
+                                              select review).Count();
+                _neutralCriticReviewCount = (from review in _reviews.AsParallel()
+                                             where review.Point > 35 && review.Point < 70 && review.Publication != null && review.Publication != String.Empty
+                                             select review).Count();
+                _negativeCriticReviewCount = (from review in _reviews.AsParallel()
+                                              where review.Point <= 35 && review.Publication != null && review.Publication != String.Empty
+                                              select review).Count();
+                _positiveUserReviewCount = (from review in _reviews.AsParallel()
+                                            where review.Point >= 70 && (review.Publication == null || review.Publication == String.Empty)
+                                            select review).Count();
+                _neutralUserReviewCount = (from review in _reviews.AsParallel()
+                                           where review.Point > 35 && review.Point < 70 && (review.Publication == null || review.Publication == String.Empty)
+                                           select review).Count();
+                _negativeUserReviewCount = (from review in _reviews.AsParallel()
+                                            where review.Point <= 35 && (review.Publication == null || review.Publication == String.Empty)
+                                            select review).Count();
+                _criticReviews = (from review in _reviews.AsParallel()
+                                  where review.Publication != null && review.Publication != String.Empty
+                                  select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
+                _userReviews = (from review in _reviews.AsParallel()
+                                where review.Publication == null || review.Publication == String.Empty
+                                select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
+            }
         }
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)

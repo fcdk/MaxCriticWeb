@@ -689,108 +689,111 @@
     </div>
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h4>Відгуки критиків</h4></div>
-            <div class="panel-body">
+@if (Model.Reviews != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Відгуки критиків</h4></div>
+                <div class="panel-body">
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Позитивних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-green"><b>@Model.PositiveCriticReviewCount</b></h4>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Позитивних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-green"><b>@Model.PositiveCriticReviewCount</b></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Нейтральних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-yellow"><b>@Model.NeutralCriticReviewCount</b></h4>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Нейтральних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-yellow"><b>@Model.NeutralCriticReviewCount</b></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Негативних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-red"><b>@Model.NegativeCriticReviewCount</b></h4>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Негативних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-red"><b>@Model.NegativeCriticReviewCount</b></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <hr />
-                
-                @if (Model.CriticReviews.Length != 0)
+                    <hr />
+
+                    @if (Model.CriticReviews.Length != 0)
                 {
                     foreach (var review in Model.CriticReviews)
                     {
-                        @Html.Partial("_ReviewPartialView", review);
+                            @Html.Partial("_ReviewPartialView", review);
                     }
-                    <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
-                }                              
+                        <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
+                    }
 
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h4>Відгуки користувачів</h4></div>
-            <div class="panel-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Позитивних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-green"><b>@Model.PositiveUserReviewCount</b></h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Нейтральних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-yellow"><b>@Model.NeutralUserReviewCount</b></h4>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>Відгуки користувачів</h4></div>
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Позитивних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-green"><b>@Model.PositiveUserReviewCount</b></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4>Негативних:</h4>
-                        </div>
-                        <div class="col-md-4">
-                            <h4 class="point-actor-red"><b>@Model.NegativeUserReviewCount</b></h4>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Нейтральних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-yellow"><b>@Model.NeutralUserReviewCount</b></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <hr />
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Негативних:</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="point-actor-red"><b>@Model.NegativeUserReviewCount</b></h4>
+                            </div>
+                        </div>
+                    </div>
 
-                @if (Model.UserReviews.Length != 0)
+                    <hr />
+
+                    @if (Model.UserReviews.Length != 0)
                 {
                     foreach (var review in Model.UserReviews)
                     {
-                        @Html.Partial("_ReviewPartialView", review);
+                            @Html.Partial("_ReviewPartialView", review);
                     }
-                    <a href="#"><h5>Побачити всі відгуки користувачів >></h5></a>
-                }                
+                        <a href="#"><h5>Побачити всі відгуки користувачів >></h5></a>
+                    }
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
