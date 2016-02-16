@@ -91,7 +91,7 @@ namespace CriticWeb.Controllers
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(IndexViewModel model, HttpPostedFileBase uploadImage)
+        public ActionResult Index(IndexViewModel model, HttpPostedFileBase uploadImage, bool deleteImage)
         {
             if (ModelState.IsValid)
             {
@@ -102,6 +102,11 @@ namespace CriticWeb.Controllers
 
                 if (true) //result.Succeeded)
                 {
+                    if (deleteImage)
+                    {
+                        ProfileCritic.Instance.CurrentUserCritic.Image = null;
+                    }
+
                     byte[] imageData = null;
                     if (uploadImage != null)
                         using (var binaryReader = new BinaryReader(uploadImage.InputStream))
@@ -127,6 +132,13 @@ namespace CriticWeb.Controllers
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View(model);
+        }
+
+        [HttpDelete]
+        public void Index()
+        {
+               //ProfileCritic.Instance.CurrentUserCritic.Image = null;
+               //ProfileCritic.Instance.CurrentUserCritic.Save();             
         }
 
         //
