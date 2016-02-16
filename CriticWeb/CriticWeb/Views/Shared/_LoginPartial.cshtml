@@ -5,15 +5,14 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul style="margin:0px 5px" class="nav navbar-nav navbar-right">
         @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
         {
             <li>
                 <img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" />
             </li>
         }
-        <li>
-            
+        <li>            
             @Html.ActionLink("Привіт, " + ProfileCritic.Instance.CurrentUserCritic + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Вийти</a></li>

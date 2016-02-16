@@ -134,13 +134,6 @@ namespace CriticWeb.Controllers
             return View(model);
         }
 
-        [HttpDelete]
-        public void Index()
-        {
-               //ProfileCritic.Instance.CurrentUserCritic.Image = null;
-               //ProfileCritic.Instance.CurrentUserCritic.Save();             
-        }
-
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
