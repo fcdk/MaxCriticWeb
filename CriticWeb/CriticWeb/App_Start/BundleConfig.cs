@@ -29,8 +29,15 @@ namespace CriticWeb
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/MainPage").Include(
-                      "~/Content/MainPage.css"));
+
+            bundles.Add(new StyleBundle("~/Content/tooltipstercss").Include(
+                      "~/Content/tooltipster.css"));
+
+            bundles.Add(new StyleBundle("~/Content/tooltipstercss").Include(
+                      "~/Content/tooltipster.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/tooltipsterjs").Include(
+                      "~/Scripts/jquery.tooltipster.min.js"));
         }
     }
 }

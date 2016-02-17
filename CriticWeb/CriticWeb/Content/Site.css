@@ -152,18 +152,28 @@ a:visited {
     border-radius: 4px;
 }
 
-.table-poster
-{
+.table-poster{
     height: 50px;
     width: 40px;
     border-radius: 3px;
 }
 
-.round-photo
-{
+.round-photo{
     height: 50px;
     width: 40px;
     border-radius: 100px;
+}
+
+.round-award{
+    height: 70px;
+    width: 60px;
+    border-radius: 100px;
+}
+
+.tooltip-img{
+    border-radius: 4px;
+    max-height: 180px;
+    max-width: 100px;
 }
 
 #summary p {
@@ -172,4 +182,8 @@ a:visited {
 
 iframe {
     border-radius: 8px;
+}
+
+.tooltip-img {
+    visibility:collapse;
 }

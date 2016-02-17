@@ -128,9 +128,22 @@
                                 </div>
                             </div>
                             <p><b>Короткий опис:</b> @Model.EntertainmentDetails.Summary</p>
-                            @if (Model.AwardsString != null && Model.AwardsString != String.Empty)
+                            @if (Model.Awards != null)
                             {
-                                <p><b>Нагороди:</b> @Model.AwardsString</p>
+                                <p>
+                                    <b>Нагороди:</b>
+                                    @foreach (var award in Model.Awards)
+                                    {
+                                        if (award.Image != null)
+                                        {
+                                            <img class="round-award" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
+                                        }
+                                        else
+                                        {
+                                            <img class="round-photo" src="http://s018.radikal.ru/i510/1304/68/75348d62601b.png" />
+                                        }
+                                    }
+                                </p>
                             }
                             @if (Model.EntertainmentDetails.BuyLink != null && Model.EntertainmentDetails.BuyLink != String.Empty)
                             {
@@ -338,10 +351,12 @@
                             <td><b>Режисери</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.MovieDirectors)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -354,21 +369,38 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                    @if (avgPoint != null)
-                                    {
-                                        if (avgPoint <= 35)
-                                        {
-                                            <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                        }
-                                        if (avgPoint > 35 && avgPoint < 70)
-                                        {
-                                            <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                        }
-                                        if (avgPoint >= 70)
-                                        {
-                                            <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                        }
-                                    }
+                                @if (avgCriticPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }    
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                }      
                             </tr>
                         }
                     }
@@ -378,10 +410,12 @@
                             <td><b>Автори сценарію</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.MoviePlotWriters)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -394,20 +428,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -418,10 +469,12 @@
                             <td><b>Головні герої</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.MoviePrincipalCasts)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -434,20 +487,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -458,10 +528,12 @@
                             <td><b>Актори</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.MovieCast)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -474,20 +546,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -498,10 +587,12 @@
                             <td><b>Продюсери</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.MovieProducers)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -514,20 +605,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -538,10 +646,12 @@
                             <td><b>Актори</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.GameCasts)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -554,20 +664,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -578,10 +705,12 @@
                             <td><b>Актори</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.TVCasts)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -594,20 +723,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -618,10 +764,12 @@
                             <td><b>Співаки</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.AlbumSingers)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td>
                                     @if (performer.Image != null)
@@ -634,20 +782,37 @@
                                     }
                                 </td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }
@@ -658,27 +823,46 @@
                             <td><b>Групи</b></td>
                             <td></td>
                             <td><b>Оцінка критиків</b></td>
+                            <td><b>Оцінка користувачів</b></td>
                         </tr>
                         foreach (var performer in Model.AlbumBands)
                         {
-                            int? avgPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
+                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
                             <tr>
                                 <td></td>
                                 <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgPoint != null)
+                                @if (avgCriticPoint == null)
                                 {
-                                    if (avgPoint <= 35)
-                                    {
-                                        <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint > 35 && avgPoint < 70)
-                                    {
-                                        <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                    }
-                                    if (avgPoint >= 70)
-                                    {
-                                        <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                    }
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgCriticPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgCriticPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint == null)
+                                {
+                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                }
+                                @if (avgUserPoint <= 35)
+                                {
+                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                {
+                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                }
+                                @if (avgUserPoint >= 70)
+                                {
+                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
                                 }
                             </tr>
                         }

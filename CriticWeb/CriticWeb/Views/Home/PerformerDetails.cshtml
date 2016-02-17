@@ -4,6 +4,16 @@
     ViewBag.Title = Model.PerformerViewModel;
 }
 
+@section scripts {
+<script>
+    $(document).ready(function () {
+        $('.round-award').tooltipster({
+            content: $(this).get('tooltipHTML')
+        });
+    });
+</script>
+}
+
 <div class="panel panel-default">
     <div class="panel-heading"><h4>@Model.PerformerViewModel</h4></div>
     <div class="panel-body">
@@ -89,9 +99,26 @@
                         {<b>Дата заснування:</b>} @dateOfBierth.ToShortDateString()</p>
                     }
                     <p>@Model.PerformerViewModel.Summary</p>
-                    @if (Model.AvardsString != null && Model.AvardsString != String.Empty)
+                    @if (Model.Awards != null)
                     {
-                        <p><b>Нагороди:</b> @Model.AvardsString</p>
+                        <p>
+                            <b>Нагороди:</b>
+                            @foreach (var award in Model.Awards)
+                            {
+                                if (award.Image != null)
+                                {   @*<div class="img-with-tooltip">*@
+                                        <img class="round-award" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
+                                        @*<div class="tooltipHTML">
+                                            <img class="tooltip-img" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
+                                        </div>*@
+                                    @*</div>*@
+                                }
+                                else
+                                {
+                                    <img class="round-award" src="http://s018.radikal.ru/i510/1304/68/75348d62601b.png" />
+                                }
+                            }
+                        </p>
                     }
                 </div>
             </div>
@@ -111,23 +138,11 @@
                     </div>
                     <div class="col-md-6">
                         <span class="pull-right">
-                            <ul class="nav nav-pills">
-                                @if (Model.Movies.Length != 0)
-                                {
-                                    <li class="active"><a data-toggle="pill" href="#movies">Фільми</a></li>
-                                }
-                                @if (Model.Games.Length != 0)
-                                {
-                                    <li><a data-toggle="pill" href="#games">Ігри</a></li>
-                                }
-                                @if (Model.TVSeries.Length != 0)
-                                {
-                                    <li><a data-toggle="pill" href="#tvseries">Серіали</a></li>
-                                }
-                                @if (Model.Albums.Length != 0)
-                                {
-                                    <li><a data-toggle="pill" href="#music">Музика</a></li>
-                                }                                
+                            <ul class="nav nav-pills">                              
+                                <li class="active"><a data-toggle="pill" href="#movies">Фільми</a></li>
+                                <li><a data-toggle="pill" href="#games">Ігри</a></li>
+                                <li><a data-toggle="pill" href="#tvseries">Серіали</a></li>
+                                <li><a data-toggle="pill" href="#music">Музика</a></li>                                                                       
                             </ul>
                         </span>
                     </div>
@@ -136,115 +151,762 @@
         </div>
         <div class="panel-body">
             <div class="tab-content">
-                @if (Model.Movies.Length != 0)
-                {
+                
                     <div id="movies" class="tab-pane fade in active">
+                        @if (Model.Movies.Length != 0)
+                        {
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#date">За датою</a></li>
+                                <li><a data-toggle="tab" href="#criticPoint">За оцінками критиків</a></li>
+                                <li><a data-toggle="tab" href="#userPoint">За оцінками користувачів</a></li>
+                            </ul>
 
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#date">За датою</a></li>
-                            <li><a data-toggle="tab" href="#criticPoint">За оцінками критиків</a></li>
-                            <li><a data-toggle="tab" href="#userPoint">За оцінками користувачів</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <div id="date" class="tab-pane fade in active">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Постер</th>
-                                            <th>Назва</th>
-                                            <th>Дата релізу</th>
-                                            <th>Оцінка критиків</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var entertainment in Model.MoviesByDate)
-                                        {
-                                            int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                            <div class="tab-content">
+                                <div id="date" class="tab-pane fade in active">
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
-                                                <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
-                                                <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
-                                                @if (avgPoint <= 35)
-                                                {
-                                                    <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                                }
-                                                @if (avgPoint > 35 && avgPoint < 70)
-                                                {
-                                                    <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                                }
-                                                @if (avgPoint >= 70)
-                                                {
-                                                    <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                                }
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="criticPoint" class="tab-pane fade">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Постер</th>
-                                            <th>Назва</th>
-                                            <th>Дата релізу</th>
-                                            <th>Оцінка критиків</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var entertainment in Model.MoviesByCriticPoint)
-                                        {
-                                            int? avgPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.MoviesByDate)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="criticPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
-                                                <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
-                                                <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
-                                                @if (avgPoint == null)
-                                                {
-                                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                                }
-                                                @if (avgPoint <= 35)
-                                                {
-                                                    <td><h4 class="point-table-red"><b>@avgPoint</b></h4></td>
-                                                }
-                                                @if (avgPoint > 35 && avgPoint < 70)
-                                                {
-                                                    <td><h4 class="point-table-yellow"><b>@avgPoint</b></h4></td>
-                                                }
-                                                @if (avgPoint >= 70)
-                                                {
-                                                    <td><h4 class="point-table-green"><b>@avgPoint</b></h4></td>
-                                                }
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.MoviesByCriticPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="userPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.MoviesByUserPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div id="userPoint" class="tab-pane fade">
-
-                            </div>
-                        </div>                        
-                    </div>
-                }
-                @if (Model.Games.Length != 0)
-                {
+                        }
+                        else
+                        {
+                                <h4 class="text-center">У виконавця відсутні фільми.</h4>
+                        }
+                    </div>                
+                
                     <div id="games" class="tab-pane">
+                        @if (Model.Games.Length != 0)
+                        {
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#date">За датою</a></li>
+                                <li><a data-toggle="tab" href="#criticPoint">За оцінками критиків</a></li>
+                                <li><a data-toggle="tab" href="#userPoint">За оцінками користувачів</a></li>
+                            </ul>
 
-                    </div>
-                }
-                @if (Model.TVSeries.Length != 0)
-                {
+                            <div class="tab-content">
+                                <div id="date" class="tab-pane fade in active">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.GamesByDate)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="criticPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.GamesByCriticPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="userPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.GamesByUserPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h4 class="text-center">У виконавця відсутні ігри.</h4>
+                        }
+                    </div>                
+                
                     <div id="tvseries" class="tab-pane">
+                        @if (Model.TVSeries.Length != 0)
+                        {
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#date">За датою</a></li>
+                                <li><a data-toggle="tab" href="#criticPoint">За оцінками критиків</a></li>
+                                <li><a data-toggle="tab" href="#userPoint">За оцінками користувачів</a></li>
+                            </ul>
 
+                            <div class="tab-content">
+                                <div id="date" class="tab-pane fade in active">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.TVSeriesByDate)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="criticPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.TVSeriesByCriticPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="userPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.TVSeriesByUserPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h4 class="text-center">У виконавця відсутні серіали.</h4>
+                        }
                     </div>
-                }
-                @if (Model.Albums.Length != 0)
-                {
+                         
                     <div id="music" class="tab-pane">
+                        @if (Model.Albums.Length != 0)
+                        {
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#date">За датою</a></li>
+                                <li><a data-toggle="tab" href="#criticPoint">За оцінками критиків</a></li>
+                                <li><a data-toggle="tab" href="#userPoint">За оцінками користувачів</a></li>
+                            </ul>
 
-                    </div>
-                }
+                            <div class="tab-content">
+                                <div id="date" class="tab-pane fade in active">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.AlbumsByDate)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="criticPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.AlbumsByCriticPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="userPoint" class="tab-pane fade">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Постер</th>
+                                                <th>Назва</th>
+                                                <th>Дата релізу</th>
+                                                <th>Оцінка критиків</th>
+                                                <th>Оцінка користувачів</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var entertainment in Model.AlbumsByUserPoint)
+                                            {
+                                                int? avgCriticPoint = entertainment.EntertainmentDL.AverageCriticPointForOneEntertainment();
+                                                int? avgUserPoint = entertainment.EntertainmentDL.AverageUserPointForOneEntertainment();
+                                                <tr>
+                                                    <td><img class="table-poster" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(entertainment.Poster))" /></td>
+                                                    <td><a href='@Url.Action("EntertainmentDetails", "Home", new { id = entertainment.EntertainmentDL.Id })'><h4><b>@entertainment</b></h4></a></td>
+                                                    <td><h4><b>@entertainment.ReleaseDate.ToShortDateString()</b></h4></td>
+                                                    @if (avgCriticPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint > 35 && avgCriticPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgCriticPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint == null)
+                                                    {
+                                                        <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint <= 35)
+                                                    {
+                                                        <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint > 35 && avgUserPoint < 70)
+                                                    {
+                                                        <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                    @if (avgUserPoint >= 70)
+                                                    {
+                                                        <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h4 class="text-center">У виконавця відсутня музика.</h4>
+                        }
+                    </div>                
             </div>
         </div>
     </div>

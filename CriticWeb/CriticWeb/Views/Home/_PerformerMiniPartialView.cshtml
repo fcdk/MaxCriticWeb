@@ -17,21 +17,22 @@
             </div>
             <div class="col-md-6">
                 <h5>Середня оцінка:</h5>
-                @if (Model.AvaragePerformerPoint != null)
+                @if (Model.AvaragePerformerPoint == null)
                 {
-                    if (Model.AvaragePerformerPoint <= 35)
-                    {
-                        <h4 class="point-actor-red">@Model.AvaragePerformerPoint</h4>
-                    }
-                    if (Model.AvaragePerformerPoint > 35 && Model.AvaragePerformerPoint < 70)
-                    {
-                        <h4 class="point-actor-yellow">@Model.AvaragePerformerPoint</h4>
-                    }
-                    if (Model.AvaragePerformerPoint >= 70)
-                    {
-                        <h4 class="point-actor-green">@Model.AvaragePerformerPoint</h4>
-                    }
+                    <h4><b>N/A</b></h4>
                 }
+                @if (Model.AvaragePerformerPoint <= 35)
+                {
+                <h4 class="point-actor-red"><b>@Model.AvaragePerformerPoint</b></h4>
+                }
+                @if (Model.AvaragePerformerPoint > 35 && Model.AvaragePerformerPoint < 70)
+                {
+                <h4 class="point-actor-yellow"><b>@Model.AvaragePerformerPoint</b></h4>
+                }
+                @if (Model.AvaragePerformerPoint >= 70)
+                {
+                <h4 class="point-actor-green"><b>@Model.AvaragePerformerPoint</b></h4>
+                }                    
                 <h5> Останні три фільми:</h5>
                 @if (Model.LastThreePerformersEntertainments != null)
                 {

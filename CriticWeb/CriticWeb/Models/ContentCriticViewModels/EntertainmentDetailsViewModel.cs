@@ -29,7 +29,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         private PerformerVM[] _tVCasts;
         private PerformerVM[] _albumSingers;
         private PerformerVM[] _albumBands;
-        private string _awardsString;
+        private AwardVM[] _awards;
         private Review[] _reviews;
         private int _positiveCriticReviewCount;
         private int _neutralCriticReviewCount;
@@ -145,9 +145,9 @@ namespace CriticWeb.Models.ContentCriticViewModels
             get { return _albumBands; }
         }
 
-        public string AwardsString
+        public AwardVM[] Awards
         {
-            get { return _awardsString; }
+            get { return _awards; }
         }
 
         public Review[] Reviews
@@ -229,7 +229,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _albumSingers = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumSinger);
             _albumBands = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumBand);
 
-            _awardsString = this.GetAwardStringByEntertainment(_entertainment.EntertainmentDL);
+            _awards = this.GetAwardByEntertainment(_entertainment.EntertainmentDL);
             
             _reviews = Review.GetReviewByEntertainment(_entertainment.EntertainmentDL);
 
@@ -308,20 +308,16 @@ namespace CriticWeb.Models.ContentCriticViewModels
             return result.ToArray();
         }
 
-        private string GetAwardStringByEntertainment(Entertainment entertainment)
+        private AwardVM[] GetAwardByEntertainment(Entertainment entertainment)
         {
             Award[] awards = Award.GetAwardByEntertainment(entertainment);
             if (awards == null)
                 return null;
 
-            string result = "";
+            List<AwardVM> result = new List<AwardVM>();
             foreach (var award in awards)
-            {
-                AwardVM awardVM = new AwardVM(award);
-                result += awardVM.ToString();
-                result += ", ";
-            }
-            return result.Remove(result.Length - 2, 2);
+                result.Add(new AwardVM(award));
+            return result.ToArray();
         }
 
     }

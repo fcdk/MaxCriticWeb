@@ -13,7 +13,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public int? AvarageCriticPoint { get; private set; }
         public int? AvarageUserPoint { get; private set; }
 
-        public string AvardsString { get; private set; }
+        public AwardVM[] Awards { get; private set; }
 
         public EntertainmentVM[] EntertainmentVMs { get; private set; }
         public EntertainmentVM[] Movies { get; private set; }
@@ -28,6 +28,10 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public EntertainmentVM[] GamesByCriticPoint { get; private set; }
         public EntertainmentVM[] TVSeriesByCriticPoint { get; private set; }
         public EntertainmentVM[] AlbumsByCriticPoint { get; private set; }
+        public EntertainmentVM[] MoviesByUserPoint { get; private set; }
+        public EntertainmentVM[] GamesByUserPoint { get; private set; }
+        public EntertainmentVM[] TVSeriesByUserPoint { get; private set; }
+        public EntertainmentVM[] AlbumsByUserPoint { get; private set; }
 
         public PerformerDetailsViewModel(Guid id)
         {
@@ -40,10 +44,10 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 AvarageUserPoint = Entertainment.AverageUserPointForEntertainments(entertainmentByPerformer);
             }
 
-            AvardsString = this.GetAwardStringByPerfomer();
+            Awards = this.GetAwardByPerfomer();
 
             EntertainmentVMs = this.GetEntertainmentVMByPerformer();
-            Movies = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Movie ).ToArray();
+            Movies = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Movie).ToArray();
             Games = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Game).ToArray();
             TVSeries = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.TVSeries).ToArray();
             Albums = Array.FindAll(EntertainmentVMs, (ent) => ent.EntertainmentType == Entertainment.Type.Album).ToArray();
@@ -57,22 +61,23 @@ namespace CriticWeb.Models.ContentCriticViewModels
             GamesByCriticPoint = Games.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
             TVSeriesByCriticPoint = TVSeries.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
             AlbumsByCriticPoint = Albums.OrderByDescending((ent) => ent.EntertainmentDL.AverageCriticPointForOneEntertainment()).ToArray();
+
+            MoviesByUserPoint = Movies.OrderByDescending((ent) => ent.EntertainmentDL.AverageUserPointForOneEntertainment()).ToArray();
+            GamesByUserPoint = Games.OrderByDescending((ent) => ent.EntertainmentDL.AverageUserPointForOneEntertainment()).ToArray();
+            TVSeriesByUserPoint = TVSeries.OrderByDescending((ent) => ent.EntertainmentDL.AverageUserPointForOneEntertainment()).ToArray();
+            AlbumsByUserPoint = Albums.OrderByDescending((ent) => ent.EntertainmentDL.AverageUserPointForOneEntertainment()).ToArray();
         }
 
-        private string GetAwardStringByPerfomer()
+        private AwardVM[] GetAwardByPerfomer()
         {
             Award[] awards = Award.GetAwardByPerformer(PerformerViewModel.PerformerDL);
             if (awards == null)
                 return null;
 
-            string result = "";
+            List<AwardVM> result = new List<AwardVM>();
             foreach (var award in awards)
-            {
-                AwardVM awardVM = new AwardVM(award);
-                result += awardVM.ToString();
-                result += ", ";
-            }
-            return result.Remove(result.Length - 2, 2);
+                result.Add(new AwardVM(award));
+            return result.ToArray();
         }
 
         private EntertainmentVM[] GetEntertainmentVMByPerformer()
