@@ -10,7 +10,7 @@
     function delete_image()
     {
         $(".avatar").remove();
-        $("#delete-img-btn").hide();
+        $("#delete-img-btn").remove();
         @{ delImg = true; }
     }
 </script>
@@ -151,19 +151,19 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Image, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="row">                
-                    @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
-                    {
-                        <div class="col-md-1">
-                            <img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" />                            
-                        </div>
-                        <div class="col-md-2">
-                            <button id="delete-img-btn" type="button" class="btn btn-default" onclick="delete_image()">Видалити</button>
-                        </div>                        
-                    }
-                <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
                     <input type="file" name="uploadImage" />
-                </div>
+                </div>    
+                @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
+                {
+                    <div class="col-md-1">
+                        <img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" />
+                    </div>
+                    <div class="col-md-7">
+                        <button id="delete-img-btn" type="button" class="btn btn-default" onclick="delete_image()">Видалити</button>
+                    </div>
+                }                 
             </div>
         </div>
     </div>
