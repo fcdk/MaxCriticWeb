@@ -1,0 +1,71 @@
+﻿@using CriticWeb.Models.Data
+@using CriticWeb.Models.ContentCriticViewModels
+@model CriticWeb.Models.ContentCriticViewModels._PerformerAndEntertainmentViewModel
+
+@{
+    string urlAction = "";
+    if (Model.ContentType == _PerformerAndEntertainmentViewModel.Content.Performer)
+    {
+        urlAction = Url.Action("PerformerDetails", "Home", new { id = ((PerformerVM)Model.PerformerOrEntertainment).PerformerDL.Id });
+    }
+    if (Model.ContentType == _PerformerAndEntertainmentViewModel.Content.Entertainment)
+    {
+        urlAction = Url.Action("EntertainmentDetails", "Home", new { id = ((EntertainmentVM)Model.PerformerOrEntertainment).EntertainmentDL.Id });
+    }
+}
+
+<a href='@urlAction'>    
+    <div class="thumbnail">
+        <div class="row">
+            <div class="performer-or-entertainment-block">
+                <div class="col-md-9">
+                    @if (Model.Image != null)
+                    {
+                        <img class="performer-or-entertainment-block-img" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.Image))" />
+                    }
+                    else
+                    {
+                        <img class="performer-or-entertainment-block-img" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
+                    }
+                </div>
+                <div class="col-md-3">
+                    <h4 class="name-actor-on-main-page"><b>@Model.PerformerOrEntertainment</b></h4>
+                    <h5>Критики:</h5>
+                    @if (Model.AvarageCriticPoint == null)
+                    {
+                        <h4 class="point-performer-or-entertainment-not-available"><b>N/A</b></h4>
+                    }
+                    @if (Model.AvarageCriticPoint <= 35)
+                    {
+                        <h4 class="point-performer-or-entertainment-red"><b>@Model.AvarageCriticPoint</b></h4>
+                    }
+                    @if (Model.AvarageCriticPoint > 35 && Model.AvarageCriticPoint < 70)
+                    {
+                        <h4 class="point-performer-or-entertainment-yellow"><b>@Model.AvarageCriticPoint</b></h4>
+                    }
+                    @if (Model.AvarageCriticPoint >= 70)
+                    {
+                        <h4 class="point-performer-or-entertainment-green"><b>@Model.AvarageCriticPoint</b></h4>
+                    }
+                    <h5>Користувачі:</h5>
+                    @if (Model.AvarageUserPoint == null)
+                    {
+                        <h4 class="point-performer-or-entertainment-not-available"><b>N/A</b></h4>
+                    }
+                    @if (Model.AvarageUserPoint <= 35)
+                    {
+                        <h4 class="point-performer-or-entertainment-red"><b>@Model.AvarageUserPoint</b></h4>
+                    }
+                    @if (Model.AvarageUserPoint > 35 && Model.AvarageUserPoint < 70)
+                    {
+                        <h4 class="point-performer-or-entertainment-yellow"><b>@Model.AvarageUserPoint</b></h4>
+                    }
+                    @if (Model.AvarageUserPoint >= 70)
+                    {
+                        <h4 class="point-performer-or-entertainment-green"><b>@Model.AvarageUserPoint</b></h4>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

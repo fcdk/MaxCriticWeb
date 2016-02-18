@@ -40,5 +40,10 @@ namespace CriticWeb.Controllers
             return View(new PerformerDetailsViewModel(id));
         }
 
+        public PartialViewResult _PerformerAndEntertainmentPartialView()
+        {
+            return PartialView();
+        }
+
     }
 }

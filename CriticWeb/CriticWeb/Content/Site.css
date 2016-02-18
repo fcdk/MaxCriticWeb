@@ -30,6 +30,22 @@ body {
         background-color: #FAFAFA;
 }
 
+a .thumbnail:hover {
+    background-color: #f1f1f1;
+    
+}
+
+a:hover {
+    text-decoration:none;
+    color: #000247;
+    text-shadow:initial;
+}
+
+a:visited {
+    text-decoration:none;
+    color: none;
+}
+
 .point-entertainment-green {
     background-color: green;
     border-radius: 10px;
@@ -64,6 +80,37 @@ body {
 
 .point-actor-red {
     color: red;
+}
+
+.point-performer-or-entertainment-green {
+    background-color: green;
+    border-radius: 100px;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+    width: 40px;
+}
+
+.point-performer-or-entertainment-yellow {
+    background-color: #FFC400;
+    border-radius: 100px;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+    width: 40px;    
+}
+
+.point-performer-or-entertainment-red {
+    background-color: red;
+    border-radius: 100px;
+    color: white;
+    text-align: center;   
+    font-size: x-large;
+    width: 40px;
+}
+
+.point-performer-or-entertainment-not-available {
+    font-size: x-large;
 }
 
 .point-table-green {
@@ -104,22 +151,6 @@ body {
 
 .name-entertainment-on-main-page{
     height:70px;
-}
-
-a .thumbnail:hover {
-    background-color: #f1f1f1;
-    
-}
-
-a:hover {
-    text-decoration:none;
-    color: #000247;
-    text-shadow:initial;
-}
-
-a:visited {
-    text-decoration:none;
-    color: none;
 }
 
 .name-actor-on-main-page{
@@ -170,12 +201,6 @@ a:visited {
     border-radius: 100px;
 }
 
-.tooltip-img{
-    border-radius: 4px;
-    max-height: 180px;
-    max-width: 100px;
-}
-
 #summary p {
     text-align: left;
 }
@@ -186,4 +211,21 @@ iframe {
 
 .tooltipHTML {
     display:none;
+}
+
+.tooltip-img{
+    border-radius: 4px;
+    max-height: 180px;
+    max-width: 100px;
+}
+
+.performer-or-entertainment-block{
+    height: 180px;
+    width: 200px;
+}
+
+.performer-or-entertainment-block-img {
+    border-radius: 4px;
+    max-height: 180px;
+    max-width: 130px;
 }

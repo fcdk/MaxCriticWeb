@@ -1,4 +1,5 @@
-﻿@using CriticWeb.Models.Data
+﻿@using CriticWeb.Models.ContentCriticViewModels
+@using CriticWeb.Models.Data
 @using CriticWeb.DataLayer
 @model CriticWeb.Models.ContentCriticViewModels.EntertainmentDetailsViewModel
 
@@ -8,14 +9,14 @@
 
 @section scripts {
     <script>
-    $('.round-award').each(function (index, value) {
-        var tooltipHTMLCode = $(this).next().clone();
-        tooltipHTMLCode.show();
-        $(this).tooltipster(
-        {
-            content: tooltipHTMLCode
+        $('.round-award').each(function (index, value) {
+            var tooltipHTMLCode = $(this).next().clone();
+            tooltipHTMLCode.show();
+            $(this).tooltipster(
+            {
+                content: tooltipHTMLCode
+            });
         });
-    });
     </script>
 }
 
@@ -379,6 +380,27 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Учасники</h4></div>
         <div class="panel-body">
+            @if (Model.MovieCast != null)
+            {
+                for (int i = 0; i < Model.MovieCast.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieCast[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.MovieCast.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieCast[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.MovieCast.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieCast[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }
             <table class="table table-striped">
                 <tbody>
                     @if (Model.MovieDirectors != null)
