@@ -184,6 +184,6 @@ iframe {
     border-radius: 8px;
 }
 
-.tooltip-img {
-    visibility:collapse;
+.tooltipHTML {
+    display:none;
 }

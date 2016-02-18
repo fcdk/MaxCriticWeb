@@ -1,8 +1,22 @@
-﻿@using CriticWeb.DataLayer
+﻿@using CriticWeb.Models.Data
+@using CriticWeb.DataLayer
 @model CriticWeb.Models.ContentCriticViewModels.EntertainmentDetailsViewModel
 
 @{
     ViewBag.Title = Model.EntertainmentDetails;
+}
+
+@section scripts {
+    <script>
+    $('.round-award').each(function (index, value) {
+        var tooltipHTMLCode = $(this).next().clone();
+        tooltipHTMLCode.show();
+        $(this).tooltipster(
+        {
+            content: tooltipHTMLCode
+        });
+    });
+    </script>
 }
 
 <div class="panel panel-default">
@@ -134,14 +148,36 @@
                                     <b>Нагороди:</b>
                                     @foreach (var award in Model.Awards)
                                     {
-                                        if (award.Image != null)
-                                        {
-                                            <img class="round-award" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
-                                        }
-                                        else
-                                        {
-                                            <img class="round-photo" src="http://s018.radikal.ru/i510/1304/68/75348d62601b.png" />
-                                        }
+                                        <span class="img-with-tooltip">
+                                            @if (award.Image != null)
+                                            {
+                                                <img class="round-award" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
+                                            }
+                                            else
+                                            {
+                                                <img class="round-award" src="http://s018.radikal.ru/i510/1304/68/75348d62601b.png" />
+                                            }
+                                            <span class="tooltipHTML">
+                                                <span class="row text-center">
+                                                    <span class="col-md-4">
+                                                        <img class="tooltip-img" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(award.Image))" />
+                                                    </span>
+                                                    <span class="col-md-8">
+                                                        <b>@award.Name</b><br />
+                                                        <b>@award.Date.ToShortDateString()</b><br />
+                                                        <b>@award.Nomination</b><br />
+                                                        @if (award.PerformerId != null)
+                                                        {
+                                                            <b>Виконавець: </b>@(new PerformerVM(Performer.GetById((Guid)award.PerformerId)))<br />
+                                                        }
+                                                        @if (award.EntertainmentId != null)
+                                                        {
+                                                            <b>Контент: </b>@(new EntertainmentVM(Entertainment.GetById((Guid)award.EntertainmentId)))
+                                                        }                                                               
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </span>
                                     }
                                 </p>
                             }
