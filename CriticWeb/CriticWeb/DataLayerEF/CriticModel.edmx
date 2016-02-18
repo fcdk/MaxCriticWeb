@@ -1,0 +1,1150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище maxcriticModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Award">
+          <Key>
+            <PropertyRef Name="AwardId" />
+          </Key>
+          <Property Name="AwardId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PerformerId" Type="uniqueidentifier" />
+          <Property Name="EntertainmentId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Nomination" Type="nvarchar" MaxLength="512" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Image" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Entertainment">
+          <Key>
+            <PropertyRef Name="EntertainmentId" />
+          </Key>
+          <Property Name="EntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntertainmentType" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="ReleaseDate" Type="date" Nullable="false" />
+          <Property Name="Company" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Poster" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BuyLink" Type="nvarchar(max)" />
+          <Property Name="MainLanguage" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Rating" Type="nvarchar" MaxLength="64" />
+          <Property Name="RatingComment" Type="nvarchar(max)" />
+          <Property Name="MovieRuntimeMinute" Type="int" />
+          <Property Name="OfficialSite" Type="nvarchar(max)" />
+          <Property Name="MovieCountries" Type="nvarchar(max)" />
+          <Property Name="TVSeason" Type="tinyint" />
+          <Property Name="Budget" Type="money" />
+          <Property Name="TrailerLink" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentGenreId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="GenreType" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Summary" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GenreInEntertainment">
+          <Key>
+            <PropertyRef Name="GenreInEntertainmentId" />
+          </Key>
+          <Property Name="GenreInEntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GenreId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Performer">
+          <Key>
+            <PropertyRef Name="PerformerId" />
+          </Key>
+          <Property Name="PerformerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="256" />
+          <Property Name="PerformerType" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="Summary" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PerformerInEntertainment">
+          <Key>
+            <PropertyRef Name="PerformerInEntertainmentId" />
+          </Key>
+          <Property Name="PerformerInEntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PerformerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PerformerRole" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewId" />
+          </Key>
+          <Property Name="ReviewId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Point" Type="tinyint" Nullable="false" />
+          <Property Name="Opinion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Time" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="Link" Type="nvarchar(max)" />
+          <Property Name="Publication" Type="nvarchar" MaxLength="256" />
+          <Property Name="Helpful" Type="int" Nullable="false" />
+          <Property Name="Unhelpful" Type="int" Nullable="false" />
+          <Property Name="CheckedByAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Name="SongId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Lyrics" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SongInEntertainment">
+          <Key>
+            <PropertyRef Name="SongInEntertainmentId" />
+          </Key>
+          <Property Name="SongInEntertainmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SongId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntertainmentId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCritic">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="256" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="20" />
+          <Property Name="Country" Type="nvarchar" MaxLength="256" />
+          <Property Name="PublicationCompany" Type="nvarchar" MaxLength="256" />
+          <Property Name="UserRole" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Image" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Award__Entertain__0C85DE4D">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="0..1" />
+          <End Role="Award" Type="Self.Award" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="Award">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Award__Performer__0B91BA14">
+          <End Role="Performer" Type="Self.Performer" Multiplicity="0..1" />
+          <End Role="Award" Type="Self.Award" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performer">
+              <PropertyRef Name="PerformerId" />
+            </Principal>
+            <Dependent Role="Award">
+              <PropertyRef Name="PerformerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Genre__ParentGen__0D7A0286">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="0..1" />
+          <End Role="Genre1" Type="Self.Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Genre1">
+              <PropertyRef Name="ParentGenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GenreInEn__Enter__0E6E26BF">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreInEntertainment" Type="Self.GenreInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="GenreInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GenreInEn__Genre__0F624AF8">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreInEntertainment" Type="Self.GenreInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="GenreInEntertainment">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Performer__Enter__114A936A">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PerformerInEntertainment" Type="Self.PerformerInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="PerformerInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Performer__Perfo__10566F31">
+          <End Role="Performer" Type="Self.Performer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PerformerInEntertainment" Type="Self.PerformerInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performer">
+              <PropertyRef Name="PerformerId" />
+            </Principal>
+            <Dependent Role="PerformerInEntertainment">
+              <PropertyRef Name="PerformerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Entertai__1332DBDC">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__UserId__123EB7A3">
+          <End Role="UserCritic" Type="Self.UserCritic" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCritic">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SongInEnt__Enter__151B244E">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongInEntertainment" Type="Self.SongInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="SongInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SongInEnt__SongI__14270015">
+          <End Role="Song" Type="Self.Song" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongInEntertainment" Type="Self.SongInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="SongInEntertainment">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище maxcriticModelContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Award" EntityType="Self.Award" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entertainment" EntityType="Self.Entertainment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GenreInEntertainment" EntityType="Self.GenreInEntertainment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Performer" EntityType="Self.Performer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PerformerInEntertainment" EntityType="Self.PerformerInEntertainment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Song" EntityType="Self.Song" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SongInEntertainment" EntityType="Self.SongInEntertainment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCritic" EntityType="Self.UserCritic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Award__Entertain__0C85DE4D" Association="Self.FK__Award__Entertain__0C85DE4D">
+            <End Role="Entertainment" EntitySet="Entertainment" />
+            <End Role="Award" EntitySet="Award" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Award__Performer__0B91BA14" Association="Self.FK__Award__Performer__0B91BA14">
+            <End Role="Performer" EntitySet="Performer" />
+            <End Role="Award" EntitySet="Award" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Genre__ParentGen__0D7A0286" Association="Self.FK__Genre__ParentGen__0D7A0286">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Genre1" EntitySet="Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GenreInEn__Enter__0E6E26BF" Association="Self.FK__GenreInEn__Enter__0E6E26BF">
+            <End Role="Entertainment" EntitySet="Entertainment" />
+            <End Role="GenreInEntertainment" EntitySet="GenreInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GenreInEn__Genre__0F624AF8" Association="Self.FK__GenreInEn__Genre__0F624AF8">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="GenreInEntertainment" EntitySet="GenreInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Performer__Enter__114A936A" Association="Self.FK__Performer__Enter__114A936A">
+            <End Role="Entertainment" EntitySet="Entertainment" />
+            <End Role="PerformerInEntertainment" EntitySet="PerformerInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Performer__Perfo__10566F31" Association="Self.FK__Performer__Perfo__10566F31">
+            <End Role="Performer" EntitySet="Performer" />
+            <End Role="PerformerInEntertainment" EntitySet="PerformerInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Entertai__1332DBDC" Association="Self.FK__Review__Entertai__1332DBDC">
+            <End Role="Entertainment" EntitySet="Entertainment" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__UserId__123EB7A3" Association="Self.FK__Review__UserId__123EB7A3">
+            <End Role="UserCritic" EntitySet="UserCritic" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SongInEnt__Enter__151B244E" Association="Self.FK__SongInEnt__Enter__151B244E">
+            <End Role="Entertainment" EntitySet="Entertainment" />
+            <End Role="SongInEntertainment" EntitySet="SongInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SongInEnt__SongI__14270015" Association="Self.FK__SongInEnt__SongI__14270015">
+            <End Role="Song" EntitySet="Song" />
+            <End Role="SongInEntertainment" EntitySet="SongInEntertainment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="maxcriticModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Award">
+          <Key>
+            <PropertyRef Name="AwardId" />
+          </Key>
+          <Property Name="AwardId" Type="Guid" Nullable="false" />
+          <Property Name="PerformerId" Type="Guid" />
+          <Property Name="EntertainmentId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nomination" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Entertainment" Relationship="Self.FK__Award__Entertain__0C85DE4D" FromRole="Award" ToRole="Entertainment" />
+          <NavigationProperty Name="Performer" Relationship="Self.FK__Award__Performer__0B91BA14" FromRole="Award" ToRole="Performer" />
+        </EntityType>
+        <EntityType Name="Entertainment">
+          <Key>
+            <PropertyRef Name="EntertainmentId" />
+          </Key>
+          <Property Name="EntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="EntertainmentType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Company" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Poster" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BuyLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MainLanguage" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rating" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="RatingComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MovieRuntimeMinute" Type="Int32" />
+          <Property Name="OfficialSite" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MovieCountries" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TVSeason" Type="Byte" />
+          <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TrailerLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Awards" Relationship="Self.FK__Award__Entertain__0C85DE4D" FromRole="Entertainment" ToRole="Award" />
+          <NavigationProperty Name="GenreInEntertainments" Relationship="Self.FK__GenreInEn__Enter__0E6E26BF" FromRole="Entertainment" ToRole="GenreInEntertainment" />
+          <NavigationProperty Name="PerformerInEntertainments" Relationship="Self.FK__Performer__Enter__114A936A" FromRole="Entertainment" ToRole="PerformerInEntertainment" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__Entertai__1332DBDC" FromRole="Entertainment" ToRole="Review" />
+          <NavigationProperty Name="SongInEntertainments" Relationship="Self.FK__SongInEnt__Enter__151B244E" FromRole="Entertainment" ToRole="SongInEntertainment" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="Guid" Nullable="false" />
+          <Property Name="ParentGenreId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GenreType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Genre1" Relationship="Self.FK__Genre__ParentGen__0D7A0286" FromRole="Genre" ToRole="Genre1" />
+          <NavigationProperty Name="Genre2" Relationship="Self.FK__Genre__ParentGen__0D7A0286" FromRole="Genre1" ToRole="Genre" />
+          <NavigationProperty Name="GenreInEntertainments" Relationship="Self.FK__GenreInEn__Genre__0F624AF8" FromRole="Genre" ToRole="GenreInEntertainment" />
+        </EntityType>
+        <EntityType Name="GenreInEntertainment">
+          <Key>
+            <PropertyRef Name="GenreInEntertainmentId" />
+          </Key>
+          <Property Name="GenreInEntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="EntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="GenreId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Entertainment" Relationship="Self.FK__GenreInEn__Enter__0E6E26BF" FromRole="GenreInEntertainment" ToRole="Entertainment" />
+          <NavigationProperty Name="Genre" Relationship="Self.FK__GenreInEn__Genre__0F624AF8" FromRole="GenreInEntertainment" ToRole="Genre" />
+        </EntityType>
+        <EntityType Name="Performer">
+          <Key>
+            <PropertyRef Name="PerformerId" />
+          </Key>
+          <Property Name="PerformerId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PerformerType" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Awards" Relationship="Self.FK__Award__Performer__0B91BA14" FromRole="Performer" ToRole="Award" />
+          <NavigationProperty Name="PerformerInEntertainments" Relationship="Self.FK__Performer__Perfo__10566F31" FromRole="Performer" ToRole="PerformerInEntertainment" />
+        </EntityType>
+        <EntityType Name="PerformerInEntertainment">
+          <Key>
+            <PropertyRef Name="PerformerInEntertainmentId" />
+          </Key>
+          <Property Name="PerformerInEntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="PerformerId" Type="Guid" Nullable="false" />
+          <Property Name="EntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="PerformerRole" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Entertainment" Relationship="Self.FK__Performer__Enter__114A936A" FromRole="PerformerInEntertainment" ToRole="Entertainment" />
+          <NavigationProperty Name="Performer" Relationship="Self.FK__Performer__Perfo__10566F31" FromRole="PerformerInEntertainment" ToRole="Performer" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewId" />
+          </Key>
+          <Property Name="ReviewId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="EntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="Point" Type="Byte" Nullable="false" />
+          <Property Name="Opinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Time" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Publication" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Helpful" Type="Int32" Nullable="false" />
+          <Property Name="Unhelpful" Type="Int32" Nullable="false" />
+          <Property Name="CheckedByAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entertainment" Relationship="Self.FK__Review__Entertai__1332DBDC" FromRole="Review" ToRole="Entertainment" />
+          <NavigationProperty Name="UserCritic" Relationship="Self.FK__Review__UserId__123EB7A3" FromRole="Review" ToRole="UserCritic" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Name="SongId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Lyrics" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SongInEntertainments" Relationship="Self.FK__SongInEnt__SongI__14270015" FromRole="Song" ToRole="SongInEntertainment" />
+        </EntityType>
+        <EntityType Name="SongInEntertainment">
+          <Key>
+            <PropertyRef Name="SongInEntertainmentId" />
+          </Key>
+          <Property Name="SongInEntertainmentId" Type="Guid" Nullable="false" />
+          <Property Name="SongId" Type="Guid" Nullable="false" />
+          <Property Name="EntertainmentId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Entertainment" Relationship="Self.FK__SongInEnt__Enter__151B244E" FromRole="SongInEntertainment" ToRole="Entertainment" />
+          <NavigationProperty Name="Song" Relationship="Self.FK__SongInEnt__SongI__14270015" FromRole="SongInEntertainment" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="UserCritic">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PublicationCompany" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UserRole" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__UserId__123EB7A3" FromRole="UserCritic" ToRole="Review" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Award__Entertain__0C85DE4D">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="0..1" />
+          <End Role="Award" Type="Self.Award" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="Award">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Award__Performer__0B91BA14">
+          <End Role="Performer" Type="Self.Performer" Multiplicity="0..1" />
+          <End Role="Award" Type="Self.Award" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performer">
+              <PropertyRef Name="PerformerId" />
+            </Principal>
+            <Dependent Role="Award">
+              <PropertyRef Name="PerformerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GenreInEn__Enter__0E6E26BF">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreInEntertainment" Type="Self.GenreInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="GenreInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Performer__Enter__114A936A">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PerformerInEntertainment" Type="Self.PerformerInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="PerformerInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Entertai__1332DBDC">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SongInEnt__Enter__151B244E">
+          <End Role="Entertainment" Type="Self.Entertainment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongInEntertainment" Type="Self.SongInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Principal>
+            <Dependent Role="SongInEntertainment">
+              <PropertyRef Name="EntertainmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Genre__ParentGen__0D7A0286">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="0..1" />
+          <End Role="Genre1" Type="Self.Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Genre1">
+              <PropertyRef Name="ParentGenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GenreInEn__Genre__0F624AF8">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GenreInEntertainment" Type="Self.GenreInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="GenreInEntertainment">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Performer__Perfo__10566F31">
+          <End Role="Performer" Type="Self.Performer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PerformerInEntertainment" Type="Self.PerformerInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performer">
+              <PropertyRef Name="PerformerId" />
+            </Principal>
+            <Dependent Role="PerformerInEntertainment">
+              <PropertyRef Name="PerformerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__UserId__123EB7A3">
+          <End Role="UserCritic" Type="Self.UserCritic" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCritic">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SongInEnt__SongI__14270015">
+          <End Role="Song" Type="Self.Song" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SongInEntertainment" Type="Self.SongInEntertainment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="SongInEntertainment">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="maxcriticEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Awards" EntityType="Self.Award" />
+          <EntitySet Name="Entertainments" EntityType="Self.Entertainment" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="GenreInEntertainments" EntityType="Self.GenreInEntertainment" />
+          <EntitySet Name="Performers" EntityType="Self.Performer" />
+          <EntitySet Name="PerformerInEntertainments" EntityType="Self.PerformerInEntertainment" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="Songs" EntityType="Self.Song" />
+          <EntitySet Name="SongInEntertainments" EntityType="Self.SongInEntertainment" />
+          <EntitySet Name="UserCritics" EntityType="Self.UserCritic" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Award__Entertain__0C85DE4D" Association="Self.FK__Award__Entertain__0C85DE4D">
+            <End Role="Entertainment" EntitySet="Entertainments" />
+            <End Role="Award" EntitySet="Awards" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Award__Performer__0B91BA14" Association="Self.FK__Award__Performer__0B91BA14">
+            <End Role="Performer" EntitySet="Performers" />
+            <End Role="Award" EntitySet="Awards" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GenreInEn__Enter__0E6E26BF" Association="Self.FK__GenreInEn__Enter__0E6E26BF">
+            <End Role="Entertainment" EntitySet="Entertainments" />
+            <End Role="GenreInEntertainment" EntitySet="GenreInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Performer__Enter__114A936A" Association="Self.FK__Performer__Enter__114A936A">
+            <End Role="Entertainment" EntitySet="Entertainments" />
+            <End Role="PerformerInEntertainment" EntitySet="PerformerInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Entertai__1332DBDC" Association="Self.FK__Review__Entertai__1332DBDC">
+            <End Role="Entertainment" EntitySet="Entertainments" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SongInEnt__Enter__151B244E" Association="Self.FK__SongInEnt__Enter__151B244E">
+            <End Role="Entertainment" EntitySet="Entertainments" />
+            <End Role="SongInEntertainment" EntitySet="SongInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Genre__ParentGen__0D7A0286" Association="Self.FK__Genre__ParentGen__0D7A0286">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="Genre1" EntitySet="Genres" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GenreInEn__Genre__0F624AF8" Association="Self.FK__GenreInEn__Genre__0F624AF8">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="GenreInEntertainment" EntitySet="GenreInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Performer__Perfo__10566F31" Association="Self.FK__Performer__Perfo__10566F31">
+            <End Role="Performer" EntitySet="Performers" />
+            <End Role="PerformerInEntertainment" EntitySet="PerformerInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__UserId__123EB7A3" Association="Self.FK__Review__UserId__123EB7A3">
+            <End Role="UserCritic" EntitySet="UserCritics" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SongInEnt__SongI__14270015" Association="Self.FK__SongInEnt__SongI__14270015">
+            <End Role="Song" EntitySet="Songs" />
+            <End Role="SongInEntertainment" EntitySet="SongInEntertainments" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище maxcriticModelContainer" CdmEntityContainer="maxcriticEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="maxcriticModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="maxcriticModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="maxcriticModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="maxcriticModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="maxcriticModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Awards">
+            <EntityTypeMapping TypeName="maxcriticModel.Award">
+              <MappingFragment StoreEntitySet="Award">
+                <ScalarProperty Name="AwardId" ColumnName="AwardId" />
+                <ScalarProperty Name="PerformerId" ColumnName="PerformerId" />
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Nomination" ColumnName="Nomination" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entertainments">
+            <EntityTypeMapping TypeName="maxcriticModel.Entertainment">
+              <MappingFragment StoreEntitySet="Entertainment">
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+                <ScalarProperty Name="EntertainmentType" ColumnName="EntertainmentType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Poster" ColumnName="Poster" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="BuyLink" ColumnName="BuyLink" />
+                <ScalarProperty Name="MainLanguage" ColumnName="MainLanguage" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="RatingComment" ColumnName="RatingComment" />
+                <ScalarProperty Name="MovieRuntimeMinute" ColumnName="MovieRuntimeMinute" />
+                <ScalarProperty Name="OfficialSite" ColumnName="OfficialSite" />
+                <ScalarProperty Name="MovieCountries" ColumnName="MovieCountries" />
+                <ScalarProperty Name="TVSeason" ColumnName="TVSeason" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="TrailerLink" ColumnName="TrailerLink" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="maxcriticModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="ParentGenreId" ColumnName="ParentGenreId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GenreType" ColumnName="GenreType" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GenreInEntertainments">
+            <EntityTypeMapping TypeName="maxcriticModel.GenreInEntertainment">
+              <MappingFragment StoreEntitySet="GenreInEntertainment">
+                <ScalarProperty Name="GenreInEntertainmentId" ColumnName="GenreInEntertainmentId" />
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Performers">
+            <EntityTypeMapping TypeName="maxcriticModel.Performer">
+              <MappingFragment StoreEntitySet="Performer">
+                <ScalarProperty Name="PerformerId" ColumnName="PerformerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="PerformerType" ColumnName="PerformerType" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerformerInEntertainments">
+            <EntityTypeMapping TypeName="maxcriticModel.PerformerInEntertainment">
+              <MappingFragment StoreEntitySet="PerformerInEntertainment">
+                <ScalarProperty Name="PerformerInEntertainmentId" ColumnName="PerformerInEntertainmentId" />
+                <ScalarProperty Name="PerformerId" ColumnName="PerformerId" />
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+                <ScalarProperty Name="PerformerRole" ColumnName="PerformerRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="maxcriticModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="ReviewId" ColumnName="ReviewId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Opinion" ColumnName="Opinion" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Publication" ColumnName="Publication" />
+                <ScalarProperty Name="Helpful" ColumnName="Helpful" />
+                <ScalarProperty Name="Unhelpful" ColumnName="Unhelpful" />
+                <ScalarProperty Name="CheckedByAdmin" ColumnName="CheckedByAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="maxcriticModel.Song">
+              <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Lyrics" ColumnName="Lyrics" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SongInEntertainments">
+            <EntityTypeMapping TypeName="maxcriticModel.SongInEntertainment">
+              <MappingFragment StoreEntitySet="SongInEntertainment">
+                <ScalarProperty Name="SongInEntertainmentId" ColumnName="SongInEntertainmentId" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="EntertainmentId" ColumnName="EntertainmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCritics">
+            <EntityTypeMapping TypeName="maxcriticModel.UserCritic">
+              <MappingFragment StoreEntitySet="UserCritic">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PublicationCompany" ColumnName="PublicationCompany" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="maxcriticModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

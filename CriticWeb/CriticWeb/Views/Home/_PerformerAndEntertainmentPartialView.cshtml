@@ -1,14 +1,14 @@
 ﻿@using CriticWeb.Models.Data
 @using CriticWeb.Models.ContentCriticViewModels
-@model CriticWeb.Models.ContentCriticViewModels._PerformerAndEntertainmentViewModel
+@model CriticWeb.Models.ContentCriticViewModels.PerformerAndEntertainmentViewModel
 
 @{
     string urlAction = "";
-    if (Model.ContentType == _PerformerAndEntertainmentViewModel.Content.Performer)
+    if (Model.ContentType == PerformerAndEntertainmentViewModel.Content.Performer)
     {
         urlAction = Url.Action("PerformerDetails", "Home", new { id = ((PerformerVM)Model.PerformerOrEntertainment).PerformerDL.Id });
     }
-    if (Model.ContentType == _PerformerAndEntertainmentViewModel.Content.Entertainment)
+    if (Model.ContentType == PerformerAndEntertainmentViewModel.Content.Entertainment)
     {
         urlAction = Url.Action("EntertainmentDetails", "Home", new { id = ((EntertainmentVM)Model.PerformerOrEntertainment).EntertainmentDL.Id });
     }

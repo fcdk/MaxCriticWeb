@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fc1fb108289340f98b5aeb92fd7dee9c" Name="Diagram1">
+        <EntityTypeShape EntityType="maxcriticModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.AspNetRole" Width="1.5" PointX="8.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.AspNetUserClaim" Width="1.5" PointX="13.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.AspNetUserLogin" Width="1.5" PointX="13.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.AspNetUser" Width="1.5" PointX="11" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Award" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Entertainment" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Genre" Width="1.5" PointX="3.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.GenreInEntertainment" Width="1.5" PointX="6" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Performer" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.PerformerInEntertainment" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Review" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.Song" Width="1.5" PointX="3.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.SongInEntertainment" Width="1.5" PointX="6" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="maxcriticModel.UserCritic" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="maxcriticModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Award__Entertain__0C85DE4D" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Award__Performer__0B91BA14" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__GenreInEn__Enter__0E6E26BF" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Performer__Enter__114A936A" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Review__Entertai__1332DBDC" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__SongInEnt__Enter__151B244E" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Genre__ParentGen__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__GenreInEn__Genre__0F624AF8" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Performer__Perfo__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__Review__UserId__123EB7A3" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.FK__SongInEnt__SongI__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="maxcriticModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

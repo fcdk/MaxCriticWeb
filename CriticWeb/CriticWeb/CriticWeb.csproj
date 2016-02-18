@@ -52,6 +52,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -172,6 +174,66 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DataLayerEF\AspNetRole.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\AspNetUser.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\AspNetUserClaim.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\AspNetUserLogin.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Award.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\CriticModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriticModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\CriticModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\CriticModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CriticModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\C__MigrationHistory.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Entertainment.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Genre.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\GenreInEntertainment.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Performer.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\PerformerInEntertainment.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Review.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\Song.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\SongInEntertainment.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLayerEF\UserCritic.cs">
+      <DependentUpon>CriticModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataLayer\Award.cs" />
     <Compile Include="DataLayer\Connection.cs" />
     <Compile Include="DataLayer\ConnectionNameAttribute.cs" />
@@ -197,7 +259,7 @@
     <Compile Include="Models\ContentCriticViewModels\PerformerDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
-    <Compile Include="Models\ContentCriticViewModels\_PerformerAndEntertainmentViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\PerformerAndEntertainmentViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
     <Compile Include="Models\Data\EntertainmentVM.cs" />
     <Compile Include="Models\Data\GenreInEntertainmentVM.cs" />
@@ -219,6 +281,16 @@
     <Content Include="Content\themes\tooltipster-punk.css" />
     <Content Include="Content\themes\tooltipster-shadow.css" />
     <Content Include="Content\tooltipster.css" />
+    <Content Include="DataLayerEF\CriticModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CriticModel.edmx</DependentUpon>
+      <LastGenOutput>CriticModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataLayerEF\CriticModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CriticModel.edmx</DependentUpon>
+      <LastGenOutput>CriticModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -226,6 +298,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <EntityDeploy Include="DataLayerEF\CriticModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CriticModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DataLayerEF\CriticModel.edmx.diagram">
+      <DependentUpon>CriticModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -292,6 +371,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,7 +3,7 @@ using CriticWeb.Models.Data;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {
-    public class _PerformerAndEntertainmentViewModel
+    public class PerformerAndEntertainmentViewModel
     {
         public object PerformerOrEntertainment { get; private set; }
         public Content ContentType { get; private set; }
@@ -49,7 +49,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             }
         }
 
-        public _PerformerAndEntertainmentViewModel(EntertainmentVM entertainmentViewModel = null, PerformerVM performerViewModel = null)
+        public PerformerAndEntertainmentViewModel(EntertainmentVM entertainmentViewModel = null, PerformerVM performerViewModel = null)
         {
             if (entertainmentViewModel != null)
             {
@@ -60,7 +60,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             {
                 PerformerOrEntertainment = performerViewModel;
                 ContentType = Content.Performer;
-            }
+            }         
         }
 
         public enum Content { Entertainment, Performer }
