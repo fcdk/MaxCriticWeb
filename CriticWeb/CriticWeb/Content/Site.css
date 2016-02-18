@@ -153,10 +153,6 @@ a:visited {
     height:70px;
 }
 
-.name-actor-on-main-page{
-    height:30px;
-}
-
 .actor-on-main-page{
     height: 250px;
 }
@@ -219,13 +215,8 @@ iframe {
     max-width: 100px;
 }
 
-.performer-or-entertainment-block{
-    height: 180px;
-    width: 200px;
-}
-
 .performer-or-entertainment-block-img {
     border-radius: 4px;
-    max-height: 180px;
-    max-width: 130px;
+    max-height: 130px;
+    max-width: 100px;
 }

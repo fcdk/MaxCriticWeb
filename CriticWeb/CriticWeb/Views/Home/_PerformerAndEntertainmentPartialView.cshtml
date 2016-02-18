@@ -16,9 +16,10 @@
 
 <a href='@urlAction'>    
     <div class="thumbnail">
+        <h4 class="name-actor-on-main-page text-center"><b>@Model.PerformerOrEntertainment</b></h4>
         <div class="row">
-            <div class="performer-or-entertainment-block">
-                <div class="col-md-9">
+            <div class="performer-or-entertainment-block">                
+                <div class="col-md-6">
                     @if (Model.Image != null)
                     {
                         <img class="performer-or-entertainment-block-img" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.Image))" />
@@ -28,8 +29,7 @@
                         <img class="performer-or-entertainment-block-img" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
                     }
                 </div>
-                <div class="col-md-3">
-                    <h4 class="name-actor-on-main-page"><b>@Model.PerformerOrEntertainment</b></h4>
+                <div class="col-md-6">                    
                     <h5>Критики:</h5>
                     @if (Model.AvarageCriticPoint == null)
                     {

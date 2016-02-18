@@ -380,8 +380,75 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Учасники</h4></div>
         <div class="panel-body">
+            @if (Model.MovieDirectors != null)
+            {
+                <h3><p class="bg-primary text-center">Режисери</p></h3>
+                for (int i = 0; i < Model.MovieDirectors.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieDirectors[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.MovieDirectors.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieDirectors[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.MovieDirectors.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieDirectors[i]))</div>
+                            }
+                        </div>
+                    </div>
+                }
+            }            
+            @if (Model.MoviePlotWriters != null)
+            {
+                <h3><p class="bg-primary text-center">Автори сценарію</p></h3>
+                for (int i = 0; i < Model.MoviePlotWriters.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePlotWriters[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.MoviePlotWriters.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePlotWriters[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.MoviePlotWriters.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePlotWriters[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }            
+            @if (Model.MoviePrincipalCasts != null)
+            {
+                <h3><p class="bg-primary text-center">Головні герої</p></h3>
+                for (int i = 0; i < Model.MoviePrincipalCasts.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePrincipalCasts[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.MoviePrincipalCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePrincipalCasts[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.MoviePrincipalCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MoviePrincipalCasts[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }            
             @if (Model.MovieCast != null)
             {
+                <h3><p class="bg-primary text-center">Актори</p></h3>
                 for (int i = 0; i < Model.MovieCast.Length; i++)
                 {
                     <div class="container-fluid">
@@ -401,532 +468,116 @@
                     </div>
                 }
             }
-            <table class="table table-striped">
-                <tbody>
-                    @if (Model.MovieDirectors != null)
-                    {
-                        <tr>
-                            <td><b>Режисери</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.MovieDirectors)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }    
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }      
-                            </tr>
-                        }
-                    }
-                    @if (Model.MoviePlotWriters != null)
-                    {
-                        <tr>
-                            <td><b>Автори сценарію</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.MoviePlotWriters)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.MoviePrincipalCasts != null)
-                    {
-                        <tr>
-                            <td><b>Головні герої</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.MoviePrincipalCasts)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.MovieCast != null)
-                    {
-                        <tr>
-                            <td><b>Актори</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.MovieCast)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.MovieProducers != null)
-                    {
-                        <tr>
-                            <td><b>Продюсери</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.MovieProducers)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.GameCasts != null)
-                    {
-                        <tr>
-                            <td><b>Актори</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.GameCasts)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.TVCasts != null)
-                    {
-                        <tr>
-                            <td><b>Актори</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.TVCasts)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.AlbumSingers != null)
-                    {
-                        <tr>
-                            <td><b>Співаки</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.AlbumSingers)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td>
-                                    @if (performer.Image != null)
-                                    {
-                                        <img class="round-photo" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(performer.Image))" />
-                                    }
-                                    else
-                                    {
-                                        <img class="round-photo" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
-                                    }
-                                </td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    @if (Model.AlbumBands != null)
-                    {
-                        <tr>
-                            <td><b>Групи</b></td>
-                            <td></td>
-                            <td><b>Оцінка критиків</b></td>
-                            <td><b>Оцінка користувачів</b></td>
-                        </tr>
-                        foreach (var performer in Model.AlbumBands)
-                        {
-                            int? avgCriticPoint = Entertainment.AverageCriticPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            int? avgUserPoint = Entertainment.AverageUserPointForEntertainments(Entertainment.GetEntertainmentByPerformer(performer.PerformerDL));
-                            <tr>
-                                <td></td>
-                                <td><a href='@Url.Action("PerformerDetails", "Home", new { id = performer.PerformerDL.Id })'><h4><b>@performer</b></h4></a></td>
-                                @if (avgCriticPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgCriticPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint > 35 && avgCriticPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgCriticPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgCriticPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint == null)
-                                {
-                                    <td><h4 class="point-table-not-available"><b>N/A</b></h4></td>
-                                }
-                                @if (avgUserPoint <= 35)
-                                {
-                                    <td><h4 class="point-table-red"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint > 35 && avgUserPoint < 70)
-                                {
-                                    <td><h4 class="point-table-yellow"><b>@avgUserPoint</b></h4></td>
-                                }
-                                @if (avgUserPoint >= 70)
-                                {
-                                    <td><h4 class="point-table-green"><b>@avgUserPoint</b></h4></td>
-                                }
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+            @if (Model.MovieProducers != null)
+            {
+                <h3><p class="bg-primary text-center">Продюсери</p></h3>
+                for (int i = 0; i < Model.MovieProducers.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieProducers[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.MovieProducers.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieProducers[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.MovieProducers.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.MovieProducers[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.GameCasts != null)
+            {
+                <h3><p class="bg-primary text-center">Актори</p></h3>
+                for (int i = 0; i < Model.GameCasts.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.GameCasts[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.GameCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.GameCasts[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.GameCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.GameCasts[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.TVCasts != null)
+            {
+                <h3><p class="bg-primary text-center">Актори</p></h3>
+                for (int i = 0; i < Model.TVCasts.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.TVCasts[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.TVCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.TVCasts[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.TVCasts.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.TVCasts[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.AlbumSingers != null)
+            {
+                <h3><p class="bg-primary text-center">Співаки</p></h3>
+                for (int i = 0; i < Model.AlbumSingers.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumSingers[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.AlbumSingers.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumSingers[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.AlbumSingers.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumSingers[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }
+            @if (Model.AlbumBands != null)
+            {
+                <h3><p class="bg-primary text-center">Музичні групи</p></h3>
+                for (int i = 0; i < Model.AlbumBands.Length; i++)
+                {
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumBands[i]))</div>
+                            @{ i++; }
+                            @if (i < Model.AlbumBands.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumBands[i]))</div>
+                            }
+                            @{ i++; }
+                            @if (i < Model.AlbumBands.Length)
+                            {
+                                <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new _PerformerAndEntertainmentViewModel(null, Model.AlbumBands[i]))</div>
+                            }                            
+                        </div>
+                    </div>
+                }
+            }            
         </div>
     </div>
 }
