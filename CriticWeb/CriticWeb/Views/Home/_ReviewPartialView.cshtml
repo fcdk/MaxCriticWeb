@@ -78,7 +78,10 @@
                 <div class="col-md-3">
                     <p><font size="2"><b>Корисний?</b></font></p>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-1">                    
+                    <a href="@Url.Action("Login", "Account")" class="tooltip-with-text" title="Оцінювати корисність відгуків можуть лише зареєстровані користувачі"><div class="glyphicon glyphicon-exclamation-sign"></div></a>
+                </div>
+                <div class="col-md-8">
                     <p><font size="2"><b><span class="bg-success">Так: @Model.Helpful<span class="helpful"></span></span> <span class="bg-danger">Ні: @Model.Unhelpful<span class="unhelpful"></span></span></b></font></p>
                 </div>
             </div>

@@ -32,3 +32,7 @@ function no_Button_Click(id, helpful, unhelpful) {
         }
     });
 }
+
+$(document).ready(function () {
+    $('.tooltip-with-text').tooltipster();
+});

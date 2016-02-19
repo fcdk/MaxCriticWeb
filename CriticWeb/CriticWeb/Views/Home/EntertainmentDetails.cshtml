@@ -172,13 +172,19 @@
                                         }
                                         else
                                         {
-                                            <input id="stars" value="@rating" data-readonly="true" />
+                                            <div class="tooltip-with-text" title="Ви вже виставили оцінку цьому контенту"><input id="stars" value="@rating" data-readonly="true" /></div>
                                         }
                                     }
                                     else
                                     {
-                                        <h4 class="bg-danger">Лише зареєстровані користувачі можуть виставляти оцінки.</h4>
-                                        <input id="stars" data-readonly="true" />
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <input id="stars" data-readonly="true" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="@Url.Action("Login", "Account")" class="tooltip-with-text" title="Лише зареєстровані користувачі можуть виставляти оцінки."><span style="font-size:2.5em;" class="glyphicon glyphicon-exclamation-sign"></span></a>
+                                            </div>
+                                        </div>                                        
                                     }
                                 </div>
                             </div>
