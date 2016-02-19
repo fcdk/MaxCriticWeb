@@ -17,6 +17,24 @@
                 content: tooltipHTMLCode
             });
         });
+
+        $(document).on('ready', function () {
+            $('#stars').rating({ min: 0, max: 10, step: 1, stars: 10, size: "xs" });
+        });
+
+        $('#stars').on('rating.change', function (event, value, caption) {
+            $.ajax({
+                url: '/Home/RateForContent',
+                type: 'POST',
+                data: "vote=" + value*10,
+                success: function (result) {
+                    alert("yeah");
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Не вдалося поставити оцінку контенту, помилка: " + errorThrown);
+                }
+            });
+        });
     </script>
 }
 
@@ -110,36 +128,15 @@
                             </div>
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <span class="glyphicon glyphicon-star-empty" />
-                                    </div>
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        <input id="stars" />
+                                    }
+                                    else
+                                    {
+                                        <h4 class="bg-danger">Лише зареєстровані користувачі можуть виставляти оцінки.</h4>
+                                        <input id="stars" data-readonly="true" />
+                                    }
                                 </div>
                             </div>
                             <p><b>Короткий опис:</b> @Model.EntertainmentDetails.Summary</p>

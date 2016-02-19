@@ -276,6 +276,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\star-rating.min.css" />
     <Content Include="Content\themes\tooltipster-light.css" />
     <Content Include="Content\themes\tooltipster-noir.css" />
     <Content Include="Content\themes\tooltipster-punk.css" />
@@ -319,6 +320,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\star-rating.min.js" />
+    <Content Include="Scripts\star-rating_locale_ua.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

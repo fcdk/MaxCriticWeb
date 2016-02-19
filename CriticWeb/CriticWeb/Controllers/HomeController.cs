@@ -45,5 +45,11 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        [HttpPost]
+        public void RateForContent(int vote)
+        {
+
+        }
+
     }
 }
