@@ -38,6 +38,9 @@ namespace CriticWeb
 
             bundles.Add(new ScriptBundle("~/bundles/star-ratingjs").Include(
                       "~/Scripts/star-rating.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScripts").Include(
+                      "~/Scripts/myScripts.js"));
         }
     }
 }

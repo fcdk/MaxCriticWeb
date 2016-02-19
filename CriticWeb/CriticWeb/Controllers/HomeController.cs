@@ -65,5 +65,15 @@ namespace CriticWeb.Controllers
             review.Save();
         }
 
+        [HttpPost]
+        public void RateForReview(bool helpful, Guid id)
+        {
+            Review review = Review.GetById(id);
+            if (helpful)
+                review.Helpful += 1;
+            else review.Unhelpful += 1;
+            review.Save();
+        }
+
     }
 }

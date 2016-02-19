@@ -23,11 +23,11 @@
             <div class="col-md-8">
                 @if (Model.Publication == null || Model.Publication == String.Empty)
                 {
-                    <a href='#'><h5>@UserCritic.GetById(Model.UserId).Username</h5></a>
+                    <a href='#'><h5><b>@UserCritic.GetById(Model.UserId).Username</b></h5></a>
                 }
                 else
                 {
-                    <a href='#'><h5>@Model.Publication</h5></a>
+                    <a href='#'><h5><b>@Model.Publication</b></h5></a>
                 }
                 <h6>@Model.Time.ToLocalTime().DateTime</h6>
             </div>
@@ -46,14 +46,40 @@
     {
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2">
-                    <p><font size="1">Корисний?</font></p>
-                </div>
-                <div class="col-md-10">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-xs">Так</button>
-                        <button type="button" class="btn btn-danger btn-xs">Ні</button>
+                <div id="@Model.Id-1">
+                    <div class="col-md-3">
+                        <p><font size="2"><b>Корисний?</b></font></p>
                     </div>
+                    <div class="col-md-4">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success btn-xs" onclick="yes_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)">Так</button>
+                            <button type="button" class="btn btn-danger btn-xs" onclick="no_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)">Ні</button>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <p><font size="2"><b><span class="bg-success">Так: @Model.Helpful</span> <span class="bg-danger">Ні: @Model.Unhelpful</span></b></font></p>
+                    </div>
+                </div>
+                <div id="@Model.Id-2" style="display: none">
+                    <div class="col-md-3">
+                        <p><font size="2"><b>Корисний?</b></font></p>
+                    </div>
+                    <div class="col-md-9">
+                        <p><font size="2"><b><span class="bg-success">Так: <span class="helpful"></span></span> <span class="bg-danger">Ні: <span class="unhelpful"></span></span></b></font></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <p><font size="2"><b>Корисний?</b></font></p>
+                </div>
+                <div class="col-md-9">
+                    <p><font size="2"><b><span class="bg-success">Так: @Model.Helpful<span class="helpful"></span></span> <span class="bg-danger">Ні: @Model.Unhelpful<span class="unhelpful"></span></span></b></font></p>
                 </div>
             </div>
         </div>
