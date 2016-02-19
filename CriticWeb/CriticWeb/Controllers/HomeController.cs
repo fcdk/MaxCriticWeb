@@ -49,7 +49,7 @@ namespace CriticWeb.Controllers
         [HttpPost]
         public void RateForContent(int vote, Guid id)
         {
-            Review review = new Review(ProfileCritic.Instance.CurrentUserCritic, Entertainment.GetById(id), (byte)vote, "", DateTime.UtcNow, "", "", 0, 0, false);
+            Review review = new Review(ProfileCritic.Instance.CurrentUserCritic, Entertainment.GetById(id), (byte)vote, "", DateTime.UtcNow, "", ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? ProfileCritic.Instance.CurrentUserCritic.PublicationCompany : null, 0, 0, ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? true : false);
             review.Save();
         }
 

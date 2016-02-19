@@ -19,7 +19,10 @@
         });
 
         $(document).on('ready', function () {
-            $('#stars').rating({ min: 0, max: 10, step: 1, stars: 10, size: "xs", showClear: false });
+            $('#stars').rating({
+                min: 0, max: 10, step: 1, stars: 10, size: "xs", showClear: false,
+                starCaptionClasses: { 1: 'label label-danger', 2: 'label label-danger', 3: 'label label-danger', 4: 'label label-warning', 5: 'label label-warning', 6: 'label label-warning', 7: 'label label-success', 8: 'label label-success', 9: 'label label-success', 10: 'label label-success' }
+            });
         });
 
         $('#stars').on('rating.change', function (event, value, caption) {
@@ -133,7 +136,22 @@
                                         int? rating = Model.GetCurrentUserRating(User.Identity.Name) / 10;
                                         if (rating == null)
                                         {
-                                            <input id="stars" />
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <input id="stars" />
+                                                </div>
+                                            </div>                                            
+                                            <div class="text-left"><label>Відгук:</label></div>
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <textarea rows="10" class="form-control" style="resize:none"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-default">ОК</button>
+                                                </div>
+                                            </div>
                                         }
                                         else
                                         {
