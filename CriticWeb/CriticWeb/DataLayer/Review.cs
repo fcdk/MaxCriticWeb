@@ -116,5 +116,42 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static Review GetReviewByEntertainmentAndUser(Entertainment entertainment, UserCritic user)
+        {
+            lock (_locker)
+            {
+                var query = from row in _dataTable.AsEnumerable().AsParallel()
+                            where (Guid)row["EntertainmentId"] == entertainment.Id && (Guid)row["UserId"] == user.Id
+                            select row;
+                DataRow[] result = query.ToArray();
+                if (result.Length == 1)
+                {
+                    return new Review(result[0]);
+                }
+                else
+                {
+                    _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE EntertainmentId=@entertainmentId AND UserId=@userId;";
+
+                    if (!_dataAdapter.SelectCommand.Parameters.Contains("@entertainmentId"))
+                        _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@entertainmentId", entertainment.Id));
+                    else
+                        _dataAdapter.SelectCommand.Parameters["@entertainmentId"].Value = entertainment.Id;
+                    if (!_dataAdapter.SelectCommand.Parameters.Contains("@userId"))
+                        _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@userId", user.Id));
+                    else
+                        _dataAdapter.SelectCommand.Parameters["@userId"].Value = user.Id;
+
+                    if (_dataAdapter.Fill(_dataTable) == 1)
+                    {
+                        var selectedRow = from row in _dataTable.AsEnumerable().AsParallel()
+                                          where (Guid)row["EntertainmentId"] == entertainment.Id && (Guid)row["UserId"] == user.Id
+                                          select row;
+                        return new Review(selectedRow.ToArray()[0]);
+                    }
+                    return null;
+                }
+            }
+        }
+
     }
 }

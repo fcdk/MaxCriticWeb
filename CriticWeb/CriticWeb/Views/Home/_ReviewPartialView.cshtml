@@ -21,9 +21,9 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-8">
-                @if (Model.Publication == null && Model.Publication == String.Empty)
+                @if (Model.Publication == null || Model.Publication == String.Empty)
                 {
-                    <a href='#'><h5>@UserCritic.GetById(Model.UserId)</h5></a>
+                    <a href='#'><h5>@UserCritic.GetById(Model.UserId).Username</h5></a>
                 }
                 else
                 {

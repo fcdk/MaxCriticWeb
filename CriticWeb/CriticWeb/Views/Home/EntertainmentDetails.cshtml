@@ -36,8 +36,25 @@
                 error: function (xhr, textStatus, errorThrown) {
                     alert("Не вдалося поставити оцінку контенту, помилка: " + errorThrown);
                 }
-            });            
+            });
+
+            $('#review').show(700);
         });
+
+        function ok_Click()
+        {
+            $.ajax({
+                url: '/Home/OpinionAndLinkCaption',
+                type: 'POST',
+                data: "opinion=" + $('#opinion').val() + "&link=" + $('#link').val() + "&id=" + "@Model.EntertainmentDetails.EntertainmentDL.Id",
+                success: function (result) {
+                    $('#review').hide(700);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Не вдалося відправити відгук, помилка: " + errorThrown);
+                }
+            });
+        }
     </script>
 }
 
@@ -136,22 +153,23 @@
                                         int? rating = Model.GetCurrentUserRating(User.Identity.Name) / 10;
                                         if (rating == null)
                                         {
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <input id="stars" />
+                                            <input id="stars" />
+                                            <form role="form">
+                                                <div id="review" class="text-left">
+                                                    <div class="form-group">
+                                                        <label for="opinion">Відгук:</label>
+                                                        <textarea id="opinion" rows="10" class="form-control" style="resize:none"></textarea>
+                                                    </div>
+                                                    @if (ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic)
+                                                    {
+                                                        <div class="form-group">
+                                                            <label for="link">Посилання на сайт з Вашим розгорнутим відгуком:</label>
+                                                            <input id="link" class="form-control" />
+                                                        </div>
+                                                    }                                                    
+                                                    <div class="text-right"><button type="button" class="btn btn-default" onclick="ok_Click()">ОК</button></div>
                                                 </div>
-                                            </div>                                            
-                                            <div class="text-left"><label>Відгук:</label></div>
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <textarea rows="10" class="form-control" style="resize:none"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <button type="button" class="btn btn-default">ОК</button>
-                                                </div>
-                                            </div>
+                                            </form>
                                         }
                                         else
                                         {
@@ -649,12 +667,12 @@
                     <hr />
 
                     @if (Model.CriticReviews.Length != 0)
-                {
-                    foreach (var review in Model.CriticReviews)
                     {
-                            @Html.Partial("_ReviewPartialView", review);
-                    }
-                        <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
+                        foreach (var review in Model.CriticReviews)
+                        {
+                                @Html.Partial("_ReviewPartialView", review);
+                        }
+                            <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
                     }
 
                 </div>

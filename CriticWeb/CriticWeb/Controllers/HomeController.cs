@@ -49,7 +49,19 @@ namespace CriticWeb.Controllers
         [HttpPost]
         public void RateForContent(int vote, Guid id)
         {
-            Review review = new Review(ProfileCritic.Instance.CurrentUserCritic, Entertainment.GetById(id), (byte)vote, "", DateTime.UtcNow, "", ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? ProfileCritic.Instance.CurrentUserCritic.PublicationCompany : null, 0, 0, ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? true : false);
+            Review review = new Review(ProfileCritic.Instance.CurrentUserCritic, Entertainment.GetById(id), (byte)vote, "", DateTime.UtcNow, null, ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? ProfileCritic.Instance.CurrentUserCritic.PublicationCompany : null, 0, 0, ProfileCritic.Instance.CurrentUserCritic.UserRole == UserCritic.Role.Critic ? true : false);
+            review.Save();
+        }
+
+        [HttpPost]
+        public void OpinionAndLinkCaption(string opinion, string link, Guid id)
+        {
+            Review review = Review.GetReviewByEntertainmentAndUser(Entertainment.GetById(id), ProfileCritic.Instance.CurrentUserCritic);
+            review.Opinion = opinion;
+            if (link != "undefined")
+            {
+                review.Link = link;
+            }
             review.Save();
         }
 

@@ -246,19 +246,19 @@ namespace CriticWeb.Models.ContentCriticViewModels
                                               where review.Point <= 35 && review.Publication != null && review.Publication != String.Empty
                                               select review).Count();
                 _positiveUserReviewCount = (from review in _reviews.AsParallel()
-                                            where review.Point >= 70 && (review.Publication == null || review.Publication == String.Empty)
+                                            where review.Point >= 70 && (review.Publication == null || review.Publication == String.Empty) && review.CheckedByAdmin == true
                                             select review).Count();
                 _neutralUserReviewCount = (from review in _reviews.AsParallel()
-                                           where review.Point > 35 && review.Point < 70 && (review.Publication == null || review.Publication == String.Empty)
+                                           where review.Point > 35 && review.Point < 70 && (review.Publication == null || review.Publication == String.Empty) && review.CheckedByAdmin == true
                                            select review).Count();
                 _negativeUserReviewCount = (from review in _reviews.AsParallel()
-                                            where review.Point <= 35 && (review.Publication == null || review.Publication == String.Empty)
+                                            where review.Point <= 35 && (review.Publication == null || review.Publication == String.Empty) && review.CheckedByAdmin == true
                                             select review).Count();
                 _criticReviews = (from review in _reviews.AsParallel()
                                   where review.Publication != null && review.Publication != String.Empty
                                   select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
                 _userReviews = (from review in _reviews.AsParallel()
-                                where review.Publication == null || review.Publication == String.Empty
+                                where (review.Publication == null || review.Publication == String.Empty) && review.CheckedByAdmin == true
                                 select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
             }
         }

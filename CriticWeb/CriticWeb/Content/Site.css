@@ -220,3 +220,7 @@ iframe {
     max-height: 150px;
     max-width: 130px;
 }
+
+#review {
+    display: none;
+}
