@@ -19,21 +19,21 @@
         });
 
         $(document).on('ready', function () {
-            $('#stars').rating({ min: 0, max: 10, step: 1, stars: 10, size: "xs" });
+            $('#stars').rating({ min: 0, max: 10, step: 1, stars: 10, size: "xs", showClear: false });
         });
 
         $('#stars').on('rating.change', function (event, value, caption) {
             $.ajax({
                 url: '/Home/RateForContent',
                 type: 'POST',
-                data: "vote=" + value*10,
+                data: "vote=" + value*10 + "&id=" + "@Model.EntertainmentDetails.EntertainmentDL.Id",
                 success: function (result) {
-                    alert("yeah");
+                    $("#stars").rating("refresh", { readonly: true });
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     alert("Не вдалося поставити оцінку контенту, помилка: " + errorThrown);
                 }
-            });
+            });            
         });
     </script>
 }
@@ -130,7 +130,15 @@
                                 <div class="row">
                                     @if (Request.IsAuthenticated)
                                     {
-                                        <input id="stars" />
+                                        int? rating = Model.GetCurrentUserRating(User.Identity.Name) / 10;
+                                        if (rating == null)
+                                        {
+                                            <input id="stars" />
+                                        }
+                                        else
+                                        {
+                                            <input id="stars" value="@rating" data-readonly="true" />
+                                        }
                                     }
                                     else
                                     {

@@ -1,5 +1,6 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,7 +231,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
             _albumBands = this.GetPerformerVMByEntertainmentVMAndRole(_entertainment, PerformerInEntertainment.Role.AlbumBand);
 
             _awards = this.GetAwardByEntertainment(_entertainment.EntertainmentDL);
-            
+
             _reviews = Review.GetReviewByEntertainment(_entertainment.EntertainmentDL);
 
             if (_reviews != null)
@@ -261,6 +262,16 @@ namespace CriticWeb.Models.ContentCriticViewModels
                                 select review).OrderByDescending((rev) => rev.Time).Take(5).ToArray();
             }
         }
+
+        public int? GetCurrentUserRating(string email)
+        {
+            byte[] currentUserRating = (from review in _reviews.AsParallel()
+                                        where review.UserId == UserCritic.GetByEmail(email).Id
+                                        select review.Point).ToArray();
+            if (currentUserRating.Length == 1)
+                return currentUserRating[0];
+            return null;
+        }            
 
         private string GetPerformersStringByRole(PerformerInEntertainment.Role role)
         {

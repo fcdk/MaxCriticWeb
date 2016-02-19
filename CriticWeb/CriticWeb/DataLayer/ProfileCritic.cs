@@ -9,7 +9,10 @@ namespace CriticWeb.DataLayer
 
         public UserCritic CurrentUserCritic
         {
-            get { return UserCritic.GetByEmail(HttpContext.Current.User.Identity.GetUserName()); }
+            get
+            {
+                return UserCritic.GetByEmail(HttpContext.Current.User.Identity.GetUserName());
+            }
         }
 
         public static ProfileCritic Instance

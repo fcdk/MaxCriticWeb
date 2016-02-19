@@ -1,4 +1,5 @@
-﻿using CriticWeb.Models.ContentCriticViewModels;
+﻿using CriticWeb.DataLayer;
+using CriticWeb.Models.ContentCriticViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,10 @@ namespace CriticWeb.Controllers
         }
 
         [HttpPost]
-        public void RateForContent(int vote)
+        public void RateForContent(int vote, Guid id)
         {
-
+            Review review = new Review(ProfileCritic.Instance.CurrentUserCritic, Entertainment.GetById(id), (byte)vote, "", DateTime.UtcNow, "", "", 0, 0, false);
+            review.Save();
         }
 
     }
