@@ -29,7 +29,7 @@
             $.ajax({
                 url: '/Home/RateForContent',
                 type: 'POST',
-                data: "vote=" + value*10 + "&id=" + "@Model.EntertainmentDetails.EntertainmentDL.Id",
+                data: "vote=" + value * 10 + "&id=" + "@Model.EntertainmentDetails.EntertainmentDL.Id",
                 success: function (result) {
                     $("#stars").rating("refresh", { readonly: true });
                 },
@@ -41,8 +41,7 @@
             $('#review').show(700);
         });
 
-        function ok_Click()
-        {
+        function ok_Click() {
             $.ajax({
                 url: '/Home/OpinionAndLinkCaption',
                 type: 'POST',
