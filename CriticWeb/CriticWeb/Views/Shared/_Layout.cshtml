@@ -63,6 +63,19 @@
                         <li><a href="#">Page 3-3</a></li>
                     </ul>
                 </li>
+                @if (this.User.IsInRole("Admin"))
+                {
+                    <li class="dropdown">
+                        <a style="color:red;" class="dropdown-toggle" data-toggle="dropdown" href="">
+                            Адмінка
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("ReviewsChecking","Admin")">Перевірка відгуків</a></li>
+                            <li><a href="#">Користувачі</a></li>
+                        </ul>
+                    </li>
+                }                
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">

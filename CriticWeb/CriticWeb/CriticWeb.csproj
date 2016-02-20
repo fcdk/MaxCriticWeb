@@ -172,6 +172,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DataLayerEF\AspNetRole.cs">
@@ -255,6 +256,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModels\ReviewsChekingViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\EntertainmentDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
@@ -361,9 +363,10 @@
     <Content Include="Views\Home\_EntertainmentMiniPartialView.cshtml" />
     <Content Include="Views\Home\_PerformerMiniPartialView.cshtml" />
     <Content Include="Views\Home\EntertainmentDetails.cshtml" />
-    <Content Include="Views\Home\_ReviewPartialView.cshtml" />
+    <Content Include="Views\Shared\_ReviewPartialView.cshtml" />
     <Content Include="Views\Home\PerformerDetails.cshtml" />
     <Content Include="Views\Home\_PerformerAndEntertainmentPartialView.cshtml" />
+    <Content Include="Views\Admin\ReviewsChecking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

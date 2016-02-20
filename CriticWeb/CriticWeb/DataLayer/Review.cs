@@ -153,5 +153,28 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static Review[] GetUncheckedReviews()
+        {
+            lock (_locker)
+            {
+                List<Review> result = new List<Review>();
+
+                _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + " WHERE CheckedByAdmin=0";
+
+                _dataAdapter.Fill(_dataTable);
+                var selectedRows = from row in _dataTable.AsEnumerable().AsParallel()
+                                   where (bool)row["CheckedByAdmin"] == false
+                                   select row;
+                foreach (DataRow dr in selectedRows)
+                {
+                    result.Add(new Review(dr));
+                }
+
+                if (result.Count != 0)
+                    return result.ToArray();
+                return null;
+            }
+        }
+
     }
 }

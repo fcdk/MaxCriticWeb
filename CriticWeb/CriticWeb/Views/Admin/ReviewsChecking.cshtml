@@ -1,0 +1,26 @@
+﻿@model CriticWeb.Models.AdminViewModels.ReviewsChekingViewModel
+@{
+    ViewBag.Title = "Перевірка відгуків";
+}
+
+@if (Model.ReviewsUnchecked != null)
+{
+    for (int i = 0; i < Model.ReviewsUnchecked.Length; i++)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Partial("_ReviewPartialView", Model.ReviewsUnchecked[i])
+                </div>
+                @{ i++; }
+                <div class="col-md-6">
+                    @if (i < Model.ReviewsUnchecked.Length)
+                    {
+                        @Html.Partial("_ReviewPartialView", Model.ReviewsUnchecked[i])
+                    }                    
+                </div>                
+            </div>
+        </div>        
+    }
+}
+

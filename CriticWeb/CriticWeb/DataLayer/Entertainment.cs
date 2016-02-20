@@ -303,7 +303,7 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NOT NULL GROUP BY Review.EntertainmentId";
+                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review WHERE Review.EntertainmentId=@id AND Review.Publication IS NOT NULL GROUP BY Review.EntertainmentId";
 
                 if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                     _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", this.Id));
@@ -321,7 +321,7 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review, Entertainment WHERE Review.EntertainmentId=@id AND Review.Publication IS NULL GROUP BY Review.EntertainmentId";
+                _dataAdapter.SelectCommand.CommandText = "SELECT AVG(Review.Point) AS AvgPoint FROM Review WHERE Review.EntertainmentId=@id AND Review.Publication IS NULL AND Review.CheckedByAdmin=1 GROUP BY Review.EntertainmentId";
 
                 if (!_dataAdapter.SelectCommand.Parameters.Contains("@id"))
                     _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@id", this.Id));
