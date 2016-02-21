@@ -10,10 +10,23 @@
             $('div[id^=page-]').hide();
             $('div[id=page-1]').show();
         });
-        $('.page-nav').bootpag({
-            total: @Math.Ceiling((double)Model.AllEntertainmentReviews.Length/10),
+        $('.' + '@Model.PaginationCriticId').bootpag({
+            total: @Math.Ceiling((double)Model.AllEntertainmentCriticReviews.Length/10),
             page: 1,
             maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-]').hide();
+            $('div[id=page-' + num + ']').show();
+        });
+
+        $(document).ready(function () {
+            $('div[id^=page-]').hide();
+            $('div[id=page-1]').show();
+        });
+        $('.' + '@Model.PaginationUserId').bootpag({
+            total: @Math.Ceiling((double)Model.AllEntertainmentUserReviews.Length/10),
+        page: 1,
+        maxVisible: 10
         }).on('page', function (event, num) {
             $('div[id^=page-]').hide();
             $('div[id=page-' + num + ']').show();
@@ -21,4 +34,32 @@
     </script>
 }
 
-@Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.AllEntertainmentReviews))
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Усі відгуки про @Model.EntertainmentViewModel (@Model.EntertainmentViewModel.ReleaseDate.Year)</h4>
+                </div>
+                <div class="col-md-4">
+                    <span class="pull-right">
+                        <ul class="nav nav-pills">
+                            <li class="@(Model.IsCritic ? "active" : String.Empty)"><a data-toggle="pill" href="#critics">Критики</a></li>
+                            <li class="@(Model.IsCritic ? String.Empty : "active")"><a data-toggle="pill" href="#users">Користувачі</a></li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div id="critics" class="tab-pane @(Model.IsCritic ? "fade in active" : String.Empty)">
+                @Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.AllEntertainmentCriticReviews, Model.PaginationCriticId))
+            </div>
+            <div id="users" class="tab-pane @(Model.IsCritic ? String.Empty : "fade in active")">
+                @Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.AllEntertainmentUserReviews, Model.PaginationUserId))
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@
             $('div[id^=page-]').hide();
             $('div[id=page-1]').show();
         });
-        $('.page-nav').bootpag({
+        $('.' + '@Model.PaginationId').bootpag({
             total: @Math.Ceiling((double)Model.UncheckedReviews.Length/10),
             page: 1,
             maxVisible: 10
@@ -21,5 +21,9 @@
     </script>
 }
 
-@Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.UncheckedReviews))
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Неперевірені відгуки користувачів</h4></div>
+    <div class="panel-body">@Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.UncheckedReviews, Model.PaginationId))</div>
+</div>
+
 

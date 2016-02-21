@@ -1,6 +1,6 @@
 ﻿@using CriticWeb.DataLayer
 @using CriticWeb.Models.Data
-@model CriticWeb.Models.ContentCriticViewModels.AllReviewsViewModel   
+@model CriticWeb.Models.ContentCriticViewModels.AllReviewsViewModel
 
 @if (Model.Reviews != null)
 {
@@ -78,7 +78,7 @@
     }
     <div class="text-center">
         <p>Сторінки:</p>
-        <p class="page-nav">
+        <p class="@Model.PaginationId">
         </p>        
     </div>
 }

@@ -52,12 +52,12 @@
                     </div>
                     <div class="col-md-4">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success btn-xs" onclick="yes_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)">Так</button>
-                            <button type="button" class="btn btn-danger btn-xs" onclick="no_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)">Ні</button>
+                            <button type="button" class="btn btn-success btn-xs" onclick="yes_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                            <button type="button" class="btn btn-danger btn-xs" onclick="no_Button_Click('@Model.Id', @Model.Helpful, @Model.Unhelpful)"><span class="glyphicon glyphicon-thumbs-down"></span></button>
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <p><font size="2"><b><span class="bg-success">Так: @Model.Helpful</span> <span class="bg-danger">Ні: @Model.Unhelpful</span></b></font></p>
+                        <p><font size="2"><b><span class="bg-success"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Helpful</span> <span class="bg-danger"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Unhelpful</span></b></font></p>
                     </div>
                 </div>
                 <div id="@Model.Id-2" style="display: none">
@@ -65,7 +65,7 @@
                         <p><font size="2"><b>Корисний?</b></font></p>
                     </div>
                     <div class="col-md-9">
-                        <p><font size="2"><b><span class="bg-success">Так: <span class="helpful"></span></span> <span class="bg-danger">Ні: <span class="unhelpful"></span></span></b></font></p>
+                        <p><font size="2"><b><span class="bg-success"><span class="glyphicon glyphicon-thumbs-up"></span> <span class="helpful"></span></span> <span class="bg-danger"><span class="glyphicon glyphicon-thumbs-down"></span> <span class="unhelpful"></span></span></b></font></p>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                     <a href="@Url.Action("Login", "Account")" class="tooltip-with-text" title="Оцінювати корисність відгуків можуть лише зареєстровані користувачі"><div class="glyphicon glyphicon-exclamation-sign"></div></a>
                 </div>
                 <div class="col-md-8">
-                    <p><font size="2"><b><span class="bg-success">Так: @Model.Helpful<span class="helpful"></span></span> <span class="bg-danger">Ні: @Model.Unhelpful<span class="unhelpful"></span></span></b></font></p>
+                    <p><font size="2"><b><span class="bg-success"><span class="glyphicon glyphicon-thumbs-up"></span> @Model.Helpful<span class="helpful"></span></span> <span class="bg-danger"><span class="glyphicon glyphicon-thumbs-down"></span> @Model.Unhelpful<span class="unhelpful"></span></span></b></font></p>
                 </div>
             </div>
         </div>
