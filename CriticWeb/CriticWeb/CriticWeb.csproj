@@ -264,6 +264,7 @@
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerAndEntertainmentViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\UserProfileViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
     <Compile Include="Models\Data\EntertainmentVM.cs" />
     <Compile Include="Models\Data\GenreInEntertainmentVM.cs" />
@@ -372,6 +373,7 @@
     <Content Include="Views\Admin\ReviewsChecking.cshtml" />
     <Content Include="Views\Shared\_AllReviewsPartialView.cshtml" />
     <Content Include="Views\Home\EntertainmentReviews.cshtml" />
+    <Content Include="Views\Home\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

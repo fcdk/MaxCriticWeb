@@ -23,11 +23,11 @@
             <div class="col-md-8">
                 @if (Model.Publication == null || Model.Publication == String.Empty)
                 {
-                    <a href='#'><h5><b>@UserCritic.GetById(Model.UserId).Username</b></h5></a>
+                    <a href='@Url.Action("UserProfile","Home", new { id = Model.UserId })'><h5><b>@UserCritic.GetById(Model.UserId).Username</b></h5></a>
                 }
                 else
                 {
-                    <a href='#'><h5><b>@Model.Publication</b></h5></a>
+                    <a href='@Url.Action("UserProfile","Home", new { id = Model.UserId })'><h5><b>@Model.Publication (@UserCritic.GetById(Model.UserId).Username)</b></h5></a>
                 }
                 <h6>@Model.Time.ToLocalTime().DateTime</h6>
             </div>

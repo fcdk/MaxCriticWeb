@@ -85,5 +85,10 @@ namespace CriticWeb.Controllers
             return View(new EntertainmentReviewsViewModel(id, isCritic));
         }
 
+        public ActionResult UserProfile(Guid id)
+        {
+            return View(new UserProfileViewModel(id));
+        }
+
     }
 }
