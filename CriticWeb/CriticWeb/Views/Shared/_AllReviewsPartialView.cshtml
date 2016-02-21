@@ -15,23 +15,57 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
+                    <div id="@Model.Reviews[i].Id">
+                        <div class="opinion-unchecked">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
+                                </div>
+                                <div class="col-md-4">
+                                    @if (this.User.IsInRole("Admin") && Model.Reviews[i].CheckedByAdmin == false)
+                                    {
+                                        <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
+                                        <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
+                                    }                                    
+                                </div>
+                            </div>
+                            @Html.Partial("_ReviewPartialView", Model.Reviews[i])
                         </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button>
-                            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                        <div class="opinion-confirm text-center" style="display:none">
+                            <span style="font-size:10em; color:green;" class="glyphicon glyphicon-ok"></span>
                         </div>
+                        <div class="opinion-abort text-center" style="display:none">
+                            <span style="font-size:10em; color:red;" class="glyphicon glyphicon-remove"></span>
+                        </div>                        
                     </div>                    
-                    @Html.Partial("_ReviewPartialView", Model.Reviews[i])
                 </div>
                 @{ i++; }
                 <div class="col-md-6">
                     @if (i < Model.Reviews.Length)
                     {
-                        <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
-                        @Html.Partial("_ReviewPartialView", Model.Reviews[i])
+                        <div id="@Model.Reviews[i].Id">
+                            <div class="opinion-unchecked">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @if (this.User.IsInRole("Admin") && Model.Reviews[i].CheckedByAdmin == false)
+                                        {
+                                            <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
+                                            <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
+                                        }
+                                    </div>
+                                </div>
+                                @Html.Partial("_ReviewPartialView", Model.Reviews[i])
+                            </div>
+                            <div class="opinion-confirm text-center" style="display:none">
+                                <span style="font-size:10em; color:green;" class="glyphicon glyphicon-ok"></span>
+                            </div>
+                            <div class="opinion-abort text-center" style="display:none">
+                                <span style="font-size:10em; color:red;" class="glyphicon glyphicon-remove"></span>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>

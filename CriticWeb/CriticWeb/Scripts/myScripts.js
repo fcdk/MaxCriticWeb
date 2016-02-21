@@ -36,3 +36,34 @@ function no_Button_Click(id, helpful, unhelpful) {
 $(document).ready(function () {
     $('.tooltip-with-text').tooltipster();
 });
+
+function confirmButtonClick(id)
+{
+    $.ajax({
+        url: '/Admin/ConfirmReview',
+        type: 'POST',
+        data: "id=" + id,
+        success: function (result) {
+            $("#" + id).find(".opinion-unchecked").hide(700);
+            $("#" + id).find(".opinion-confirm").show(700);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert("Не вдалося перевірити відгук, помилка: " + errorThrown);
+        }
+    });
+}
+
+function abortButtonClick(id) {
+    $.ajax({
+        url: '/Admin/AbortReview',
+        type: 'DELETE',
+        data: "id=" + id,
+        success: function (result) {
+            $("#" + id).find(".opinion-unchecked").hide(700);
+            $("#" + id).find(".opinion-abort").show(700);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert("Не вдалося перевірити відгук, помилка: " + errorThrown);
+        }
+    });
+}
