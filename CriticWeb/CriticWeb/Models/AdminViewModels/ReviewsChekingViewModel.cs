@@ -9,7 +9,7 @@ namespace CriticWeb.Models.AdminViewModels
 
         public ReviewsChekingViewModel()
         {
-            UncheckedReviews = Review.GetUncheckedReviews().OrderByDescending( (rev) => rev.Time ).ToArray();
+            UncheckedReviews = Review.GetUncheckedReviews().OrderBy( (rev) => rev.Time ).ToArray();
         }
     }
 }

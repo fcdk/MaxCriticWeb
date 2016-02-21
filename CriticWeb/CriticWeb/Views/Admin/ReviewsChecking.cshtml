@@ -4,5 +4,22 @@
     ViewBag.Title = "Перевірка відгуків";
 }
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-]').hide();
+            $('div[id=page-1]').show();
+        });
+        $('.page-nav').bootpag({
+            total: @Math.Ceiling((double)Model.UncheckedReviews.Length/10),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-]').hide();
+            $('div[id=page-' + num + ']').show();
+        });
+    </script>
+}
+
 @Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.UncheckedReviews))
 
