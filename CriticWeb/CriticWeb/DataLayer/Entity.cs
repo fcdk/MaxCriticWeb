@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace CriticWeb.DataLayer
 {
@@ -53,7 +54,7 @@ namespace CriticWeb.DataLayer
                 ////Logger.Info("Entity.Entity", "У статичному конструкторі Entity зчитано атрибути класу Т.");
 
                 string selectSQL = "SELECT * FROM " + _tableName + ";";
-                _dataAdapter = new SqlDataAdapter(selectSQL, @"Data Source=MAX\SQLEXPRESS;Initial Catalog=maxcritic;Integrated Security=true;");//Connection.Instance.MSSQLConnection);
+                _dataAdapter = new SqlDataAdapter(selectSQL, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);//Connection.Instance.MSSQLConnection);
                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(_dataAdapter);
                 _dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
                 _dataAdapter.InsertCommand = commandBuilder.GetInsertCommand();

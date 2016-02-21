@@ -37,10 +37,10 @@
     <div class="text-center">
         <p>Сторінки:</p>
         <ul class="pagination">
-            <li class="active"><a @*onclick="pageClick(page-1)"*@ href="#page-1">1</a></li>
+            <li class="active"><a href="#page-1">1</a></li>
             @for (int i = 2; i <= pagesCount; i++)
             {
-                <li><a @*onclick="pageClick(page-@i)"*@ href="#page-@i">@i</a></li>
+                <li><a href="#page-@i">@i</a></li>
             }      
         </ul>
     </div>
