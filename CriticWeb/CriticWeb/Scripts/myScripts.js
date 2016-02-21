@@ -36,3 +36,13 @@ function no_Button_Click(id, helpful, unhelpful) {
 $(document).ready(function () {
     $('.tooltip-with-text').tooltipster();
 });
+
+//$(document).ready(function () {
+//    $('div[id^=page-]').hide();
+//    $('div[id=page-1]').show();    
+//});
+
+//function pageClick(pageId) {
+//    $('div[id^=page-]').hide();
+//    $('div[id=' + pageId + ']').show();
+//}

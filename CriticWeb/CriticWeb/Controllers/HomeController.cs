@@ -75,5 +75,10 @@ namespace CriticWeb.Controllers
             review.Save();
         }
 
+        public PartialViewResult _AllReviewsPartialView()
+        {
+            return PartialView();
+        }
+
     }
 }

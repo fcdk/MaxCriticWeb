@@ -1,14 +1,15 @@
 ﻿using CriticWeb.DataLayer;
+using System.Linq;
 
 namespace CriticWeb.Models.AdminViewModels
 {
     public class ReviewsChekingViewModel
     {
-        public Review[] ReviewsUnchecked { get; private set; }
+        public Review[] UncheckedReviews { get; private set; }
 
         public ReviewsChekingViewModel()
         {
-            ReviewsUnchecked = Review.GetUncheckedReviews();
-        }  
+            UncheckedReviews = Review.GetUncheckedReviews().OrderByDescending( (rev) => rev.Time ).ToArray();
+        }
     }
 }

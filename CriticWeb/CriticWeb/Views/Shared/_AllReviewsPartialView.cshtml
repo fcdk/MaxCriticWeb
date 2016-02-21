@@ -1,0 +1,47 @@
+﻿@using CriticWeb.DataLayer
+@using CriticWeb.Models.Data
+@model CriticWeb.Models.ContentCriticViewModels.AllReviewsViewModel   
+
+@if (Model.Reviews != null)
+{
+    int pagesCount = 0;
+    for (int i = 0; i < Model.Reviews.Length; i++)
+    {
+        if (i == 0 || i % 2 == 0)
+        {
+            pagesCount++;
+            @:<div id="page-@pagesCount">
+        }
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</h4>
+                    @Html.Partial("_ReviewPartialView", Model.Reviews[i])
+                </div>
+                @{ i++; }
+                <div class="col-md-6">
+                    @if (i < Model.Reviews.Length)
+                    {
+                        <h4>@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</h4>
+                        @Html.Partial("_ReviewPartialView", Model.Reviews[i])
+                    }
+                </div>
+            </div>
+        </div>
+        
+        if (i == 1 || i % 1 == 0)
+        {
+            @:</div>
+        }
+    }
+    <div class="text-center">
+        <p>Сторінки:</p>
+        <ul class="pagination">
+            <li class="active"><a @*onclick="pageClick(page-1)"*@ href="#page-1">1</a></li>
+            @for (int i = 2; i <= pagesCount; i++)
+            {
+                <li><a @*onclick="pageClick(page-@i)"*@ href="#page-@i">@i</a></li>
+            }      
+        </ul>
+    </div>
+}
