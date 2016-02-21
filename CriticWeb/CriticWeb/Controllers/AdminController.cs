@@ -11,8 +11,7 @@ namespace CriticWeb.Controllers
     {
         public ActionResult ReviewsChecking()
         {
-            ReviewsChekingViewModel reviewChecking = new ReviewsChekingViewModel();
-            return View(reviewChecking);
+            return View(new ReviewsChekingViewModel());
         }
 
         [HttpPost]

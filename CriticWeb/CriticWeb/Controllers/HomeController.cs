@@ -80,5 +80,10 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        public ActionResult EntertainmentReviews(Guid id, bool isCritic)
+        {
+            return View(new EntertainmentReviewsViewModel(id, isCritic));
+        }
+
     }
 }

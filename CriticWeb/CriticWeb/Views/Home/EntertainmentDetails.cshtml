@@ -677,7 +677,7 @@
                         {
                                 @Html.Partial("_ReviewPartialView", review);
                         }
-                            <a href="#"><h5>Побачити всі відгуки критиків >></h5></a>
+                            <a href="@Url.Action("EntertainmentReviews", "Home", new { id = Model.EntertainmentDetails.EntertainmentDL.Id, isCritic = true })"><h5>Побачити всі відгуки критиків >></h5></a>
                     }
 
                 </div>
@@ -723,12 +723,12 @@
                     <hr />
 
                     @if (Model.UserReviews.Length != 0)
-                {
-                    foreach (var review in Model.UserReviews)
                     {
-                            @Html.Partial("_ReviewPartialView", review);
-                    }
-                        <a href="#"><h5>Побачити всі відгуки користувачів >></h5></a>
+                        foreach (var review in Model.UserReviews)
+                        {
+                                @Html.Partial("_ReviewPartialView", review);
+                        }
+                        <a href="@Url.Action("EntertainmentReviews", "Home", new { id = Model.EntertainmentDetails.EntertainmentDL.Id, isCritic = false })"><h5>Побачити всі відгуки користувачів >></h5></a>
                     }
 
                 </div>
