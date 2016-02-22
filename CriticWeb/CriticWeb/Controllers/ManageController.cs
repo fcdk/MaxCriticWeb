@@ -87,11 +87,18 @@ namespace CriticWeb.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public void DeleteImage()
+        {
+            ProfileCritic.Instance.CurrentUserCritic.Image = null;
+            ProfileCritic.Instance.CurrentUserCritic.Save();
+        }
+
         //
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(IndexViewModel model, HttpPostedFileBase uploadImage, bool deleteImage)
+        public ActionResult Index(IndexViewModel model, HttpPostedFileBase uploadImage)
         {
             if (ModelState.IsValid)
             {
@@ -102,17 +109,16 @@ namespace CriticWeb.Controllers
 
                 if (true) //result.Succeeded)
                 {
-                    if (deleteImage)
-                    {
-                        ProfileCritic.Instance.CurrentUserCritic.Image = null;
-                    }
-
                     byte[] imageData = null;
                     if (uploadImage != null)
+                    {
                         using (var binaryReader = new BinaryReader(uploadImage.InputStream))
                         {
                             imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                            ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
                         }
+
+                    }                        
 
                     ProfileCritic.Instance.CurrentUserCritic.Username = model.Username;
                     ProfileCritic.Instance.CurrentUserCritic.Name = model.Name;
@@ -121,8 +127,7 @@ namespace CriticWeb.Controllers
                     ProfileCritic.Instance.CurrentUserCritic.Gender = model.Gender;
                     ProfileCritic.Instance.CurrentUserCritic.Country = model.Country;
                     ProfileCritic.Instance.CurrentUserCritic.PublicationCompany = model.PublicationCompany;
-                    //ProfileCritic.Instance.CurrentUserCritic.Email = model.Email;
-                    ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
+                    //ProfileCritic.Instance.CurrentUserCritic.Email = model.Email;                   
                     ProfileCritic.Instance.CurrentUserCritic.Save();
 
                     return RedirectToAction("Index", "Manage");

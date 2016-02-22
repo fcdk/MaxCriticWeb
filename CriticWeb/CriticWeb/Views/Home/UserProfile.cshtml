@@ -1,12 +1,105 @@
-﻿@model CriticWeb.Models.ContentCriticViewModels.UserProfileViewModel
+﻿@using CriticWeb.Models.ContentCriticViewModels
+@using CriticWeb.DataLayer
+@model CriticWeb.Models.ContentCriticViewModels.UserProfileViewModel
 @{
-    ViewBag.Title = Model.user.Username;
+    ViewBag.Title = Model.User.Username;
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-]').hide();
+            $('div[id=page-1]').show();
+        });
+        $('.' + '@Model.PaginationId').bootpag({
+            total: @Math.Ceiling((double)Model.Reviews.Length/10),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-]').hide();
+            $('div[id=page-' + num + ']').show();
+        });
+    </script>
 }
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Профіль корисувача</h4></div>
-    <div class="panel-body">
-
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-11">
+                <h4>Профіль корисувача</h4>
+            </div>
+            <div class="col-md-1">
+                @if (Model.User.UserId == ProfileCritic.Instance.CurrentUserCritic.Id)
+                {
+                    <a href="@Url.Action("Index", "Manage")" class="tooltip-with-text" title="Редагувати профіль"><span style="font-size:2.5em;" class="glyphicon glyphicon-pencil"></span></a>
+                }                                
+            </div>
+        </div>       
+    </div>
+    <div class="panel-body">        
+        <div class="container-fluid">
+            <div row="row">
+                <div class="col-md-6">
+                    <div class="row text-center">
+                        @if (Model.User.Image != null)
+                        {
+                            <img class="img-circle" style="height:120px; width:120px;" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.User.Image))" />
+                        }
+                        else
+                        {
+                            <img class="img-circle" style="height:100px; width:100px;" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" />
+                        }
+                    </div>
+                    <div class="row text-center">
+                        <h4><b>@Model.User.Username</b></h4>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @if (Model.User.PublicationCompany != null && Model.User.UserRole == UserCritic.Role.Critic.ToString())
+                    {
+                        <div class="row">
+                            <p><b>ЗМІ:</b> @Model.User.PublicationCompany</p>
+                        </div>
+                    }
+                    @if (Model.User.Surname != null)
+                    {
+                        <div class="row">
+                            <p><b>Прізвище:</b> @Model.User.Surname</p>
+                        </div>
+                    }
+                    @if (Model.User.Name != null)
+                    {
+                        <div class="row">
+                            <p><b>Ім'я:</b> @Model.User.Name</p>
+                        </div>
+                    }
+                    @if (Model.User.DateOfBirth != null)
+                    {
+                        <div class="row">
+                            <p><b>Дата народження:</b> @(((DateTime)Model.User.DateOfBirth).ToShortDateString())</p>
+                        </div>
+                    }
+                    @if (Model.User.Gender != null)
+                    {
+                        <div class="row">
+                            <p><b>Стать:</b> @(Model.User.Gender == UserCritic.GenderType.Female.ToString() ? "жінка" : "чоловік")</p>
+                        </div>
+                    }
+                    @if (Model.User.Country != null)
+                    {
+                        <div class="row">
+                            <p><b>Країна:</b> @Model.User.Country</p>
+                        </div>
+                    }
+                </div>
+            </div>                              
+        </div>                 
     </div>
 </div>
 
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Відгуки користувача</h4></div>
+    <div class="panel-body">
+        @Html.Partial("_AllReviewsPartialView", new AllReviewsViewModel(Model.Reviews, Model.PaginationId))
+    </div>
+</div>

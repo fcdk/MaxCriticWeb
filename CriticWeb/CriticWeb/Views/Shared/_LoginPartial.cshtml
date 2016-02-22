@@ -5,15 +5,19 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul style="margin:0px 5px" class="nav navbar-nav navbar-right">
-        @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
-        {
-            <li>
-                <img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" />
-            </li>
-        }
+    <ul style="margin:0px 5px" class="nav navbar-nav navbar-right">        
+        <li>
+            @if (ProfileCritic.Instance.CurrentUserCritic.Image != null)
+            {
+                <a style="padding:0px;" href="@Url.Action("UserProfile", "Home", new { id = ProfileCritic.Instance.CurrentUserCritic.Id })"><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(ProfileCritic.Instance.CurrentUserCritic.Image))" /></a>
+            }
+            else
+            {
+                <a style="padding:0px;" href="@Url.Action("UserProfile", "Home", new { id = ProfileCritic.Instance.CurrentUserCritic.Id })"><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></a>
+            }
+        </li>        
         <li>            
-            @Html.ActionLink("Привіт, " + ProfileCritic.Instance.CurrentUserCritic + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Привіт, " + ProfileCritic.Instance.CurrentUserCritic + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Редагувати профіль" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Вийти</a></li>
     </ul>

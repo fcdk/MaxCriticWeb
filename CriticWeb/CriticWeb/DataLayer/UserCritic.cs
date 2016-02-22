@@ -154,6 +154,6 @@ namespace CriticWeb.DataLayer
         }
 
         public enum GenderType { Male, Female }
-        public enum Role { Admin, User, Critic }
+        public enum Role { User, Critic }
     }
 }

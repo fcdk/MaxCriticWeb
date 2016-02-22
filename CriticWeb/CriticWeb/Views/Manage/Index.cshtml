@@ -4,18 +4,6 @@
     ViewBag.Title = "Управління обліковим записом";
 }
 
-@{ bool delImg = false; }
-
-<script>
-    function delete_image()
-    {
-        $(".avatar").remove();
-        $("#delete-img-btn").remove();
-        @{ delImg = true; }
-    }
-</script>
-
-
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -143,6 +131,12 @@
         </div>
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.PublicationCompany, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.PublicationCompany, new { @class = "form-control" })
@@ -168,8 +162,7 @@
         </div>
     </div>
     <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-            @Html.Hidden("deleteImage", delImg)
+        <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Зберегти зміни" />                   
         </div>
     </div>
