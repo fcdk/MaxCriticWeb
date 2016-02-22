@@ -1,4 +1,5 @@
-﻿@model CriticWeb.Models.AdminViewModels.UsersAdministratingViewModel
+﻿@using CriticWeb.DataLayer
+@model CriticWeb.Models.AdminViewModels.UsersAdministratingViewModel
 @{
     ViewBag.Title = "Користувачі";
 }
@@ -16,8 +17,36 @@
         }).on('page', function (event, num) {
             $('div[id^=page-]').hide();
             $('div[id=page-' + num + ']').show();
-        });
+        });        
     </script>
+
+    @foreach (var user in Model.UsersCritic)
+    {
+        if (user.UserRole == UserCritic.Role.Admin.ToString())
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#' + '@user.UserId').find('.form-control').val('1');
+                });
+            </script>
+        }
+        if (user.UserRole == UserCritic.Role.User.ToString())
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#' + '@user.UserId').find('.form-control').val('2');
+                });
+            </script>
+        }
+        if (user.UserRole == UserCritic.Role.Critic.ToString())
+        {
+            <script>
+                $(document).ready(function () {
+                    $('#' + '@user.UserId').find('.form-control').val('3');
+                });
+            </script>
+        }
+    }        
 }
 
 <div class="panel panel-default">
@@ -43,15 +72,34 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Нікнейм</th>
+                            <th>Роль</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int j = 0; j+i < Model.UsersCritic.Length && j < 10; j++)
-                        {
-                            <tr>
-                                <td>@Model.UsersCritic[j+i].Username</td>
-                            </tr>                            
+                        @for (int j = 0; j + i < Model.UsersCritic.Length && j < 10; j++)
+                        {                            
+                            <tr id="@Model.UsersCritic[j + i].UserId">
+                                @if (Model.UsersCritic[j + i].Image != null)
+                                {
+                                    <td><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.UsersCritic[j + i].Image))" /></td>
+                                }
+                                else
+                                {
+                                    <td><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></td>
+                                }
+                                <td><h4>@Model.UsersCritic[j + i].Username</h4></td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="form-control">
+                                            <option value="1">Адмін</option>
+                                            <option value="2">Звичайний користувач</option>
+                                            <option value="3">Критик</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>                         
                         }
                         @{ i+=9; }
                     </tbody>
