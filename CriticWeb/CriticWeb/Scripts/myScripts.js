@@ -83,3 +83,27 @@ function delete_image() {
         });
     }
 }
+
+function roleChanged(sel, id) {
+    var role;
+    if (sel.value === 1)
+    {
+        role = 'Admin';
+    }
+    if (sel.value === 2)
+    {
+        role = 'User';
+    }
+    if (sel.value === 3)
+    {
+        role = 'Critic';
+    }
+    $.ajax({
+        url: '/Admin/ChangeRole',
+        type: 'POST',
+        data: "id=" + id + "&role=" + role,
+        error: function (xhr, textStatus, errorThrown) {
+            alert("Не вдалося змінити роль користувача, помилка: " + errorThrown);
+        }
+    });
+}
