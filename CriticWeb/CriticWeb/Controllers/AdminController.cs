@@ -1,6 +1,5 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.AdminViewModels;
-using CriticWeb.Models.ContentCriticViewModels;
 using System;
 using System.Web.Mvc;
 
@@ -27,6 +26,11 @@ namespace CriticWeb.Controllers
         {
             Review review = Review.GetById(id);
             review.Delete();
+        }
+
+        public ActionResult UsersAdministrating(string username = null)
+        {
+            return View(new UsersAdministratingViewModel(username));
         }
 
     }
