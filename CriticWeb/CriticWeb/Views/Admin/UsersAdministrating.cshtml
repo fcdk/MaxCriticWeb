@@ -38,32 +38,26 @@
         int pagesCount = 0;
         for (int i = 0; i < Model.UsersCritic.Length; i++)
         {
-            if (i == 0 || i % 10 == 0)
-            {
-                pagesCount++;
-                @:<div id="page-@pagesCount">
-                    @:<table class="table table-striped">
-                        @:<thead>
-                            @:<tr>
-                                @:<th>Нікнейм</th>
-                            @:</tr>
-                        @:</thead>
-                        @:<tbody>
-            }
-            for (int j = i; j < Model.UsersCritic.Length || j < 10; j++)
-            {
-                <tr>
-                    <td>@Model.UsersCritic[i].Username</td>
-                </tr>
-                i++;
-            }
-            if ((i - 9) % 10 == 0 || i >= Model.UsersCritic.Length - 1)
-            {
-                    @:</tbody>
-                @:</table>
-            @:</div>
-            }
-        }           
+            pagesCount++;
+            <div id="page-@pagesCount">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Нікнейм</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int j = 0; j+i < Model.UsersCritic.Length && j < 10; j++)
+                        {
+                            <tr>
+                                <td>@Model.UsersCritic[j+i].Username</td>
+                            </tr>                            
+                        }
+                        @{ i+=9; }
+                    </tbody>
+                </table>
+            </div>
+        }
     }
     <div class="text-center">
         <p>Сторінки:</p>

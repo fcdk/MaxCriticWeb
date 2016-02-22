@@ -15,7 +15,7 @@ namespace CriticWeb.Models.AdminViewModels
             {
                 if (username == null)
                     UsersCritic = (from user in context.UserCritics
-                                   select user).Take(50).ToArray();
+                                   select user)?.Take(50).OrderBy( u => u.Username ).ToArray();
             }
             PaginationId = Guid.NewGuid();
         }
