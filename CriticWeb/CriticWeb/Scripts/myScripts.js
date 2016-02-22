@@ -86,15 +86,15 @@ function delete_image() {
 
 function roleChanged(sel, id) {
     var role;
-    if (sel.value === 1)
+    if (sel.value == 1)
     {
         role = 'Admin';
     }
-    if (sel.value === 2)
+    if (sel.value == 2)
     {
         role = 'User';
     }
-    if (sel.value === 3)
+    if (sel.value == 3)
     {
         role = 'Critic';
     }
