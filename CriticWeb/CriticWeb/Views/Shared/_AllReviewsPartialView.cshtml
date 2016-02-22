@@ -76,9 +76,11 @@
             @:</div>
         }
     }
-    <div class="text-center">
-        <p>Сторінки:</p>
-        <p class="@Model.PaginationId">
-        </p>        
-    </div>
+    if (Model.Reviews.Length != 0)
+    {
+        <div class="text-center">
+            <p>Сторінки:</p>
+            <p class="@Model.PaginationId"></p>
+        </div>
+    }
 }

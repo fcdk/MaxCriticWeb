@@ -20,8 +20,8 @@ namespace CriticWeb.Models.ContentCriticViewModels
         {
             EntertainmentViewModel = new EntertainmentVM(Entertainment.GetById(id));
             IsCritic = isCritic;            
-            AllEntertainmentCriticReviews = Review.GetReviewByEntertainment(EntertainmentViewModel.EntertainmentDL).Where( (rev) => rev.Publication != null && rev.Publication != String.Empty).ToArray();
-            AllEntertainmentUserReviews = Review.GetReviewByEntertainment(EntertainmentViewModel.EntertainmentDL).Where((rev) => (rev.Publication == null || rev.Publication == String.Empty) && rev.CheckedByAdmin == true).ToArray();
+            AllEntertainmentCriticReviews = Review.GetReviewByEntertainment(EntertainmentViewModel.EntertainmentDL)?.Where( (rev) => rev.Publication != null && rev.Publication != String.Empty)?.ToArray();
+            AllEntertainmentUserReviews = Review.GetReviewByEntertainment(EntertainmentViewModel.EntertainmentDL)?.Where((rev) => (rev.Publication == null || rev.Publication == String.Empty) && rev.CheckedByAdmin == true)?.ToArray();
             PaginationCriticId = Guid.NewGuid();
             PaginationUserId = Guid.NewGuid();
         }

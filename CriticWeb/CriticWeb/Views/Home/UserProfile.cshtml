@@ -12,7 +12,7 @@
             $('div[id=page-1]').show();
         });
         $('.' + '@Model.PaginationId').bootpag({
-            total: @Math.Ceiling((double)Model.Reviews.Length/10),
+            total: @(Model.Reviews != null ? Math.Ceiling((double)Model.Reviews.Length / 10) : 0),
             page: 1,
             maxVisible: 10
         }).on('page', function (event, num) {

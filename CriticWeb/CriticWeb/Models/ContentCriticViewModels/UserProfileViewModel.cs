@@ -22,7 +22,7 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 if (users.Length == 1)
                     User = users[0];
 
-                Reviews = Review.GetReviewByUser(UserCritic.GetById(User.UserId)).Where( rev => rev.CheckedByAdmin == true ).OrderByDescending( rev => rev.Time ).ToArray();
+                Reviews = Review.GetReviewByUser(UserCritic.GetById(User.UserId))?.Where( rev => rev.CheckedByAdmin == true )?.OrderByDescending( rev => rev.Time )?.ToArray();
 
                 PaginationId = Guid.NewGuid();
             }

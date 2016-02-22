@@ -3,6 +3,23 @@
     ViewBag.Title = "Користувачі";
 }
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-]').hide();
+            $('div[id=page-1]').show();
+        });
+        $('.' + '@Model.PaginationId').bootpag({
+            total: @(Model.UsersCritic != null ? Math.Ceiling((double)Model.UsersCritic.Length / 10) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-]').hide();
+            $('div[id=page-' + num + ']').show();
+        });
+    </script>
+}
+
 <div class="panel panel-default">
     <div class="panel-heading"><h4>Користувачі</h4></div>
     <div class="panel-body">
@@ -13,8 +30,44 @@
                     <input class="form-control" id="userSearch" placeholder="Введіть нікнейм">
                 </div>
                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Знайти</button>
-
             </form>
         </div>
+    </div>
+    @if (Model.UsersCritic != null)
+    {
+        int pagesCount = 0;
+        for (int i = 0; i < Model.UsersCritic.Length; i++)
+        {
+            if (i == 0 || i % 10 == 0)
+            {
+                pagesCount++;
+                @:<div id="page-@pagesCount">
+                    @:<table class="table table-striped">
+                        @:<thead>
+                            @:<tr>
+                                @:<th>Нікнейм</th>
+                            @:</tr>
+                        @:</thead>
+                        @:<tbody>
+            }
+            for (int j = i; j < Model.UsersCritic.Length || j < 10; j++)
+            {
+                <tr>
+                    <td>@Model.UsersCritic[i].Username</td>
+                </tr>
+                i++;
+            }
+            if ((i - 9) % 10 == 0 || i >= Model.UsersCritic.Length - 1)
+            {
+                    @:</tbody>
+                @:</table>
+            @:</div>
+            }
+        }           
+    }
+    <div class="text-center">
+        <p>Сторінки:</p>
+        <p class="@Model.PaginationId">
+        </p>
     </div>
 </div>
