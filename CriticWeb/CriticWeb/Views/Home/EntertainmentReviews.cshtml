@@ -7,29 +7,29 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('div[id^=page-]').hide();
-            $('div[id=page-1]').show();
+            $('div[id^=page-' + '@Model.PaginationCriticId' + ']').hide();
+            $('div[id=page-' + '@Model.PaginationCriticId' + '-1]').show();
         });
         $('.' + '@Model.PaginationCriticId').bootpag({
             total: @(Model.AllEntertainmentCriticReviews != null && Math.Ceiling((double)Model.AllEntertainmentCriticReviews.Length / 10) != 1 ? Math.Ceiling((double)Model.AllEntertainmentCriticReviews.Length / 10) : 0),
             page: 1,
             maxVisible: 10
         }).on('page', function (event, num) {
-            $('div[id^=page-]').hide();
-            $('div[id=page-' + num + ']').show();
+            $('div[id^=page-' + '@Model.PaginationCriticId' + ']').hide();
+            $('div[id=page-' + '@Model.PaginationCriticId' + '-' + num + ']').show();
         });
 
         $(document).ready(function () {
-            $('div[id^=page-]').hide();
-            $('div[id=page-1]').show();
+            $('div[id^=page-' + '@Model.PaginationUserId' + ']').hide();
+            $('div[id=page-' + '@Model.PaginationUserId' + '-1]').show();
         });
         $('.' + '@Model.PaginationUserId').bootpag({
             total: @(Model.AllEntertainmentUserReviews != null && Math.Ceiling((double)Model.AllEntertainmentUserReviews.Length / 10) != 1 ? Math.Ceiling((double)Model.AllEntertainmentUserReviews.Length / 10) : 0),
         page: 1,
         maxVisible: 10
         }).on('page', function (event, num) {
-            $('div[id^=page-]').hide();
-            $('div[id=page-' + num + ']').show();
+            $('div[id^=page-' + '@Model.PaginationUserId' + ']').hide();
+            $('div[id=page-' + '@Model.PaginationUserId' + '-' + num + ']').show();
         });
     </script>
 }
