@@ -299,6 +299,25 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static Entertainment[] GetLastNEntertainmentByReviewCount(uint N, uint reviewCount)
+        {
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT TOP(" + N + ") Entertainment." + _idColumnName + ", Entertainment.ReleaseDate FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL GROUP BY Entertainment." + _idColumnName + ", Entertainment.ReleaseDate HAVING COUNT(Review.ReviewId)>=" + reviewCount + " ORDER BY Entertainment.ReleaseDate DESC";
+
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+                List<Guid> ids = new List<Guid>();
+                foreach (DataRow dataRow in dataTable.Rows)
+                    ids.Add((Guid)dataRow[_idColumnName]);
+
+                List<Entertainment> result = new List<Entertainment>();
+                result.AddRange(Entertainment.GetByIds(ids.ToArray()));
+                return result.OrderByDescending(entertainment => entertainment.ReleaseDate).ToArray();
+            }
+        }
+
         public int? AverageCriticPointForOneEntertainment()
         {
             lock (_locker)

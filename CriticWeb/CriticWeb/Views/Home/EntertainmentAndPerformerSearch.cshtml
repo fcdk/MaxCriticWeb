@@ -1,0 +1,82 @@
+﻿@using CriticWeb.Models.ContentCriticViewModels
+@model CriticWeb.Models.ContentCriticViewModels.EntertainmentAndPerformerSearchViewModel
+@{
+    ViewBag.Title = "Пошук";
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-' + '@Model.MoviePaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.MoviePaginationId' + '-1]').show();
+        });
+        $('.' + '@Model.MoviePaginationId').bootpag({
+            total: @(Model.Movies != null && Math.Ceiling((double)Model.Movies.Length / 9) != 1 ? Math.Ceiling((double)Model.Movies.Length / 9) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-' + '@Model.MoviePaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.MoviePaginationId' + '-' + num + ']').show();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-' + '@Model.GamePaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.GamePaginationId' + '-1]').show();
+        });
+        $('.' + '@Model.GamePaginationId').bootpag({
+            total: @(Model.Games != null && Math.Ceiling((double)Model.Games.Length / 9) != 1 ? Math.Ceiling((double)Model.Games.Length / 9) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-' + '@Model.GamePaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.GamePaginationId' + '-' + num + ']').show();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-' + '@Model.TVSeriesPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.TVSeriesPaginationId' + '-1]').show();
+        });
+        $('.' + '@Model.TVSeriesPaginationId').bootpag({
+            total: @(Model.TVSeries != null && Math.Ceiling((double)Model.TVSeries.Length / 9) != 1 ? Math.Ceiling((double)Model.TVSeries.Length / 9) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-' + '@Model.TVSeriesPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.TVSeriesPaginationId' + '-' + num + ']').show();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-' + '@Model.AlbumsPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.AlbumsPaginationId' + '-1]').show();
+        });
+        $('.' + '@Model.AlbumsPaginationId').bootpag({
+            total: @(Model.Albums != null && Math.Ceiling((double)Model.Albums.Length / 9) != 1 ? Math.Ceiling((double)Model.Albums.Length / 9) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-' + '@Model.AlbumsPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.AlbumsPaginationId' + '-' + num + ']').show();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('div[id^=page-' + '@Model.PerformerPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.PerformerPaginationId' + '-1]').show();
+        });
+        $('.' + '@Model.PerformerPaginationId').bootpag({
+            total: @(Model.Performers != null && Math.Ceiling((double)Model.Performers.Length / 9) != 1 ? Math.Ceiling((double)Model.Performers.Length / 9) : 0),
+            page: 1,
+            maxVisible: 10
+        }).on('page', function (event, num) {
+            $('div[id^=page-' + '@Model.PerformerPaginationId' + ']').hide();
+            $('div[id=page-' + '@Model.PerformerPaginationId' + '-' + num + ']').show();
+        });
+    </script>
+}
+
+@Html.Partial("_AllEntertainmentsAndPerformersPartialView", new AllEntertainmentsAndPerformersViewModel(Model.Movies, Model.MoviePaginationId,
+    Model.Games, Model.GamePaginationId, Model.TVSeries, Model.TVSeriesPaginationId, Model.Albums, Model.AlbumsPaginationId, Model.Performers, Model.PerformerPaginationId))
+

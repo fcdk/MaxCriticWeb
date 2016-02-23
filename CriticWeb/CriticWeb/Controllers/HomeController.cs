@@ -95,5 +95,10 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        public ActionResult EntertainmentAndPerformerSearch(string nameForSearch = null)
+        {
+            return View(new EntertainmentAndPerformerSearchViewModel(nameForSearch));
+        }
+
     }
 }

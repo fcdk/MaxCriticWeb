@@ -260,6 +260,7 @@
     <Compile Include="Models\AdminViewModels\UsersAdministratingViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\AllEntertainmentsAndPerformersViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\AllReviewsViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\EntertainmentAndPerformerSearchViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\EntertainmentDetailsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\EntertainmentReviewsViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerDetailsViewModel.cs" />
@@ -378,6 +379,7 @@
     <Content Include="Views\Home\UserProfile.cshtml" />
     <Content Include="Views\Admin\UsersAdministrating.cshtml" />
     <Content Include="Views\Home\_AllEntertainmentsAndPerformersPartialView.cshtml" />
+    <Content Include="Views\Home\EntertainmentAndPerformerSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

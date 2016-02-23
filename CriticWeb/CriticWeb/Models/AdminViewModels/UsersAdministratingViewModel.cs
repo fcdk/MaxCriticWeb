@@ -14,7 +14,7 @@ namespace CriticWeb.Models.AdminViewModels
         {
             using (maxcriticEntities context = new maxcriticEntities())
             {
-                if (username == null)
+                if (username == null || username == String.Empty)
                     UsersCritic = (from user in context.UserCritics.AsParallel()
                                    select user)?.Take(50).OrderBy( u => u.Username ).ToArray();
                 else
