@@ -173,6 +173,8 @@ namespace CriticWeb.Controllers
                     (new UserCritic(model.Username, model.Name, model.Surname, model.DateOfBirth, model.Gender, model.Country,
                     model.PublicationCompany, UserCritic.Role.User, model.Email, imageData)).Save();
 
+                    UserManager.AddToRole(user.Id, "User");
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

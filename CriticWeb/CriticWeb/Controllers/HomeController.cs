@@ -90,5 +90,10 @@ namespace CriticWeb.Controllers
             return View(new UserProfileViewModel(id));
         }
 
+        public PartialViewResult _AllEntertainmentsAndPerformersPartialView()
+        {
+            return PartialView();
+        }
+
     }
 }

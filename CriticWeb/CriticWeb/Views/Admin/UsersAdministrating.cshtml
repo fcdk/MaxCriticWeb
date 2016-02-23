@@ -53,63 +53,63 @@
     <div class="panel-heading"><h4>Користувачі</h4></div>
     <div class="panel-body">
         <div class="row">
-                @using (Html.BeginForm("UsersAdministrating", "Admin", FormMethod.Get, new { @class = "navbar-form navbar-left", role = "form" }))
-                {
-                    <div class="form-group">
-                        <label for="userSearch">Пошук:</label>
-                        @Html.TextBoxFor(m => m.usernameForSearch, new { @class = "form-control", @id = "userSearch", @placeholder = "Введіть нікнейм" })
-                    </div>
+            @using (Html.BeginForm("UsersAdministrating", "Admin", FormMethod.Get, new { @class = "navbar-form navbar-left", role = "form" }))
+            {
+                <div class="form-group">
+                    <label for="userSearch">Пошук:</label>
+                    @Html.TextBoxFor(m => m.usernameForSearch, new { @class = "form-control", @id = "userSearch", @placeholder = "Введіть нікнейм" })
+                </div>
                     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Знайти</button>
-                }
+            }
         </div>
-    </div>
-    @if (Model.UsersCritic != null)
-    {
-        int pagesCount = 0;
-        for (int i = 0; i < Model.UsersCritic.Length; i++)
+        @if (Model.UsersCritic != null)
         {
-            pagesCount++;
-            <div id="page-@pagesCount">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Нікнейм</th>
-                            <th>Роль</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int j = 0; j + i < Model.UsersCritic.Length && j < 10; j++)
-                        {                            
-                            <tr id="@Model.UsersCritic[j + i].UserId">
-                                @if (Model.UsersCritic[j + i].Image != null)
-                                {
-                                    <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.UsersCritic[j + i].Image))" /></a></td>
-                                }
-                                else
-                                {
-                                    <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></a></td>
-                                }
-                                <td><h4><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })">@Model.UsersCritic[j + i].Username</a></h4></td>
-                                <td>
-                                    <div class="form-group">
-                                        <select class="form-control" onchange="roleChanged(this,'@Model.UsersCritic[j + i].UserId')">
-                                            <option value="1">Адмін</option>
-                                            <option value="2">Звичайний користувач</option>
-                                            <option value="3">Критик</option>
-                                        </select>
-                                    </div>
-                                </td>
+            int pagesCount = 0;
+            for (int i = 0; i < Model.UsersCritic.Length; i++)
+            {
+                pagesCount++;
+                <div id="page-@pagesCount">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Нікнейм</th>
+                                <th>Роль</th>
                             </tr>
-                        }
-                        @{ i+=9; }
-                    </tbody>
-                </table>
-            </div>
-        }
-    }
-    <div class="text-center">
-        <p class="@Model.PaginationId">
-        </p>
+                        </thead>
+                        <tbody>
+                            @for (int j = 0; j + i < Model.UsersCritic.Length && j < 10; j++)
+                            {
+                                <tr id="@Model.UsersCritic[j + i].UserId">
+                                    @if (Model.UsersCritic[j + i].Image != null)
+                                    {
+                                        <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.UsersCritic[j + i].Image))" /></a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></a></td>
+                                    }
+                                    <td><h4><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })">@Model.UsersCritic[j + i].Username</a></h4></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" onchange="roleChanged(this,'@Model.UsersCritic[j + i].UserId')">
+                                                <option value="1">Адмін</option>
+                                                <option value="2">Звичайний користувач</option>
+                                                <option value="3">Критик</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            @{ i += 9; }
+                        </tbody>
+                    </table>
+                </div>
+                                    }
+                                }
+        <div class="text-center">
+            <p class="@Model.PaginationId">
+            </p>
+        </div>
     </div>
 </div>
