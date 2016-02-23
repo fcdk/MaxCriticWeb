@@ -11,7 +11,7 @@
             $('div[id=page-1]').show();
         });
         $('.' + '@Model.PaginationId').bootpag({
-            total: @(Model.UsersCritic != null ? Math.Ceiling((double)Model.UsersCritic.Length / 10) : 0),
+            total: @(Model.UsersCritic != null && Math.Ceiling((double)Model.UsersCritic.Length / 10) != 1 ? Math.Ceiling((double)Model.UsersCritic.Length / 10) : 0),
             page: 1,
             maxVisible: 10
         }).on('page', function (event, num) {
@@ -53,13 +53,14 @@
     <div class="panel-heading"><h4>Користувачі</h4></div>
     <div class="panel-body">
         <div class="row">
-            <form role="form" class="navbar-form navbar-left">
-                <div class="form-group">
-                    <label for="userSearch">Пошук:</label>
-                    <input class="form-control" id="userSearch" placeholder="Введіть нікнейм">
-                </div>
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Знайти</button>
-            </form>
+                @using (Html.BeginForm("UsersAdministrating", "Admin", FormMethod.Get, new { @class = "navbar-form navbar-left", role = "form" }))
+                {
+                    <div class="form-group">
+                        <label for="userSearch">Пошук:</label>
+                        @Html.TextBoxFor(m => m.usernameForSearch, new { @class = "form-control", @id = "userSearch", @placeholder = "Введіть нікнейм" })
+                    </div>
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Знайти</button>
+                }
         </div>
     </div>
     @if (Model.UsersCritic != null)
@@ -83,13 +84,13 @@
                             <tr id="@Model.UsersCritic[j + i].UserId">
                                 @if (Model.UsersCritic[j + i].Image != null)
                                 {
-                                    <td><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.UsersCritic[j + i].Image))" /></td>
+                                    <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.UsersCritic[j + i].Image))" /></a></td>
                                 }
                                 else
                                 {
-                                    <td><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></td>
+                                    <td><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })"><img class="avatar" src="http://centr-lab-diagnostiki.062.ua/images/frontend/avatars/avatar.png" /></a></td>
                                 }
-                                <td><h4>@Model.UsersCritic[j + i].Username</h4></td>
+                                <td><h4><a href="@Url.Action("UserProfile","Home", new { id = Model.UsersCritic[j + i].UserId })">@Model.UsersCritic[j + i].Username</a></h4></td>
                                 <td>
                                     <div class="form-group">
                                         <select class="form-control" onchange="roleChanged(this,'@Model.UsersCritic[j + i].UserId')">
@@ -99,7 +100,7 @@
                                         </select>
                                     </div>
                                 </td>
-                            </tr>                         
+                            </tr>
                         }
                         @{ i+=9; }
                     </tbody>
@@ -108,7 +109,6 @@
         }
     }
     <div class="text-center">
-        <p>Сторінки:</p>
         <p class="@Model.PaginationId">
         </p>
     </div>

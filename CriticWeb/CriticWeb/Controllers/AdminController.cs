@@ -33,9 +33,9 @@ namespace CriticWeb.Controllers
             review.Delete();
         }
 
-        public ActionResult UsersAdministrating(string username = null)
+        public ActionResult UsersAdministrating(string usernameForSearch = null)
         {
-            return View(new UsersAdministratingViewModel(username));
+            return View(new UsersAdministratingViewModel(usernameForSearch));
         }
 
         [HttpPost]
