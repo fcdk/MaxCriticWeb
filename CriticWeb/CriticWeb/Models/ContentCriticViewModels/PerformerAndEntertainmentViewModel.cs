@@ -1,5 +1,6 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
+using System;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {
@@ -17,6 +18,17 @@ namespace CriticWeb.Models.ContentCriticViewModels
                 EntertainmentVM entertainmentVM = PerformerOrEntertainment as EntertainmentVM;
                 if (entertainmentVM != null)
                     return entertainmentVM.Poster;
+                return null;
+            }
+        }
+
+        public DateTime? ReleaseDate
+        {
+            get
+            {
+                EntertainmentVM entertainmentVM = PerformerOrEntertainment as EntertainmentVM;
+                if (entertainmentVM != null)
+                    return entertainmentVM.ReleaseDate;
                 return null;
             }
         }

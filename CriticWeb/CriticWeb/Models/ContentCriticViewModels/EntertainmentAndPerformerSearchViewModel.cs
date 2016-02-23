@@ -45,10 +45,10 @@ namespace CriticWeb.Models.ContentCriticViewModels
             Performers = performersVM;            
             if (entertainmentsVM != null)
             {
-                Movies = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Movie).ToArray();
-                Games = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Game).ToArray();
-                TVSeries = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.TVSeries).ToArray();
-                Albums = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Album).ToArray();
+                Movies = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Movie).OrderByDescending( e => e.ReleaseDate ).ToArray();
+                Games = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Game).OrderByDescending(e => e.ReleaseDate).ToArray();
+                TVSeries = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.TVSeries).OrderByDescending(e => e.ReleaseDate).ToArray();
+                Albums = entertainmentsVM.Where(e => e.EntertainmentType == DataLayer.Entertainment.Type.Album).OrderByDescending(e => e.ReleaseDate).ToArray();
             }
 
             MoviePaginationId = Guid.NewGuid();

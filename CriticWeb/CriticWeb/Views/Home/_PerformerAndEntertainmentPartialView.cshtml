@@ -29,8 +29,12 @@
                         <img class="performer-or-entertainment-block-img" src="http://www.russianrobotics.ru/img/no-foto-small.jpg" />
                     }
                 </div>
-                <div class="col-md-6">                    
-                    <h5>Критики:</h5>
+                <div class="col-md-6">
+                    @if (Model.ReleaseDate != null)
+                    {
+                        <p><b>Дата релізу: </b>@(((DateTime)Model.ReleaseDate).ToShortDateString())</p>
+                    }                    
+                    <h5><b>Критики:</b></h5>
                     @if (Model.AvarageCriticPoint == null)
                     {
                         <h4 class="point-performer-or-entertainment-not-available"><b>N/A</b></h4>
@@ -47,7 +51,7 @@
                     {
                         <h4 class="point-performer-or-entertainment-green"><b>@Model.AvarageCriticPoint</b></h4>
                     }
-                    <h5>Користувачі:</h5>
+                    <h5><b>Користувачі:</b></h5>
                     @if (Model.AvarageUserPoint == null)
                     {
                         <h4 class="point-performer-or-entertainment-not-available"><b>N/A</b></h4>
