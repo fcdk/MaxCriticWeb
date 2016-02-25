@@ -175,83 +175,83 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="DataLayerEF\AspNetRole.cs">
+    <Compile Include="App_Data\DataLayerEF\AspNetRole.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\AspNetUser.cs">
+    <Compile Include="App_Data\DataLayerEF\AspNetUser.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\AspNetUserClaim.cs">
+    <Compile Include="App_Data\DataLayerEF\AspNetUserClaim.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\AspNetUserLogin.cs">
+    <Compile Include="App_Data\DataLayerEF\AspNetUserLogin.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Award.cs">
+    <Compile Include="App_Data\DataLayerEF\Award.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\CriticModel.Context.cs">
+    <Compile Include="App_Data\DataLayerEF\CriticModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CriticModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\CriticModel.cs">
+    <Compile Include="App_Data\DataLayerEF\CriticModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\CriticModel.Designer.cs">
+    <Compile Include="App_Data\DataLayerEF\CriticModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CriticModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\C__MigrationHistory.cs">
+    <Compile Include="App_Data\DataLayerEF\C__MigrationHistory.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Entertainment.cs">
+    <Compile Include="App_Data\DataLayerEF\Entertainment.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Genre.cs">
+    <Compile Include="App_Data\DataLayerEF\Genre.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\GenreInEntertainment.cs">
+    <Compile Include="App_Data\DataLayerEF\GenreInEntertainment.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Performer.cs">
+    <Compile Include="App_Data\DataLayerEF\Performer.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\PerformerInEntertainment.cs">
+    <Compile Include="App_Data\DataLayerEF\PerformerInEntertainment.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Review.cs">
+    <Compile Include="App_Data\DataLayerEF\Review.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\Song.cs">
+    <Compile Include="App_Data\DataLayerEF\Song.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\SongInEntertainment.cs">
+    <Compile Include="App_Data\DataLayerEF\SongInEntertainment.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayerEF\UserCritic.cs">
+    <Compile Include="App_Data\DataLayerEF\UserCritic.cs">
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataLayer\Award.cs" />
-    <Compile Include="DataLayer\Connection.cs" />
-    <Compile Include="DataLayer\ConnectionNameAttribute.cs" />
-    <Compile Include="DataLayer\Entertainment.cs" />
-    <Compile Include="DataLayer\Entity.cs" />
-    <Compile Include="DataLayer\Genre.cs" />
-    <Compile Include="DataLayer\GenreInEntertainment.cs" />
-    <Compile Include="DataLayer\IdColumnNameAttribute.cs" />
-    <Compile Include="DataLayer\NameColumnNameAttribute.cs" />
-    <Compile Include="DataLayer\Performer.cs" />
-    <Compile Include="DataLayer\PerformerInEntertainment.cs" />
-    <Compile Include="DataLayer\ProfileCritic.cs" />
-    <Compile Include="DataLayer\Review.cs" />
-    <Compile Include="DataLayer\Song.cs" />
-    <Compile Include="DataLayer\SongInEntertainment.cs" />
-    <Compile Include="DataLayer\TableNameAttribute.cs" />
-    <Compile Include="DataLayer\UserCritic.cs" />
+    <Compile Include="App_Data\DataLayer\Award.cs" />
+    <Compile Include="App_Data\DataLayer\Connection.cs" />
+    <Compile Include="App_Data\DataLayer\ConnectionNameAttribute.cs" />
+    <Compile Include="App_Data\DataLayer\Entertainment.cs" />
+    <Compile Include="App_Data\DataLayer\Entity.cs" />
+    <Compile Include="App_Data\DataLayer\Genre.cs" />
+    <Compile Include="App_Data\DataLayer\GenreInEntertainment.cs" />
+    <Compile Include="App_Data\DataLayer\IdColumnNameAttribute.cs" />
+    <Compile Include="App_Data\DataLayer\NameColumnNameAttribute.cs" />
+    <Compile Include="App_Data\DataLayer\Performer.cs" />
+    <Compile Include="App_Data\DataLayer\PerformerInEntertainment.cs" />
+    <Compile Include="App_Data\DataLayer\ProfileCritic.cs" />
+    <Compile Include="App_Data\DataLayer\Review.cs" />
+    <Compile Include="App_Data\DataLayer\Song.cs" />
+    <Compile Include="App_Data\DataLayer\SongInEntertainment.cs" />
+    <Compile Include="App_Data\DataLayer\TableNameAttribute.cs" />
+    <Compile Include="App_Data\DataLayer\UserCritic.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,6 +267,7 @@
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerAndEntertainmentViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\SearchViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\UserProfileViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
     <Compile Include="Models\Data\EntertainmentVM.cs" />
@@ -290,12 +291,12 @@
     <Content Include="Content\themes\tooltipster-punk.css" />
     <Content Include="Content\themes\tooltipster-shadow.css" />
     <Content Include="Content\tooltipster.css" />
-    <Content Include="DataLayerEF\CriticModel.Context.tt">
+    <Content Include="App_Data\DataLayerEF\CriticModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CriticModel.edmx</DependentUpon>
       <LastGenOutput>CriticModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DataLayerEF\CriticModel.tt">
+    <Content Include="App_Data\DataLayerEF\CriticModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CriticModel.edmx</DependentUpon>
       <LastGenOutput>CriticModel.cs</LastGenOutput>
@@ -307,11 +308,11 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <EntityDeploy Include="DataLayerEF\CriticModel.edmx">
+    <EntityDeploy Include="App_Data\DataLayerEF\CriticModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CriticModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="DataLayerEF\CriticModel.edmx.diagram">
+    <Content Include="App_Data\DataLayerEF\CriticModel.edmx.diagram">
       <DependentUpon>CriticModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -380,10 +381,9 @@
     <Content Include="Views\Admin\UsersAdministrating.cshtml" />
     <Content Include="Views\Home\_AllEntertainmentsAndPerformersPartialView.cshtml" />
     <Content Include="Views\Home\EntertainmentAndPerformerSearch.cshtml" />
+    <Content Include="Views\Shared\_SearchPartialView.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

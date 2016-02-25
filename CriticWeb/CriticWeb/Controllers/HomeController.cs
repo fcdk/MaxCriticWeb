@@ -95,9 +95,33 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
-        public ActionResult EntertainmentAndPerformerSearch(string nameForSearch = null)
+        public ActionResult EntertainmentAndPerformerSearch(string nameForSearch = null, Entertainment.Type? type = null)
         {
-            return View(new EntertainmentAndPerformerSearchViewModel(nameForSearch));
+            if (type != null)
+                switch (type)
+                {
+                    case Entertainment.Type.Movie:
+                        ViewBag.Title = "MaxCritic - Фільми";
+                        break;
+                    case Entertainment.Type.Game:
+                        ViewBag.Title = "MaxCritic - Ігри";
+                        break;
+                    case Entertainment.Type.TVSeries:
+                        ViewBag.Title = "MaxCritic - Серіали";
+                        break;
+                    case Entertainment.Type.Album:
+                        ViewBag.Title = "MaxCritic - Музика";
+                        break;
+                    default:
+                        break;
+                }
+            else ViewBag.Title = "MaxCritic - Пошук";
+            return View(new EntertainmentAndPerformerSearchViewModel(nameForSearch, type));
+        }
+
+        public PartialViewResult _SearchPartialView()
+        {
+            return PartialView();
         }
 
     }

@@ -97,10 +97,19 @@
                     @if (Model.PerformerViewModel.DateOfBirth != null)
                     {
                         DateTime dateOfBierth = (DateTime)Model.PerformerViewModel.DateOfBirth;
-                        <p>@if (Model.PerformerViewModel.PerformerType == Performer.Type.Person)
-                        {<b>Дата народження:</b>}
-                        else
-                        {<b>Дата заснування:</b>} @dateOfBierth.ToShortDateString()</p>
+                        <p>@switch(Model.PerformerViewModel.PerformerType)
+                        {
+                            case Performer.Type.Person:
+                                <b>Дата народження:</b>
+                                break;
+                            case Performer.Type.GamePlatform:
+                                <b>Дата релізу:</b>
+                                break;
+                            default:
+                                <b>Дата заснування:</b>
+                                break;
+                        }
+                        @dateOfBierth.ToShortDateString()</p>
                     }
                     <p>@Model.PerformerViewModel.Summary</p>
                     @if (Model.Awards != null)

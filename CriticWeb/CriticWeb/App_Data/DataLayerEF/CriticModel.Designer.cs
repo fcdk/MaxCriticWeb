@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "C:\Users\max\Documents\Visual Studio 2015\Projects\CriticWebApp\CriticWeb\CriticWeb\DataLayerEF\CriticModel.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\max\Documents\Visual Studio 2015\Projects\CriticWebApp\CriticWeb\CriticWeb\App_Data\DataLayerEF\CriticModel.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

@@ -8,15 +8,15 @@ namespace CriticWeb.Models.ContentCriticViewModels
 {
     public class UserProfileViewModel
     {
-        public DataLayerEF.UserCritic User { get; private set; }
+        public App_Data.DataLayerEF.UserCritic User { get; private set; }
         public Review[] Reviews { get; private set; }
         public Guid PaginationId { get; private set; }
 
         public UserProfileViewModel(Guid id)
         {
-            using (DataLayerEF.maxcriticEntities context = new DataLayerEF.maxcriticEntities())
+            using (App_Data.DataLayerEF.maxcriticEntities context = new App_Data.DataLayerEF.maxcriticEntities())
             {
-                DataLayerEF.UserCritic[] users = (from u in context.UserCritics.AsParallel()
+                App_Data.DataLayerEF.UserCritic[] users = (from u in context.UserCritics.AsParallel()
                                       where u.UserId == id
                                       select u).ToArray();
                 if (users.Length == 1)

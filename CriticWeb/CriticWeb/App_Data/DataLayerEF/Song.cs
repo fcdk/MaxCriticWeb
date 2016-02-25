@@ -7,32 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserCritic
+    public partial class Song
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserCritic()
+        public Song()
         {
-            this.Reviews = new HashSet<Review>();
+            this.SongInEntertainments = new HashSet<SongInEntertainment>();
         }
     
-        public System.Guid UserId { get; set; }
-        public string Username { get; set; }
+        public System.Guid SongId { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
-        public string Gender { get; set; }
-        public string Country { get; set; }
-        public string PublicationCompany { get; set; }
-        public string UserRole { get; set; }
-        public string Email { get; set; }
-        public byte[] Image { get; set; }
+        public System.TimeSpan Duration { get; set; }
+        public string Lyrics { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<SongInEntertainment> SongInEntertainments { get; set; }
     }
 }

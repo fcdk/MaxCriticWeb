@@ -7,26 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Review
+    public partial class SongInEntertainment
     {
-        public System.Guid ReviewId { get; set; }
-        public System.Guid UserId { get; set; }
+        public System.Guid SongInEntertainmentId { get; set; }
+        public System.Guid SongId { get; set; }
         public System.Guid EntertainmentId { get; set; }
-        public byte Point { get; set; }
-        public string Opinion { get; set; }
-        public System.DateTimeOffset Time { get; set; }
-        public string Link { get; set; }
-        public string Publication { get; set; }
-        public int Helpful { get; set; }
-        public int Unhelpful { get; set; }
-        public bool CheckedByAdmin { get; set; }
     
         public virtual Entertainment Entertainment { get; set; }
-        public virtual UserCritic UserCritic { get; set; }
+        public virtual Song Song { get; set; }
     }
 }

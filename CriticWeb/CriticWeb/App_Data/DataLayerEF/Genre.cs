@@ -7,31 +7,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Performer
+    public partial class Genre
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Performer()
+        public Genre()
         {
-            this.Awards = new HashSet<Award>();
-            this.PerformerInEntertainments = new HashSet<PerformerInEntertainment>();
+            this.Genre1 = new HashSet<Genre>();
+            this.GenreInEntertainments = new HashSet<GenreInEntertainment>();
         }
     
-        public System.Guid PerformerId { get; set; }
+        public System.Guid GenreId { get; set; }
+        public Nullable<System.Guid> ParentGenreId { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
-        public string PerformerType { get; set; }
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
-        public byte[] Image { get; set; }
+        public string GenreType { get; set; }
         public string Summary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Award> Awards { get; set; }
+        public virtual ICollection<Genre> Genre1 { get; set; }
+        public virtual Genre Genre2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PerformerInEntertainment> PerformerInEntertainments { get; set; }
+        public virtual ICollection<GenreInEntertainment> GenreInEntertainments { get; set; }
     }
 }

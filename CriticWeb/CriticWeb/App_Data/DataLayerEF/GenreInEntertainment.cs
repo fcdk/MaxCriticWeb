@@ -7,23 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetRole
+    public partial class GenreInEntertainment
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetRole()
-        {
-            this.AspNetUsers = new HashSet<AspNetUser>();
-        }
+        public System.Guid GenreInEntertainmentId { get; set; }
+        public System.Guid EntertainmentId { get; set; }
+        public System.Guid GenreId { get; set; }
     
-        public string Id { get; set; }
-        public string Name { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual Entertainment Entertainment { get; set; }
+        public virtual Genre Genre { get; set; }
     }
 }

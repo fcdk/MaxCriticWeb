@@ -7,30 +7,32 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Genre
+    public partial class UserCritic
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Genre()
+        public UserCritic()
         {
-            this.Genre1 = new HashSet<Genre>();
-            this.GenreInEntertainments = new HashSet<GenreInEntertainment>();
+            this.Reviews = new HashSet<Review>();
         }
     
-        public System.Guid GenreId { get; set; }
-        public Nullable<System.Guid> ParentGenreId { get; set; }
+        public System.Guid UserId { get; set; }
+        public string Username { get; set; }
         public string Name { get; set; }
-        public string GenreType { get; set; }
-        public string Summary { get; set; }
+        public string Surname { get; set; }
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string Country { get; set; }
+        public string PublicationCompany { get; set; }
+        public string UserRole { get; set; }
+        public string Email { get; set; }
+        public byte[] Image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Genre> Genre1 { get; set; }
-        public virtual Genre Genre2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GenreInEntertainment> GenreInEntertainments { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

@@ -19,27 +19,79 @@ namespace CriticWeb.Models.ContentCriticViewModels
         public PerformerVM[] Performers { get; private set; }
         public Guid PerformerPaginationId { get; private set; }
 
-        public EntertainmentAndPerformerSearchViewModel(string nameForSearch)
+        public EntertainmentAndPerformerSearchViewModel(string nameForSearch = null, Entertainment.Type? type = null)
         {
             EntertainmentVM[] entertainmentsVM = null;
             PerformerVM[] performersVM = null;
-            if (nameForSearch == null || nameForSearch == String.Empty)
+            if ((nameForSearch == null || nameForSearch == String.Empty) && type == null)
             {
                 Entertainment[] entertainments = Entertainment.GetLastNEntertainmentByReviewCount(50, 1);
-                List<EntertainmentVM> entertainmentsListVM = new List<EntertainmentVM>();
-                foreach (var entertainment in entertainments)
-                    entertainmentsListVM.Add(new EntertainmentVM(entertainment));
-                entertainmentsVM = entertainmentsListVM.ToArray();
+                if (entertainments != null)
+                {
+                    List<EntertainmentVM> entertainmentsListVM = new List<EntertainmentVM>();
+                    foreach (var entertainment in entertainments)
+                        entertainmentsListVM.Add(new EntertainmentVM(entertainment));
+                    entertainmentsVM = entertainmentsListVM.ToArray();
+                }                
 
-                Performer[] performers = Performer.GetRandomFirstTen(Performer.Type.Person);
-                List<PerformerVM> performersListVM = new List<PerformerVM>();
-                foreach (var performer in performers)
-                    performersListVM.Add(new PerformerVM(performer));
-                performersVM = performersListVM.ToArray();
+                Performer[] performers = Performer.GetRandomFirstTen();
+                if (performers != null)
+                {
+                    List<PerformerVM> performersListVM = new List<PerformerVM>();
+                    foreach (var performer in performers)
+                        performersListVM.Add(new PerformerVM(performer));
+                    performersVM = performersListVM.ToArray();
+                }                
             }
-            else
+
+            if (nameForSearch != null && nameForSearch != String.Empty && type == null)
             {
-                //////////////////////////////////////////////////
+                Entertainment[] entertainments = Entertainment.GetByName(nameForSearch);
+                if (entertainments != null)
+                {
+                    List<EntertainmentVM> entertainmentsListVM = new List<EntertainmentVM>();
+                    foreach (var entertainment in entertainments)
+                        entertainmentsListVM.Add(new EntertainmentVM(entertainment));
+                    entertainmentsVM = entertainmentsListVM.ToArray();
+                }
+
+                Performer[] performers = Performer.GetByName(nameForSearch);
+                if (performers != null)
+                {
+                    List<PerformerVM> performersListVM = new List<PerformerVM>();
+                    foreach (var performer in performers)
+                        performersListVM.Add(new PerformerVM(performer));
+                    performersVM = performersListVM.ToArray();
+                }
+            }
+
+            if ((nameForSearch == null || nameForSearch == String.Empty) && type != null)
+            {
+                Entertainment[] entertainments = null;
+                switch (type)
+                {
+                    case Entertainment.Type.Movie:
+                        entertainments = Entertainment.GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type.Movie, 50, 1);
+                        break;
+                    case Entertainment.Type.Game:
+                        entertainments = Entertainment.GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type.Game, 50, 1);
+                        break;
+                    case Entertainment.Type.TVSeries:
+                        entertainments = Entertainment.GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type.TVSeries, 50, 1);
+                        break;
+                    case Entertainment.Type.Album:
+                        entertainments = Entertainment.GetLastNEntertainmentByTypeAndReviewCount(Entertainment.Type.Album, 50, 1);
+                        break;
+                    default:
+                        break;
+                }                
+                if (entertainments != null)
+                {
+                    List<EntertainmentVM> entertainmentsListVM = new List<EntertainmentVM>();
+                    foreach (var entertainment in entertainments)
+                        entertainmentsListVM.Add(new EntertainmentVM(entertainment));
+                    entertainmentsVM = entertainmentsListVM.ToArray();
+                }
             }
 
             Performers = performersVM;            

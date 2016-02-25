@@ -1,4 +1,4 @@
-﻿using CriticWeb.DataLayerEF;
+﻿using CriticWeb.App_Data.DataLayerEF;
 using System;
 using System.Linq;
 

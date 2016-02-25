@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CriticWeb.DataLayerEF
+namespace CriticWeb.App_Data.DataLayerEF
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PerformerInEntertainment
+    public partial class C__MigrationHistory
     {
-        public System.Guid PerformerInEntertainmentId { get; set; }
-        public System.Guid PerformerId { get; set; }
-        public System.Guid EntertainmentId { get; set; }
-        public string PerformerRole { get; set; }
-    
-        public virtual Entertainment Entertainment { get; set; }
-        public virtual Performer Performer { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

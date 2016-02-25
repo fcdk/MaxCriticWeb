@@ -1,8 +1,5 @@
 ﻿@using CriticWeb.Models.ContentCriticViewModels
 @model CriticWeb.Models.ContentCriticViewModels.EntertainmentAndPerformerSearchViewModel
-@{
-    ViewBag.Title = "Пошук";
-}
 
 @section scripts{
     <script>
@@ -79,4 +76,3 @@
 
 @Html.Partial("_AllEntertainmentsAndPerformersPartialView", new AllEntertainmentsAndPerformersViewModel(Model.Movies, Model.MoviePaginationId,
     Model.Games, Model.GamePaginationId, Model.TVSeries, Model.TVSeriesPaginationId, Model.Albums, Model.AlbumsPaginationId, Model.Performers, Model.PerformerPaginationId))
-
