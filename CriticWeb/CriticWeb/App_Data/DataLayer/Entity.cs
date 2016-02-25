@@ -44,31 +44,24 @@ namespace CriticWeb.DataLayer
 
         static Entity()
         {
-            ////Logger.Info("Entity.Entity", "Вхід у статичний конструктор Entity.");
             lock (_locker)
             {
                 _idColumnName = ((IdColumnNameAttribute)typeof(T).GetCustomAttributes(typeof(IdColumnNameAttribute), false)[0]).Name;
                 _tableName = ((TableNameAttribute)typeof(T).GetCustomAttributes(typeof(TableNameAttribute), false)[0]).Name;
                 _nameColumnName = ((NameColumnNameAttribute)typeof(T).GetCustomAttributes(typeof(NameColumnNameAttribute), false)[0]).Name;
 
-                ////Logger.Info("Entity.Entity", "У статичному конструкторі Entity зчитано атрибути класу Т.");
-
                 string selectSQL = "SELECT * FROM " + _tableName + ";";
-                _dataAdapter = new SqlDataAdapter(selectSQL, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);//Connection.Instance.MSSQLConnection);
+                _dataAdapter = new SqlDataAdapter(selectSQL, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(_dataAdapter);
                 _dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
                 _dataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
                 _dataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
-
-                ////Logger.Info("Entity.Entity", "У статичному конструкторі Entity створено SqlDataAdapter та згенеровані SQL-запити.");
 
                 _dataAdapter.SelectCommand.CommandText = "SELECT TOP(1) * FROM " + _tableName + ";";
                 _dataAdapter.Fill(_dataTable);
 
                 _dataTable.TableName = _tableName;
                 _dataTable.PrimaryKey = new DataColumn[] { _dataTable.Columns[_idColumnName] };
-
-                ////Logger.Info("Entity.Entity", "У статичному конструкторі Entity сформований DataTable.");
             }
         }
 
@@ -85,15 +78,12 @@ namespace CriticWeb.DataLayer
                 Id = Guid.NewGuid();
                 _isNew = true;
             }
-
-            ////Logger.Info("Entity.Entity", "Конструтор екземпляру Entity завершив роботу.");
         }
 
         public void Save()
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.Save", "Спроба збереження рядка в БД.");
 
                 if (IsNew)
                 {
@@ -101,8 +91,6 @@ namespace CriticWeb.DataLayer
                     _isNew = false;
                 }
                 _dataAdapter.Update(new DataRow[] { _row });
-
-                ////Logger.Info("Entity.Save", "Рядок збережено в БД.");
             }
 
         }
@@ -111,12 +99,8 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.Save", "Спроба видалення рядка в БД.");
-
                 _row.Delete();
                 _dataAdapter.Update(new DataRow[] { _row });
-
-                ////Logger.Info("Entity.Save", "Рядок видалено з БД.");
             }
         }
 
@@ -124,16 +108,12 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.GetById", "Спроба взяти з БД запис Entity за id.");
-
                 var query = from row in _dataTable.AsEnumerable().AsParallel()
                             where (Guid)row[_idColumnName] == id
                             select row;
                 DataRow[] result = query.ToArray();
                 if (result.Length == 1)
                 {
-                    ////Logger.Info("Entity.GetById", "Зчитано з БД запис Entity за id.");
-
                     return (T)Activator.CreateInstance(typeof(T), result[0]);
                 }
                 else
@@ -150,9 +130,6 @@ namespace CriticWeb.DataLayer
                         var selectedRow = from row in _dataTable.AsEnumerable().AsParallel()
                                           where (Guid)row[_idColumnName] == id
                                           select row;
-
-                        ////Logger.Info("Entity.GetById", "Зчитано з БД запис Entity за id.");
-
                         return (T)Activator.CreateInstance(typeof(T), selectedRow.ToArray()[0]);
                     }
                     return null;
@@ -164,8 +141,6 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.GetByIds", "Спроба взяти з БД записи Entity за id.");
-
                 List<T> result = new List<T>();
 
                 StringBuilder sqlSelect = new StringBuilder(_idColumnName + " IN (");
@@ -188,8 +163,6 @@ namespace CriticWeb.DataLayer
                     result.Add((T)Activator.CreateInstance(typeof(T), dr));
                 }
 
-                ////Logger.Info("Entity.GetById", "Зчитано з БД записи Entity за id.");
-
                 if (result.Count != 0)
                     return result.ToArray();
                 return null;
@@ -200,8 +173,6 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.GetByQuery", "Спроба взяти з БД записи Entity за текстовим запитом.");
-
                 List<T> result = new List<T>();
                 _dataAdapter.SelectCommand.CommandText = "SELECT * FROM " + _tableName + ((query == "") ? ";" : " WHERE " + query + ";");
                 _dataAdapter.Fill(_dataTable);
@@ -212,9 +183,6 @@ namespace CriticWeb.DataLayer
                     {
                         result.Add((T)Activator.CreateInstance(typeof(T), dr));
                     }
-
-                    ////Logger.Info("Entity.GetById", "Зчитано з БД записи Entity за текстовим запитом.");
-
                     return result.ToArray();
                 }
                 return null;
@@ -223,8 +191,6 @@ namespace CriticWeb.DataLayer
 
         public static T[] GetAllItems()
         {
-            ////Logger.Info("Entity.GetAllItems", "Спроба взяти з БД всі записи Entity (перехід до функції з текстовим запитом).");
-
             return GetByQuery("");
         }
 
@@ -232,12 +198,8 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.GetByName", "Спроба взяти з БД записи Entity за назвою.");
-
                 if (_nameColumnName == null)
                 {
-                    ////Logger.Warning("Entity.GetByName", "Ім'я було передано як null, жодного запису Entity не повернуто.");
-
                     return null;
                 }
 
@@ -261,9 +223,6 @@ namespace CriticWeb.DataLayer
                 {
                     result.Add((T)Activator.CreateInstance(typeof(T), dr));
                 }
-
-                ////Logger.Info("Entity.GetByName", "Зчитано з БД записи Entity за назвою.");
-
                 if (result.Count != 0)
                     return result.ToArray();
                 return null;
@@ -274,8 +233,6 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entity.GetRandomFirstTen", "Спроба взяти з БД перші 10 записів Entity.");
-
                 List<T> result = new List<T>();
 
                 _dataAdapter.SelectCommand.CommandText = "SELECT TOP(10) * FROM " + _tableName + ";";
@@ -287,9 +244,6 @@ namespace CriticWeb.DataLayer
                 {
                     result.Add((T)Activator.CreateInstance(typeof(T), dr));
                 }
-
-                ////Logger.Info("Entity.GetRandomFirstTen", "Зчитано з БД перші 10 записів Entity.");
-
                 if (result.Count != 0)
                     return result.ToArray();
                 return null;

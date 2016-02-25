@@ -236,8 +236,6 @@
       <DependentUpon>CriticModel.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\DataLayer\Award.cs" />
-    <Compile Include="App_Data\DataLayer\Connection.cs" />
-    <Compile Include="App_Data\DataLayer\ConnectionNameAttribute.cs" />
     <Compile Include="App_Data\DataLayer\Entertainment.cs" />
     <Compile Include="App_Data\DataLayer\Entity.cs" />
     <Compile Include="App_Data\DataLayer\Genre.cs" />

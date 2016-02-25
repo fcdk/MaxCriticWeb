@@ -1,6 +1,5 @@
 ﻿using CriticWeb.Models.Data;
 using System;
-using System.Linq;
 
 namespace CriticWeb.Models.ContentCriticViewModels
 {

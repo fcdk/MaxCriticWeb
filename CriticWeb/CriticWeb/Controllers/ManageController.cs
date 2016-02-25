@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -82,7 +81,6 @@ namespace CriticWeb.Controllers
             model.Gender = ProfileCritic.Instance.CurrentUserCritic.Gender;
             model.Country = ProfileCritic.Instance.CurrentUserCritic.Country;
             model.PublicationCompany = ProfileCritic.Instance.CurrentUserCritic.PublicationCompany;
-            //model.Email = ProfileCritic.Instance.CurrentUserCritic.Email;
 
             return View(model);
         }
@@ -102,37 +100,28 @@ namespace CriticWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var user = UserManager.FindByEmail(ProfileCritic.Instance.CurrentUserCritic.Email);
-                //user.Email = model.Email;
-                //user.UserName = model.Email;
-                //var result = await UserManager.UpdateAsync(user);
-
-                if (true) //result.Succeeded)
+                byte[] imageData = null;
+                if (uploadImage != null)
                 {
-                    byte[] imageData = null;
-                    if (uploadImage != null)
+                    using (var binaryReader = new BinaryReader(uploadImage.InputStream))
                     {
-                        using (var binaryReader = new BinaryReader(uploadImage.InputStream))
-                        {
-                            imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-                            ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
-                        }
+                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                        ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
+                    }
 
-                    }                        
-
-                    ProfileCritic.Instance.CurrentUserCritic.Username = model.Username;
-                    ProfileCritic.Instance.CurrentUserCritic.Name = model.Name;
-                    ProfileCritic.Instance.CurrentUserCritic.Surname = model.Surname;
-                    ProfileCritic.Instance.CurrentUserCritic.DateOfBirth = model.DateOfBirth;
-                    ProfileCritic.Instance.CurrentUserCritic.Gender = model.Gender;
-                    ProfileCritic.Instance.CurrentUserCritic.Country = model.Country;
-                    ProfileCritic.Instance.CurrentUserCritic.PublicationCompany = model.PublicationCompany;
-                    //ProfileCritic.Instance.CurrentUserCritic.Email = model.Email;                   
-                    ProfileCritic.Instance.CurrentUserCritic.Save();
-
-                    return RedirectToAction("Index", "Manage");
                 }
-                //AddErrors(result);
+
+                ProfileCritic.Instance.CurrentUserCritic.Username = model.Username;
+                ProfileCritic.Instance.CurrentUserCritic.Name = model.Name;
+                ProfileCritic.Instance.CurrentUserCritic.Surname = model.Surname;
+                ProfileCritic.Instance.CurrentUserCritic.DateOfBirth = model.DateOfBirth;
+                ProfileCritic.Instance.CurrentUserCritic.Gender = model.Gender;
+                ProfileCritic.Instance.CurrentUserCritic.Country = model.Country;
+                ProfileCritic.Instance.CurrentUserCritic.PublicationCompany = model.PublicationCompany;
+
+                ProfileCritic.Instance.CurrentUserCritic.Save();
+
+                return RedirectToAction("Index", "Manage");
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы

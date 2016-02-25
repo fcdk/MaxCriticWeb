@@ -137,10 +137,7 @@ namespace CriticWeb.DataLayer
             }
         }
 
-        public Entertainment(DataRow row) : base(row)
-        {
-            ////Logger.Info("Entertainment.Entertainment", "Створено екземпляр Entertainment.");
-        }
+        public Entertainment(DataRow row) : base(row){ }
         public Entertainment(Entertainment.Type entertainmentType, string name, DateTime releaseDate, string company, byte[] poster,
         string summary, string buyLink, string mainLanguage, string rating, string ratingComment, int? movieRuntimeMinute,
         string officialSite, string movieCountries, byte? tVSeason, decimal? budget, string trailerLink) : base()
@@ -161,8 +158,6 @@ namespace CriticWeb.DataLayer
             TVSeason = tVSeason;
             Budget = budget;
             TrailerLink = trailerLink;
-
-            ////Logger.Info("Entertainment.Entertainment", "Створено екземпляр Entertainment.");
         }
 
         public static Entertainment[] GetRandomFirstTen(Entertainment.Type? type = null)
@@ -171,8 +166,6 @@ namespace CriticWeb.DataLayer
             {
                 if (type == null)
                     return Entity<Entertainment>.GetRandomFirstTen();
-
-                ////Logger.Info("Entertainment.GetRandomFirstTen", "Спроба взяти з БД перші 10 записів Entertainment за типом.");
 
                 List<Entertainment> result = new List<Entertainment>();
 
@@ -192,23 +185,18 @@ namespace CriticWeb.DataLayer
                     result.Add(new Entertainment(dr));
                 }
 
-                ////Logger.Info("Entertainment.GetRandomFirstTen", "Зчитано з БД перші 10 записів Entertainment за типом.");
-
                 if (result.Count != 0)
                     return result.ToArray();
                 return null;
             }
         }
 
-        // по дефолту, если type=null, то запускаем поиск по всем типам
         public static Entertainment[] GetByName(string partOfName, Entertainment.Type? type = null)
         {
             lock (_locker)
             {
                 if (type == null)
                     return Entity<Entertainment>.GetByName(partOfName);
-
-                ////Logger.Info("Entertainment.GetByName", "Спроба взяти з БД Entertainment за ім'ям та типом.");
 
                 partOfName = partOfName.ToLower();
 
@@ -234,8 +222,6 @@ namespace CriticWeb.DataLayer
                     result.Add(new Entertainment(dr));
                 }
 
-                ////Logger.Info("Entertainment.GetByName", "Зчитано з БД Entertainment за ім'ям та типом.");
-
                 if (result.Count != 0)
                     return result.ToArray();
                 return null;
@@ -246,7 +232,6 @@ namespace CriticWeb.DataLayer
         {
             lock (_locker)
             {
-                ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Спроба взяти з БД Entertainment для AutoCompleteBox.");
 
                 List<Entertainment> result = new List<Entertainment>();
                 partOfName = partOfName.ToLower();
@@ -266,8 +251,6 @@ namespace CriticWeb.DataLayer
                 {
                     result.Add(new Entertainment(dr));
                 }
-
-                ////Logger.Info("Entertainment.GetForAutoCompleteBox", "Зчитано з БД Entertainment для AutoCompleteBox.");
 
                 if (result.Count != 0)
                     return result.ToArray();

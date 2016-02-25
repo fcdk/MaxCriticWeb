@@ -48,11 +48,6 @@ namespace CriticWeb.Models
 
         [Display(Name = "Зображення")]
         public byte[] Image { get; set; }
-
-        ////[Required(ErrorMessage = "Адреса електронної пошти не може бути порожньою")]
-        ////[EmailAddress]
-        ////[Display(Name = "Адреса електронної пошти")]
-        ////public string Email { get; set; }
     }
 
     public class ManageLoginsViewModel

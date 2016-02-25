@@ -62,10 +62,7 @@ namespace CriticWeb.DataLayer
             }
         }
 
-        public Award(DataRow row) : base(row)
-        {
-            ////Logger.Info("Award.Award", "Екземпляр Award створений.");
-        }
+        public Award(DataRow row) : base(row){ }
         public Award(Performer performer, Entertainment entertainment, string name, string nomination, DateTime date,
         byte[] image) : base()
         {
@@ -79,8 +76,6 @@ namespace CriticWeb.DataLayer
             Nomination = nomination;
             Date = date;
             Image = image;
-
-            ////Logger.Info("Award.Award", "Екземпляр Award створений.");
         }
 
         public static Award[] GetAwardByEntertainment(Entertainment entertainment)

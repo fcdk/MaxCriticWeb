@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using CriticWeb.DataLayer;
 
 namespace CriticWeb.Models.Data

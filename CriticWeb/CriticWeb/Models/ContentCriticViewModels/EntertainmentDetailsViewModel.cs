@@ -1,6 +1,5 @@
 ﻿using CriticWeb.DataLayer;
 using CriticWeb.Models.Data;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

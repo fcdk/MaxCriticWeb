@@ -68,20 +68,18 @@ function abortButtonClick(id) {
     });
 }
 
-function delete_image() {
-    if (confirm("Ви дійсно хочете видалити аватар?")) {
-        $.ajax({
-            url: '/Manage/DeleteImage',
-            type: 'POST',
-            success: function (result) {
-                $(".avatar").hide(600);
-                $("#delete-img-btn").hide(600);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert("Не вдалося видалити аватар, помилка: " + errorThrown);
-            }
-        });
-    }
+function delete_image() {        
+    $.ajax({
+        url: '/Manage/DeleteImage',
+        type: 'POST',
+        success: function (result) {
+            $(".avatar").hide(600);
+            $("#delete-img-btn").hide(600);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert("Не вдалося видалити аватар, помилка: " + errorThrown);
+        }
+    });
 }
 
 function roleChanged(sel, id) {
