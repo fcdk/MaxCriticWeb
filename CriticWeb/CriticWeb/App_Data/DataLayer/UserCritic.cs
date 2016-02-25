@@ -119,9 +119,12 @@ namespace CriticWeb.DataLayer
         }
 
         public static UserCritic GetByEmail(string email)
-        {
+        {            
             lock (_locker)
             {
+                if (email == null || email == String.Empty)
+                    return null;
+
                 email = email.ToLower();
 
                 var query = from row in _dataTable.AsEnumerable().AsParallel()

@@ -11,7 +11,7 @@ namespace CriticWeb.DataLayer
         {
             get
             {
-                return UserCritic.GetByEmail(HttpContext.Current.User.Identity.GetUserName());
+                return UserCritic.GetByEmail(HttpContext.Current?.User?.Identity?.GetUserName());
             }
         }
 
