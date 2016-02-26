@@ -1,4 +1,5 @@
 ﻿@using CriticWeb.DataLayer
+@using CriticWeb.Models.Data
 @using CriticWeb.Models.ContentCriticViewModels
 
 <!DOCTYPE html>
@@ -57,18 +58,11 @@
             <div class="col-md-1"></div>
 
             <div class="col-md-2 sidenav">
-                <div class="well">
-                    <p>Новина1</p>
-                </div>
-                <div class="well">
-                    <p>Новина2</p>
-                </div>
-                <div class="well">
-                    <p>Новина3</p>
-                </div>
-                <div class="well">
-                    <p>...</p>
-                </div>
+                <h4 class="text-center">TOП критиків</h4>
+                @Html.Partial("_TopEntertainmentPartialView", new EntertainmentVM(Entertainment.GetOneTopEntertainmentByTypeAndReviewCount(Entertainment.Type.Movie, 2)))
+                @Html.Partial("_TopEntertainmentPartialView", new EntertainmentVM(Entertainment.GetOneTopEntertainmentByTypeAndReviewCount(Entertainment.Type.Game, 2)))
+                @Html.Partial("_TopEntertainmentPartialView", new EntertainmentVM(Entertainment.GetOneTopEntertainmentByTypeAndReviewCount(Entertainment.Type.TVSeries, 2)))
+                @Html.Partial("_TopEntertainmentPartialView", new EntertainmentVM(Entertainment.GetOneTopEntertainmentByTypeAndReviewCount(Entertainment.Type.Album, 2)))
             </div>
 
         </div>

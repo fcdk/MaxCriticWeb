@@ -105,4 +105,16 @@ function roleChanged(sel, id) {
         }
     });
 }
+
+function OnWellTopMouseOver(sel)
+{
+    $(sel).removeClass("well");
+    $(sel).addClass("thumbnail")
     
+}
+
+function OnWellTopMouseOut(sel) {
+    $(sel).removeClass("thumbnail");
+    $(sel).addClass("well")
+
+}

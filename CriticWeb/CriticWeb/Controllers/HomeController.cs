@@ -123,5 +123,10 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        public PartialViewResult _TopEntertainmentPartialView()
+        {
+            return PartialView();
+        }
+
     }
 }

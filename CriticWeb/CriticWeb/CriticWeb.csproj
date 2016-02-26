@@ -380,6 +380,7 @@
     <Content Include="Views\Home\_AllEntertainmentsAndPerformersPartialView.cshtml" />
     <Content Include="Views\Home\EntertainmentAndPerformerSearch.cshtml" />
     <Content Include="Views\Shared\_SearchPartialView.cshtml" />
+    <Content Include="Views\Shared\_TopEntertainmentPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

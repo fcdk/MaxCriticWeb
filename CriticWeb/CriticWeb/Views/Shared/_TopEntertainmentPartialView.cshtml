@@ -1,0 +1,13 @@
+﻿@model CriticWeb.Models.Data.EntertainmentVM
+
+<div style="padding:0px" onmouseover="OnWellTopMouseOver(this)" onmouseout="OnWellTopMouseOut(this)" class="well text-center">
+    <a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.EntertainmentDL.Id })">
+        <h5><b>@Model</b></h5>
+        <img class="img-on-sidebar-top-entertainment" src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.EntertainmentDL.Poster))" />
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><h3 class="point-entertainment-green">@Model.EntertainmentDL.AverageCriticPointForOneEntertainment()</h3></div>
+            <div class="col-md-4"></div>
+        </div>        
+    </a>
+</div>

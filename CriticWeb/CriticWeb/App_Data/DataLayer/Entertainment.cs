@@ -452,6 +452,27 @@ namespace CriticWeb.DataLayer
             }
         }
 
+        public static Entertainment GetOneTopEntertainmentByTypeAndReviewCount(Entertainment.Type type, uint reviewCount)
+        {
+            lock (_locker)
+            {
+                _dataAdapter.SelectCommand.CommandText = "SELECT Entertainment." + _idColumnName + " FROM " + _tableName + ",Review WHERE Review." + _idColumnName + "=Entertainment." + _idColumnName + " AND Review.Publication IS NOT NULL AND EntertainmentType=@type GROUP BY Entertainment." + _idColumnName + " HAVING COUNT(Review.ReviewId)>=" + reviewCount + "ORDER BY AVG(Review.Point) DESC";
+
+                if (!_dataAdapter.SelectCommand.Parameters.Contains("@type"))
+                    _dataAdapter.SelectCommand.Parameters.Add(new SqlParameter("@type", type.ToString()));
+                else
+                    _dataAdapter.SelectCommand.Parameters["@type"].Value = type.ToString();
+
+                DataTable dataTable = new DataTable();
+                if (_dataAdapter.Fill(dataTable) == 0)
+                    return null;
+
+                DataRow[] row = dataTable.AsEnumerable().Take(1).ToArray();
+
+                return Entertainment.GetById((Guid)row[0][_idColumnName]);
+            }
+        }
+
         public static int? AverageCriticPointForEntertainments(Entertainment[] entertainments)
         {
             lock (_locker)
