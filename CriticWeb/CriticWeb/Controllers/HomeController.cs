@@ -6,8 +6,7 @@ using System.Web.Mvc;
 namespace CriticWeb.Controllers
 {
     public class HomeController : Controller
-    {
-        [OutputCache(Duration = 600)]
+    {        
         public ActionResult Index()
         {
             MainPageViewModel mainPage = new MainPageViewModel();            
@@ -125,6 +124,12 @@ namespace CriticWeb.Controllers
         }
 
         public PartialViewResult _TopEntertainmentPartialView()
+        {
+            return PartialView();
+        }
+
+        [OutputCache(Duration = 600)]
+        public PartialViewResult _AllTopEntertainmentPartialView()
         {
             return PartialView();
         }

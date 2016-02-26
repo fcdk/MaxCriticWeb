@@ -381,6 +381,7 @@
     <Content Include="Views\Home\EntertainmentAndPerformerSearch.cshtml" />
     <Content Include="Views\Shared\_SearchPartialView.cshtml" />
     <Content Include="Views\Shared\_TopEntertainmentPartialView.cshtml" />
+    <Content Include="Views\Shared\_AllTopEntertainmentPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
