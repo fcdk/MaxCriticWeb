@@ -4,7 +4,7 @@ using System;
 using System.Web.Mvc;
 
 namespace CriticWeb.Controllers
-{
+{    
     public class HomeController : Controller
     {        
         public ActionResult Index()
@@ -23,6 +23,7 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        [HandleError(ExceptionType = typeof(System.ArgumentException), View = "/Views/Shared/PageNotFound.cshtml")]
         public ActionResult EntertainmentDetails(Guid id)
         {
             return View(new EntertainmentDetailsViewModel(id));
@@ -33,6 +34,7 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        [HandleError(ExceptionType = typeof(System.ArgumentException), View = "/Views/Shared/PageNotFound.cshtml")]
         public ActionResult PerformerDetails(Guid id)
         {
             return View(new PerformerDetailsViewModel(id));
@@ -79,11 +81,13 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        [HandleError(ExceptionType = typeof(System.ArgumentException), View = "/Views/Shared/PageNotFound.cshtml")]
         public ActionResult EntertainmentReviews(Guid id, bool isCritic)
         {
             return View(new EntertainmentReviewsViewModel(id, isCritic));
         }
 
+        [HandleError(ExceptionType = typeof(System.ArgumentException), View = "/Views/Shared/PageNotFound.cshtml")]
         public ActionResult UserProfile(Guid id)
         {
             return View(new UserProfileViewModel(id));
@@ -94,6 +98,7 @@ namespace CriticWeb.Controllers
             return PartialView();
         }
 
+        [HandleError(ExceptionType = typeof(System.ArgumentException), View = "/Views/Shared/PageNotFound.cshtml")]
         public ActionResult EntertainmentAndPerformerSearch(string nameForSearch = null, Entertainment.Type? type = null)
         {
             if (type != null)
