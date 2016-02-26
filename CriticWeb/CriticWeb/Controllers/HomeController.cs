@@ -7,6 +7,7 @@ namespace CriticWeb.Controllers
 {
     public class HomeController : Controller
     {
+        [OutputCache(Duration = 600)]
         public ActionResult Index()
         {
             MainPageViewModel mainPage = new MainPageViewModel();            
