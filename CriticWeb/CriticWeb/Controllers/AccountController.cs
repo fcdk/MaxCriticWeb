@@ -159,13 +159,31 @@ namespace CriticWeb.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-                    
+
+                    const uint size = 5000000;
                     byte[] imageData = null;
                     if (uploadImage != null)
-                        using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                    {
+                        string extension = Path.GetExtension(uploadImage.FileName);
+                        if (extension.ToLower() == ".jpg" || extension.ToLower() == ".gif" || extension.ToLower() == ".bmp" || extension.ToLower() == ".ico" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
                         {
-                            imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                            if (uploadImage.ContentLength <= size)
+                                using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                                {
+                                    imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                                }
+                            else
+                            {
+                                ModelState.AddModelError("", "Розмір файлу з зображенням не може перевищувати 5 мб.");
+                                return View(model);
+                            }
                         }
+                        else
+                        {
+                            ModelState.AddModelError("", "Аватар повинен бути зображенням у форматах jpg, gif, bmp, ico, jpeg або png.");
+                            return View(model);
+                        }
+                    }
 
                     (new UserCritic(model.Username, model.Name, model.Surname, model.DateOfBirth, model.Gender, model.Country,
                     model.PublicationCompany, UserCritic.Role.User, model.Email, imageData)).Save();

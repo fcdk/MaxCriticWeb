@@ -100,15 +100,30 @@ namespace CriticWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                const uint size = 5000000;
                 byte[] imageData = null;
                 if (uploadImage != null)
                 {
-                    using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                    string extension = Path.GetExtension(uploadImage.FileName);
+                    if (extension.ToLower() == ".jpg" || extension.ToLower() == ".gif" || extension.ToLower() == ".bmp" || extension.ToLower() == ".ico" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
                     {
-                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-                        ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
+                        if (uploadImage.ContentLength <= size)
+                            using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                            {
+                                imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                                ProfileCritic.Instance.CurrentUserCritic.Image = imageData;
+                            }
+                        else
+                        {
+                            ModelState.AddModelError("", "Розмір файлу з зображенням не може перевищувати 5 мб.");
+                            return View(model);
+                        }
                     }
-
+                    else
+                    {
+                        ModelState.AddModelError("", "Аватар повинен бути зображенням у форматах jpg, gif, bmp, ico, jpeg або png.");
+                        return View(model);
+                    }
                 }
 
                 ProfileCritic.Instance.CurrentUserCritic.Username = model.Username;
