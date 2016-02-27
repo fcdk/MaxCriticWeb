@@ -16,9 +16,13 @@ namespace CriticWeb.Models.ContentCriticViewModels
 
         public EntertainmentVM[] LastThreePerformersEntertainments { get; private set; }
 
+        public PerformerInEntertainment.Role Role { get; private set; }
+
         public PerformerMiniViewModel(PerformerVM performer, PerformerInEntertainment.Role role)
         {
             _performer = performer;
+
+            Role = role;
 
             Entertainment[] entertainmentByPerformer = Entertainment.GetEntertainmentByPerformer(performer.PerformerDL);
             if (entertainmentByPerformer != null)
