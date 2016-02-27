@@ -6,18 +6,8 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
-            $('div[id^=page-' + '@Model.PaginationId' + ']').hide();
-            $('div[id=page-' + '@Model.PaginationId' + '-1]').show();
-        });
-        $('.' + '@Model.PaginationId').bootpag({
-            total: @(Model.UncheckedReviews != null && Math.Ceiling((double)Model.UncheckedReviews.Length / 10) != 1 ? Math.Ceiling((double)Model.UncheckedReviews.Length / 10) : 0),
-            page: 1,
-            maxVisible: 10
-        }).on('page', function (event, num) {
-            $('div[id^=page-' + '@Model.PaginationId' + ']').hide();
-            $('div[id=page-' + '@Model.PaginationId' + '-' + num + ']').show();
-        });
+        $(document).ready(pageDocReady('@Model.PaginationId'));
+        pageWork('@Model.PaginationId', @(Model.UncheckedReviews != null && Math.Ceiling((double)Model.UncheckedReviews.Length / 9) != 1 ? Math.Ceiling((double)Model.UncheckedReviews.Length / 9) : 0));
     </script>
 }
 

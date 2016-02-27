@@ -14,10 +14,8 @@ namespace CriticWeb.DataLayer
 
         protected static SqlDataAdapter _dataAdapter;
         protected static DataTable _dataTable = new DataTable();
-        private static string _connectionString;
 
         protected static string _idColumnName;
-        private static string _connectionName;
         protected static string _tableName;
         protected static string _nameColumnName;
 

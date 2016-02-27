@@ -385,9 +385,7 @@
     <Content Include="Views\Shared\_AllTopEntertainmentPartialView.cshtml" />
     <Content Include="Views\Shared\PageNotFound.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Error\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

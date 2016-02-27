@@ -1,4 +1,55 @@
-function yes_Button_Click(id,helpful,unhelpful)
+$(document).ready(function () {
+    $('.tooltip-with-text').tooltipster();
+
+    $('.round-award').each(function (index, value) {
+        var tooltipHTMLCode = $(this).next().clone();
+        tooltipHTMLCode.show();
+        $(this).tooltipster(
+        {
+            content: tooltipHTMLCode
+        });
+    });
+
+    $('#stars').rating({
+        min: 0, max: 10, step: 1, stars: 10, size: "xs", showClear: false,
+        starCaptionClasses: { 1: 'label label-danger', 2: 'label label-danger', 3: 'label label-danger', 4: 'label label-warning', 5: 'label label-warning', 6: 'label label-warning', 7: 'label label-success', 8: 'label label-success', 9: 'label label-success', 10: 'label label-success' }
+    });
+});
+
+function ok_Click(entertainmentId) {
+    $.ajax({
+        url: '/Home/OpinionAndLinkCaption',
+        type: 'POST',
+        data: "opinion=" + $('#opinion').val() + "&link=" + $('#link').val() + "&id=" + entertainmentId,
+        success: function (result) {
+            $('#review').hide(700);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert("Не вдалося відправити відгук, помилка: " + errorThrown);
+        }
+    });
+}
+
+function setPoint(entertainmentId)
+{
+    $('#stars').on('rating.change', function (event, value, caption) {
+        $.ajax({
+            url: '/Home/RateForContent',
+            type: 'POST',
+            data: "vote=" + value * 10 + "&id=" + entertainmentId,
+            success: function (result) {
+                $("#stars").rating("refresh", { readonly: true });
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("Не вдалося поставити оцінку контенту, помилка: " + errorThrown);
+            }
+        });
+
+        $('#review').show(700);
+    });
+}
+
+function yes_Button_Click(id, helpful, unhelpful)
 {
     $.ajax({
         url: '/Home/RateForReview',
@@ -32,10 +83,6 @@ function no_Button_Click(id, helpful, unhelpful) {
         }
     });
 }
-
-$(document).ready(function () {
-    $('.tooltip-with-text').tooltipster();
-});
 
 function confirmButtonClick(id)
 {
@@ -116,5 +163,25 @@ function OnWellTopMouseOver(sel)
 function OnWellTopMouseOut(sel) {
     $(sel).removeClass("thumbnail");
     $(sel).addClass("well")
+}
 
+function pageDocReady (paginationId) {
+    $('div[id^=page-' + paginationId + ']').hide();
+    $('div[id=page-' + paginationId + '-1]').show();
+}
+
+function pageWork(paginationId, pageCount)
+{
+    $('.' + paginationId).bootpag({
+        total: pageCount,
+        page: 1,
+        maxVisible: 10
+    }).on('page', function (event, num) {
+        $('div[id^=page-' + paginationId + ']').hide();
+        $('div[id=page-' + paginationId + '-' + num + ']').show();
+    });
+}
+
+function setUserRole (usedId, roleValue) {
+    $('#' + usedId).find('.form-control').val(roleValue);
 }
