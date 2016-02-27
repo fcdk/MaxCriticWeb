@@ -7,7 +7,7 @@
 @section scripts{
     <script>
         $(document).ready(pageDocReady('@Model.PaginationId'));
-        pageWork('@Model.PaginationId', @(Model.UncheckedReviews != null && Math.Ceiling((double)Model.UncheckedReviews.Length / 9) != 1 ? Math.Ceiling((double)Model.UncheckedReviews.Length / 9) : 0));
+        pageWork('@Model.PaginationId', @(Model.UncheckedReviews != null && Math.Ceiling((double)Model.UncheckedReviews.Length / 10) != 1 ? Math.Ceiling((double)Model.UncheckedReviews.Length / 10) : 0));
     </script>
 }
 

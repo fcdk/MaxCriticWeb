@@ -1,0 +1,80 @@
+﻿@using CriticWeb.Models.ContentCriticViewModels
+@model PerformerOrEntertainmentArrayViewModel
+
+@if ((Model.PerformerArray != null && Model.PerformerArray.Length != 0))
+{
+    <h3><p class="bg-primary text-center">@Model.Label</p></h3>
+    int pagesCount = 0;
+    for (int i = 0; i < Model.PerformerArray.Length; i++)
+    {
+        pagesCount++;
+        <div id="page-@Model.PaginationId-@pagesCount">
+            <div class="container-fluid">
+                @for (int j = 0; j + i < Model.PerformerArray.Length && j < 9; j++)
+                {
+                    <div class="row">
+                        <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(null, Model.PerformerArray[i+j]))</div>
+                        @{ j++; }
+                        <div class="col-md-4">
+                            @if (j + i < Model.PerformerArray.Length)
+                            {
+                                @Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(null, Model.PerformerArray[i + j]))
+                            }
+                        </div>
+                        @{ j++; }
+                        <div class="col-md-4">
+                            @if (j + i < Model.PerformerArray.Length)
+                            {
+                                @Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(null, Model.PerformerArray[i + j]))
+                            }
+                        </div>
+                    </div>
+                }
+                @{ i += 8; }
+            </div>
+        </div>
+    }
+    
+    <div class="text-center">
+        <p class="@Model.PaginationId"></p>
+    </div>
+}
+
+@if ((Model.EntertainmentArray != null && Model.EntertainmentArray.Length != 0))
+{
+    <h3><p class="bg-primary text-center">@Model.Label</p></h3>
+    int pagesCount = 0;
+    for (int i = 0; i < Model.EntertainmentArray.Length; i++)
+    {
+        pagesCount++;
+        <div id="page-@Model.PaginationId-@pagesCount">
+            <div class="container-fluid">
+                @for (int j = 0; j + i < Model.EntertainmentArray.Length && j < 9; j++)
+                {
+                    <div class="row">
+                        <div class="col-md-4">@Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(Model.EntertainmentArray[i+j]))</div>
+                        @{ j++; }
+                        <div class="col-md-4">
+                            @if (j + i < Model.EntertainmentArray.Length)
+                            {
+                                @Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(Model.EntertainmentArray[i + j]))
+                            }
+                        </div>
+                        @{ j++; }
+                        <div class="col-md-4">
+                            @if (j + i < Model.EntertainmentArray.Length)
+                            {
+                                @Html.Partial("_PerformerAndEntertainmentPartialView", new PerformerAndEntertainmentViewModel(Model.EntertainmentArray[i + j]))
+                            }
+                        </div>
+                    </div>
+                }
+                @{ i += 8; }
+            </div>
+        </div>
+    }
+    
+    <div class="text-center">
+        <p class="@Model.PaginationId"></p>
+    </div>
+}

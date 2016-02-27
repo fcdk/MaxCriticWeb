@@ -5,19 +5,6 @@
     ViewBag.Title = Model.PerformerViewModel;
 }
 
-@section scripts {
-<script>
-    $('.round-award').each(function (index, value) {
-        var tooltipHTMLCode = $(this).next().clone();
-        tooltipHTMLCode.show();
-        $(this).tooltipster(
-        {
-            content: tooltipHTMLCode
-        });
-    });
-</script>
-}
-
 <div class="panel panel-default">
     <div class="panel-heading"><h4>@Model.PerformerViewModel</h4></div>
     <div class="panel-body">

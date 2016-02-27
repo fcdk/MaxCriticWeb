@@ -266,6 +266,7 @@
     <Compile Include="Models\ContentCriticViewModels\PerformerMiniViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\MainPageViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\PerformerAndEntertainmentViewModel.cs" />
+    <Compile Include="Models\ContentCriticViewModels\PerformerOrEntertainmentArrayViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\SearchViewModel.cs" />
     <Compile Include="Models\ContentCriticViewModels\UserProfileViewModel.cs" />
     <Compile Include="Models\Data\AwardVM.cs" />
@@ -384,6 +385,7 @@
     <Content Include="Views\Shared\_TopEntertainmentPartialView.cshtml" />
     <Content Include="Views\Shared\_AllTopEntertainmentPartialView.cshtml" />
     <Content Include="Views\Shared\PageNotFound.cshtml" />
+    <Content Include="Views\Home\_PerformerOrEntertainmentArrayPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

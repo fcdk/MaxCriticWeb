@@ -7,57 +7,28 @@
     int pagesCount = 0;
     for (int i = 0; i < Model.Reviews.Length; i++)
     {
-        if (i == 0 || i % 10 == 0)
-        {
-            pagesCount++;
-            @:<div id="page-@Model.PaginationId-@pagesCount">
-        }
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="@Model.Reviews[i].Id">
-                        <div class="opinion-unchecked">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @if (this.User.IsInRole("Admin") && Model.Reviews[i].CheckedByAdmin == false)
-                                    {
-                                        <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
-                                        <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
-                                    }                                    
-                                </div>
-                            </div>
-                            @Html.Partial("_ReviewPartialView", Model.Reviews[i])
-                        </div>
-                        <div class="opinion-confirm text-center" style="display:none">
-                            <span style="font-size:10em; color:green;" class="glyphicon glyphicon-ok"></span>
-                        </div>
-                        <div class="opinion-abort text-center" style="display:none">
-                            <span style="font-size:10em; color:red;" class="glyphicon glyphicon-remove"></span>
-                        </div>                        
-                    </div>                    
-                </div>
-                @{ i++; }
-                <div class="col-md-6">
-                    @if (i < Model.Reviews.Length)
-                    {
-                        <div id="@Model.Reviews[i].Id">
+        pagesCount++;
+        <div id="page-@Model.PaginationId-@pagesCount">
+            <div class="container-fluid">
+            @for (int j = 0; j + i < Model.Reviews.Length && j < 10; j++)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="@Model.Reviews[j + i].Id">
                             <div class="opinion-unchecked">
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[i].EntertainmentId)))</a></h4>
+                                        <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[j + i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[j + i].EntertainmentId)))</a></h4>
                                     </div>
                                     <div class="col-md-4">
-                                        @if (this.User.IsInRole("Admin") && Model.Reviews[i].CheckedByAdmin == false)
+                                        @if (this.User.IsInRole("Admin") && Model.Reviews[j + i].CheckedByAdmin == false)
                                         {
-                                            <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
-                                            <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
+                                            <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[j + i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
+                                            <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[j + i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
                                         }
                                     </div>
                                 </div>
-                                @Html.Partial("_ReviewPartialView", Model.Reviews[i])
+                                @Html.Partial("_ReviewPartialView", Model.Reviews[j + i])
                             </div>
                             <div class="opinion-confirm text-center" style="display:none">
                                 <span style="font-size:10em; color:green;" class="glyphicon glyphicon-ok"></span>
@@ -66,17 +37,44 @@
                                 <span style="font-size:10em; color:red;" class="glyphicon glyphicon-remove"></span>
                             </div>
                         </div>
-                    }
+                    </div>
+                    @{ j++; }
+                    <div class="col-md-6">
+                        @if (j + i < Model.Reviews.Length)
+                        {
+                            <div id="@Model.Reviews[j + i].Id">
+                                <div class="opinion-unchecked">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4><a href="@Url.Action("EntertainmentDetails", "Home", new { id = Model.Reviews[j + i].EntertainmentId })">@(new EntertainmentVM(Entertainment.GetById(Model.Reviews[j + i].EntertainmentId)))</a></h4>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @if (this.User.IsInRole("Admin") && Model.Reviews[j + i].CheckedByAdmin == false)
+                                            {
+                                                <button type="button" class="btn btn-success" onclick="confirmButtonClick('@Model.Reviews[j + i].Id')"><span class="glyphicon glyphicon-ok"></span></button>
+                                                <button type="button" class="btn btn-danger" onclick="abortButtonClick('@Model.Reviews[j + i].Id')"><span class="glyphicon glyphicon-remove"></span></button>
+                                            }
+                                        </div>
+                                    </div>
+                                    @Html.Partial("_ReviewPartialView", Model.Reviews[j + i])
+                                </div>
+                                <div class="opinion-confirm text-center" style="display:none">
+                                    <span style="font-size:10em; color:green;" class="glyphicon glyphicon-ok"></span>
+                                </div>
+                                <div class="opinion-abort text-center" style="display:none">
+                                    <span style="font-size:10em; color:red;" class="glyphicon glyphicon-remove"></span>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
+            }
+            @{ i += 9; }                
             </div>
         </div>
-        
-        if ((i-9) % 10 == 0 || i >=  Model.Reviews.Length-1)
-        {
-            @:</div>
-        }
+
     }
-    
+
     <div class="text-center">
         <p class="@Model.PaginationId"></p>
     </div>    
